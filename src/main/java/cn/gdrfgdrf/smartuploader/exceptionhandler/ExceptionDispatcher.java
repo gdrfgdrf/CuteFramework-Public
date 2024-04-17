@@ -61,24 +61,76 @@ public class ExceptionDispatcher {
 
     /**
      * @Description 注册异常处理器，会根据异常类型添加到对应的 {@link ExceptionDispatcher#EXCEPTION_HANDLER_MAP}
-     * @param throwableClass
+     * @param throwableType
 	 *        异常类型
 	 * @param exceptionHandler
 	 *        异常处理器实例
      * @throws cn.gdrfgdrf.smartuploader.utils.asserts.exception.AssertNotNullException
-     *         当 throwableClass 或 exceptionHandler 为 null 时抛出
+     *         当 throwableType 或 exceptionHandler 为 null 时抛出
      * @Author gdrfgdrf
      * @Date 2024/4/8
      */
-    public void registerExceptionHandler(Class<? extends Throwable> throwableClass, ExceptionHandler exceptionHandler) {
-        AssertUtils.notNull("exception type", throwableClass);
+    public void registerExceptionHandler(Class<? extends Throwable> throwableType, ExceptionHandler exceptionHandler) {
+        AssertUtils.notNull("exception type", throwableType);
         AssertUtils.notNull("exception handler", exceptionHandler);
 
         List<ExceptionHandler> exceptionHandlers = EXCEPTION_HANDLER_MAP.computeIfAbsent(
-                throwableClass,
+                throwableType,
                 clazz -> new CopyOnWriteArrayList<>()
         );
         exceptionHandlers.add(exceptionHandler);
+    }
+
+    /**
+     * @Description 移除移除处理器，会根据异常类型从 {@link ExceptionDispatcher#EXCEPTION_HANDLER_MAP} 中异常对应的 {@link ExceptionHandler}
+     * @param throwableType
+     *        异常类型
+     * @param exceptionHandler
+     *        异常处理器
+     * @throws cn.gdrfgdrf.smartuploader.utils.asserts.exception.AssertNotNullException
+     *         当 throwableType 或 exceptionHandler 为 null 时抛出
+     * @Author gdrfgdrf
+     * @Date 2024/4/17
+     */
+    public void unregisterExceptionHandler(Class<? extends Throwable> throwableType, ExceptionHandler exceptionHandler) {
+        AssertUtils.notNull("exception type", throwableType);
+        AssertUtils.notNull("exception handler", exceptionHandler);
+
+        if (!EXCEPTION_HANDLER_MAP.containsKey(throwableType)) {
+            return;
+        }
+        List<ExceptionHandler> exceptionHandlers = EXCEPTION_HANDLER_MAP.get(throwableType);
+        exceptionHandlers.remove(exceptionHandler);
+
+        if (exceptionHandlers.isEmpty()) {
+            EXCEPTION_HANDLER_MAP.remove(throwableType);
+        }
+    }
+
+    /**
+     * @Description 根据索引移除移除处理器，会根据异常类型从 {@link ExceptionDispatcher#EXCEPTION_HANDLER_MAP} 中异常对应的 {@link ExceptionHandler}
+     * @param throwableType
+     *        异常类型
+     * @param index
+     *        异常处理器在 {@link ExceptionDispatcher#EXCEPTION_HANDLER_MAP} 的值中的序号
+     * @throws cn.gdrfgdrf.smartuploader.utils.asserts.exception.AssertNotNullException
+     *         当 throwableType 或 exceptionHandler 为 null 时抛出
+     * @Author gdrfgdrf
+     * @Date 2024/4/17
+     */
+    public void unregisterExceptionHandler(Class<? extends Throwable> throwableType, int index) {
+        AssertUtils.notNull("exception type", throwableType);
+        AssertUtils.notNull("exception handler index", index);
+
+        if (!EXCEPTION_HANDLER_MAP.containsKey(throwableType)) {
+            return;
+        }
+        List<ExceptionHandler> exceptionHandlers = EXCEPTION_HANDLER_MAP.get(throwableType);
+        exceptionHandlers.remove(index);
+
+        if (exceptionHandlers.isEmpty()) {
+            EXCEPTION_HANDLER_MAP.remove(throwableType);
+        }
     }
 
     /**
@@ -104,6 +156,7 @@ public class ExceptionDispatcher {
     public void dispatch(Thread thread, Throwable throwable) {
         AssertUtils.notNull("exception thread", thread);
         AssertUtils.notNull("throwable instance", throwable);
+
         if (throwable.getClass().isAnnotationPresent(Undispatchable.class)) {
             return;
         }

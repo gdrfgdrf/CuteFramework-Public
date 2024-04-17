@@ -17,6 +17,9 @@
 
 package cn.gdrfgdrf.smartuploader.exceptionhandler.handler.manager;
 
+import cn.gdrfgdrf.smartuploader.exceptionhandler.handler.DefaultExceptionHandler;
+import cn.gdrfgdrf.smartuploader.exceptionhandler.handler.annotation.ExceptionHandlerInstantiate;
+
 /**
  * @Description 管理异常处理器，
  * 对 {@link cn.gdrfgdrf.smartuploader.exceptionhandler.base.ExceptionHandler} 进行创建，
@@ -25,5 +28,11 @@ package cn.gdrfgdrf.smartuploader.exceptionhandler.handler.manager;
  * @Author gdrfgdrf
  * @Date 2024/4/7
  */
-public class ExceptionHandlerManager {
+@ExceptionHandlerInstantiate(classes = {
+        DefaultExceptionHandler.class
+})
+public class ExceptionHandlerManager extends AbstractExceptionHandlerManager {
+    public ExceptionHandlerManager() {
+        super.instantiate();
+    }
 }

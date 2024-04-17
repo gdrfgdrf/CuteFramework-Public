@@ -17,7 +17,16 @@
 
 package cn.gdrfgdrf.smartuploader.base;
 
+import cn.gdrfgdrf.smartuploader.classinjector.ClassInjector;
+import cn.gdrfgdrf.smartuploader.utils.TypeParameterMatcher;
+import lombok.extern.slf4j.Slf4j;
+
 import java.lang.annotation.Annotation;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @Description 管理器基类，继承该类可实现自动化的获取需要实例化的类
@@ -28,7 +37,10 @@ import java.lang.annotation.Annotation;
  * @Author gdrfgdrf
  * @Date 2024/4/6
  */
+@Slf4j
 public abstract class BaseManager<T, A extends Annotation> {
+    private final Map<Class<? extends T>, T> T_INSTANCE_MAP = new HashMap<>();
+
     /**
      * @Description 获取 <A> 注解中方法 classes 的返回值，
      * 该返回值必须是一个数组形式的 <T> 的实现类或子类，
@@ -37,12 +49,23 @@ public abstract class BaseManager<T, A extends Annotation> {
      * @Author gdrfgdrf
      * @Date 2024/4/6
      */
+    @SuppressWarnings("unchecked")
     protected void instantiate() {
         try {
+            TypeParameterMatcher matcher = TypeParameterMatcher.find(this, BaseManager.class, "A");
+            Class<A> type = (Class<A>) matcher.getType();
+            Method method = type.getMethod("classes");
+            A annotationObj = getClass().getAnnotation(type);
+            if (annotationObj == null) {
+                return;
+            }
 
-
+            T[] array = (T[]) method.invoke(annotationObj);
+            for (T t : array) {
+                instantiate((Class<? extends T>) t);
+            }
         } catch (Exception e) {
-
+            log.error("Error when get a array from a annotation", e);
         }
     }
 
@@ -54,4 +77,32 @@ public abstract class BaseManager<T, A extends Annotation> {
      * @Date 2024/4/6
      */
     public abstract void instantiate(Class<? extends T> clazz);
+
+    /**
+     * @Description 对 <T> 进行的单例模式，保证一个 <T> 的实现类只能有一个实例
+     * @param clazz
+	 *        <T> 类
+     * @return T
+     *         <T> 对象
+     * @throws InvocationTargetException
+     *         {@link ClassInjector} 无法创建对象
+     * @throws NoSuchMethodException
+     *         {@link ClassInjector} 无法创建对象
+     * @throws InstantiationException
+     *         {@link ClassInjector} 无法创建对象
+     * @throws IllegalAccessException
+     *         {@link ClassInjector} 无法创建对象
+     * @Author gdrfgdrf
+     * @Date 2024/4/17
+     */
+    @SuppressWarnings("unchecked")
+    protected T createInstance(Class<? extends T> clazz) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        if (T_INSTANCE_MAP.containsKey(clazz)) {
+            return T_INSTANCE_MAP.get(clazz);
+        }
+        T instance = (T) ClassInjector.getInstance().createInstance(clazz);
+        T_INSTANCE_MAP.put(clazz, instance);
+
+        return instance;
+    }
 }

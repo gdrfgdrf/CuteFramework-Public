@@ -38,6 +38,6 @@ public class AssertNotNullException extends AssertErrorException {
 
     @Override
     public String getDefaultMessage() {
-        return parameterName + " cannot be null";
+        return "Parameter " + parameterName + " cannot be null";
     }
 }

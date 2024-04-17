@@ -17,6 +17,9 @@
 
 package cn.gdrfgdrf.smartuploader.classinjector;
 
+import cn.gdrfgdrf.smartuploader.utils.asserts.AssertUtils;
+
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -26,7 +29,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * 若要使用该类，动态代理的拦截器，比如 Cglib 的 MethodInterceptor，
  * 都必须存在一个返回对象实例，参数为类对象，名称为 createInstance 的公开方法
  *
- * 例子：
+ * 例子：假设返回 Object 对象，接受所有类
  *      public static Object createInstance(Class<?> clazz) {
  *          ...
  *      }
@@ -38,8 +41,7 @@ public class ClassInjector {
     private static ClassInjector INSTANCE;
 
     /**
-     * 类对象到 createInstance 方法的映射，
-     * 当
+     * createInstance 方法需要的类型到 createInstance 方法的映射，
      */
     private final Map<Class, Method> CREATE_INSTANCE_METHOD_MAP = new ConcurrentHashMap<>();
 
@@ -59,23 +61,72 @@ public class ClassInjector {
         return INSTANCE;
     }
 
-    public void registerInjector(Class<?> injector) {
+    /**
+     * @Description 注册类注入器，
+     * 将通过 {@link Class#getDeclaredMethod(String, Class[])} 获取 createInstance 方法，
+     * createInstance 方法的参数必须是其返回类型的类对象
+     *
+     * @param type
+     *        createInstance 方法的返回类型
+     * @param injector
+	 *        createInstance 方法所在的类
+     * @throws cn.gdrfgdrf.smartuploader.utils.asserts.exception.AssertNotNullException
+     *         当 type 或 injector 为 null 时抛出
+     * @throws NoSuchMethodException
+     *         无法找到 createInstance 方法
+     * @Author gdrfgdrf
+     * @Date 2024/4/17
+     */
+    public void registerInjector(Class<?> type, Class<?> injector) throws NoSuchMethodException {
+        AssertUtils.notNull("type", type);
+        AssertUtils.notNull("injector", injector);
 
+        Method method = injector.getDeclaredMethod("createInstance", type);
+        CREATE_INSTANCE_METHOD_MAP.put(type, method);
     }
 
     /**
-     * @Description 通过动态代理创建一个对象，若找不到指定的动态代理创建对象的方法，
+     * @Description 移除类注入器
+     * @param type
+	 *        createInstance 方法的返回类型
+     * @throws cn.gdrfgdrf.smartuploader.utils.asserts.exception.AssertNotNullException
+     *         当 type 为 null 时抛出
+     * @Author gdrfgdrf
+     * @Date 2024/4/17
+     */
+    public void unregisterInjector(Class<?> type) {
+        AssertUtils.notNull("type", type);
+
+        CREATE_INSTANCE_METHOD_MAP.remove(type);
+    }
+
+
+    /**
+     * @Description 通过动态代理创建一个对象，
+     * 若找不到指定的动态代理创建对象的方法，
+     * 则使用 {@link java.lang.reflect.Constructor#newInstance(Object...)} 创建
+     * 若找到则会调用创建对象的方法并返回
+     *
+     * @return java.lang.Object
+     *         最终的对象
      * @param clazz
-	 *
-     * @return void
-     *
-     * @throws
-     *
+	 *        需要创建对象的类
+     * @throws NoSuchMethodException
+     *         无法找到指定的动态代理创建对象的方法，尝试使用无参构造函数，但无法获取到无参构造函数时抛出
+     * @throws InvocationTargetException
+     *         动态代理创建对象的方法出错或无参构造函数出错时抛出
+     * @throws IllegalAccessException
+     *         可以找到动态代理创建对象的方法或无参构造函数，但因为访问权限而无法使用
      * @Author gdrfgdrf
      * @Date 2024/4/7
      */
-    public void createInstance(Class<?> clazz) {
+    public Object createInstance(Class<?> clazz) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+        Method method = CREATE_INSTANCE_METHOD_MAP.get(clazz);
+        if (method == null) {
+            return clazz.getDeclaredConstructor().newInstance();
+        }
 
+        return method.invoke(null, clazz);
     }
 
 
