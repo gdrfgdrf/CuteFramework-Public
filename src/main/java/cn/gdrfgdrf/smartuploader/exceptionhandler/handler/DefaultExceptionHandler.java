@@ -18,7 +18,10 @@
 package cn.gdrfgdrf.smartuploader.exceptionhandler.handler;
 
 import cn.gdrfgdrf.smartuploader.exceptionhandler.annotation.ExceptionSupport;
+import cn.gdrfgdrf.smartuploader.exceptionhandler.base.CustomRuntimeException;
 import cn.gdrfgdrf.smartuploader.exceptionhandler.base.ExceptionHandler;
+import cn.gdrfgdrf.smartuploader.utils.StringUtils;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @Description 默认异常处理器，
@@ -28,10 +31,22 @@ import cn.gdrfgdrf.smartuploader.exceptionhandler.base.ExceptionHandler;
  * @Author gdrfgdrf
  * @Date 2024/4/8
  */
+@Slf4j
 @ExceptionSupport(support = Throwable.class)
 public class DefaultExceptionHandler implements ExceptionHandler {
     @Override
     public void handle(Thread thread, Throwable throwable) {
+        if (throwable instanceof CustomRuntimeException customRuntimeException) {
+            String i18nMessage = customRuntimeException.getI18NMessage();
 
+            if (!StringUtils.isBlank(i18nMessage)) {
+                log.error(i18nMessage, throwable);
+            } else {
+                log.error(customRuntimeException.getDefaultMessage(), throwable);
+            }
+            return;
+        }
+
+        log.error("Unknown error occurred", throwable);
     }
 }

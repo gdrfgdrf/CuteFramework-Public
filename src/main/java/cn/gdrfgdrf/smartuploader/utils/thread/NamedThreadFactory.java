@@ -21,17 +21,17 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * @Description 线程工厂，创建带有名称的线程
+ * @Description 线程工厂，创建带有名称的线程，格式为 Pool-{POOL_COUNT} Thread-{COUNT}
  * @Author gdrfgdrf
  * @Date 2024/4/8
  */
 public class NamedThreadFactory implements ThreadFactory {
-    private final AtomicInteger POOL_COUNT = new AtomicInteger();
+    private final AtomicInteger poolCount = new AtomicInteger();
     private final AtomicInteger count = new AtomicInteger();
     private final ThreadGroup group;
 
     public NamedThreadFactory() {
-        POOL_COUNT.incrementAndGet();
+        poolCount.incrementAndGet();
         SecurityManager securityManager = System.getSecurityManager();
         group = securityManager != null ?
                 securityManager.getThreadGroup() :
@@ -41,7 +41,7 @@ public class NamedThreadFactory implements ThreadFactory {
     @Override
     public Thread newThread(Runnable r) {
         Thread result = new Thread(group, r);
-        result.setName("Pool-" + POOL_COUNT.incrementAndGet() + " Thread-" + count.incrementAndGet());
+        result.setName("Pool-" + poolCount.incrementAndGet() + " Thread-" + count.incrementAndGet());
         return result;
     }
 }

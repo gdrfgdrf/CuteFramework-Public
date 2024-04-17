@@ -19,6 +19,7 @@ package cn.gdrfgdrf.smartuploader.exceptionhandler.exception;
 
 import cn.gdrfgdrf.smartuploader.exceptionhandler.annotation.Undispatchable;
 import cn.gdrfgdrf.smartuploader.exceptionhandler.base.CustomRuntimeException;
+import cn.gdrfgdrf.smartuploader.locale.collect.ExceptionLanguage;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -37,7 +38,7 @@ public class NotFoundExceptionHandlerException extends CustomRuntimeException {
 
     @Override
     public String getI18NMessage() {
-        return null;
+        return ExceptionLanguage.NOT_FOUND_EXCEPTION_HANDLER;
     }
 
     @Override

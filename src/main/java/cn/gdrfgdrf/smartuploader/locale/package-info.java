@@ -134,7 +134,8 @@
  *                  并前往 {@link cn.gdrfgdrf.smartuploader.locale.base.LanguageBlock} 的 "SystemLanguage" 类 获取到 <p>
  *                  拥有相同名字的字段，并获取该字段的内容，<p>
  *                  然后赋值给 {@link cn.gdrfgdrf.smartuploader.locale.base.LanguageCollect} 的 "SystemLanguage" 类 的对应字段，<p>
- *                  如此往复，类文件读取完成。<p>
+ *                  如此往复，类文件读取完成，<p>
+ *                  完成读取后将会把所有 {@link cn.gdrfgdrf.smartuploader.locale.base.LanguageCollect} 的类序列化到语言文件。<p>
  *
  * @Author gdrfgdrf
  * @Date 2024/4/9
