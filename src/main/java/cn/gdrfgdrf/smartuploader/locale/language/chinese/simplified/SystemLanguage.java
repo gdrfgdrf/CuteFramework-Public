@@ -17,6 +17,7 @@
 
 package cn.gdrfgdrf.smartuploader.locale.language.chinese.simplified;
 
+import cn.gdrfgdrf.smartuploader.locale.LanguageString;
 import cn.gdrfgdrf.smartuploader.locale.base.LanguageBlock;
 
 /**
@@ -24,5 +25,5 @@ import cn.gdrfgdrf.smartuploader.locale.base.LanguageBlock;
  * gdrfgdrf | 2024-04-16
  */
 class SystemLanguage implements LanguageBlock {
-    public static final String LOADING = "加载中...";
+    public static final LanguageString LOADING = new LanguageString("加载中...");
 }

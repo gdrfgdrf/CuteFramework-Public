@@ -17,6 +17,7 @@
 
 package cn.gdrfgdrf.smartuploader.utils.asserts.exception;
 
+import cn.gdrfgdrf.smartuploader.locale.collect.AssertLanguage;
 import cn.gdrfgdrf.smartuploader.utils.asserts.base.AssertErrorException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,14 +27,17 @@ import lombok.Getter;
  * @Author gdrfgdrf
  * @Date 2024/4/8
  */
+@Getter
 @AllArgsConstructor
 public class AssertNotNullException extends AssertErrorException {
-    @Getter
     private final String parameterName;
 
     @Override
     public String getI18NMessage() {
-        return "";
+        return AssertLanguage.NOT_NULL
+                .get()
+                .format(parameterName)
+                .getString();
     }
 
     @Override

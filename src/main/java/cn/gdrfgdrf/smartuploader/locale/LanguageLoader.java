@@ -20,7 +20,6 @@ package cn.gdrfgdrf.smartuploader.locale;
 import cn.gdrfgdrf.smartuploader.common.Constants;
 import cn.gdrfgdrf.smartuploader.locale.base.LanguageBlock;
 import cn.gdrfgdrf.smartuploader.locale.base.LanguageCollect;
-import cn.gdrfgdrf.smartuploader.locale.collect.SystemLanguage;
 import cn.gdrfgdrf.smartuploader.locale.exception.NotFoundLanguagePackageException;
 import cn.gdrfgdrf.smartuploader.utils.ClassUtils;
 import cn.gdrfgdrf.smartuploader.utils.FileUtils;
@@ -28,7 +27,6 @@ import cn.gdrfgdrf.smartuploader.utils.StringUtils;
 import cn.gdrfgdrf.smartuploader.utils.asserts.AssertUtils;
 import cn.gdrfgdrf.smartuploader.utils.jackson.JacksonUtils;
 import cn.gdrfgdrf.smartuploader.utils.jackson.SuperJsonNode;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.extern.slf4j.Slf4j;
 
@@ -38,7 +36,6 @@ import java.io.Writer;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
 /**
@@ -91,7 +88,7 @@ public class LanguageLoader {
 
         File languageFile = new File(Constants.LOCALE_LANGUAGE_FOLDER + language + ".json");
         if (languageFile.exists()) {
-            loadFromFile(languageFile);
+            loadFromFile(language);
             return;
         }
         loadFromClass(language);
@@ -101,49 +98,78 @@ public class LanguageLoader {
 
     /**
      * @Description 从语言文件加载语言
-     * @param languageFile
-	 *        语言文件
+     * @param language
+	 *        语言
      * @throws cn.gdrfgdrf.smartuploader.utils.asserts.exception.AssertNotNullException
-     *         languageFile 为 null 时抛出
+     *         language 为 null 时抛出
      * @throws IOException
      *         语言文件 IO 错误
      * @Author gdrfgdrf
      * @Date 2024/4/12
      */
     @SuppressWarnings("unchecked")
-    private void loadFromFile(File languageFile) throws IOException {
-        AssertUtils.notNull("language file", languageFile);
+    private void loadFromFile(String language) throws IOException {
+        AssertUtils.notNull("language", language);
+
+        File languageFile = new File(Constants.LOCALE_LANGUAGE_FOLDER + language + ".json");
         if (!languageFile.exists()) {
             return;
         }
 
-        SuperJsonNode superJsonNode = JacksonUtils.readFileTree(languageFile);
-        Iterator<String> collectClassKeySet = superJsonNode.keySet();
-        collectClassKeySet.forEachRemaining(collectClassName -> {
+        String targetLanguagePackageString = language.replace("_", ".");
+        String fullTargetLanguagePackage = Constants.LOCALE_LANGUAGE_PACKAGE + "." + targetLanguagePackageString;
+        boolean languagePackageExists = ClassUtils.isPackageExists(fullTargetLanguagePackage);
+
+        Set<Class<?>> allLanguageCollectClasses = new HashSet<>();
+        ClassUtils.searchJar(Constants.LOCALE_COLLECT_PACKAGE, clazz -> {
             try {
-                Class<? extends LanguageCollect> collectClass =
-                        (Class<? extends LanguageCollect>) Class.forName(
-                                Constants.LOCALE_COLLECT_PACKAGE + "." + collectClassName
-                        );
+                clazz.asSubclass(LanguageCollect.class);
+                return true;
+            } catch (Exception ignored) {
+            }
+            return false;
+        }, allLanguageCollectClasses);
+
+        SuperJsonNode superJsonNode = JacksonUtils.readFileTree(languageFile);
+        allLanguageCollectClasses.forEach(collectClass -> {
+            try {
+                String collectClassName = collectClass.getSimpleName();
+                Field[] collectFields = Arrays.stream(collectClass.getDeclaredFields())
+                        .filter(field -> field.getType() == LanguageString.class)
+                        .toArray(Field[]::new);
                 SuperJsonNode collectNode = new SuperJsonNode(superJsonNode.getJsonNode().get(collectClassName));
 
-                collectNode.keySet().forEachRemaining(languageKey -> {
-                    String languageContent = collectNode.getStringOrNull(languageKey);
-                    if (StringUtils.isBlank(languageContent)) {
-                        return;
+                for (Field collectField : collectFields) {
+                    String fieldName = collectField.getName();
+
+                    if (collectNode.getJsonNode() != null && collectNode.contains(fieldName)) {
+                        String languageContent = collectNode.getStringOrNull(fieldName);
+                        if (StringUtils.isBlank(languageContent)) {
+                            return;
+                        }
+                        LanguageString languageString = new LanguageString(languageContent);
+
+                        try {
+                            setFromString(fieldName, languageString, (Class<? extends LanguageCollect>) collectClass);
+                        } catch (Exception e) {
+                            log.error("Cannot set field for collect class", e);
+                        }
+                        continue;
+                    }
+                    if (!languagePackageExists) {
+                        continue;
                     }
 
-                    try {
-                        setLanguageContent(languageKey, languageContent, collectClass);
-                    } catch (Exception e) {
-                        log.error("Cannot set language field", e);
-                    }
-                });
+                    Class<? extends LanguageBlock> languageBlockClass =
+                            (Class<? extends LanguageBlock>) Class.forName(
+                                    fullTargetLanguagePackage + "." + collectClassName
+                            );
+                    setFromBlock(collectField, languageBlockClass.getDeclaredField(fieldName), fieldName);
+                }
             } catch (Exception e) {
                 log.error("load language error from file", e);
             }
         });
-
     }
 
     /**
@@ -166,9 +192,8 @@ public class LanguageLoader {
         Set<Class<?>> allLanguageBlockClasses = new HashSet<>();
         ClassUtils.searchJar(fullTargetLanguagePackage, clazz -> {
             try {
-                if (clazz.asSubclass(LanguageBlock.class) != null) {
-                    return true;
-                }
+                clazz.asSubclass(LanguageBlock.class);
+                return true;
             } catch (Exception ignored) {
             }
             return false;
@@ -179,22 +204,16 @@ public class LanguageLoader {
             try {
                 Class<?> collectClass = Class.forName(Constants.LOCALE_COLLECT_PACKAGE + "." + className);
                 Field[] collectFields = Arrays.stream(collectClass.getDeclaredFields())
-                        .filter(field -> field.getType() == String.class)
+                        .filter(field -> field.getType() == LanguageString.class)
                         .toArray(Field[]::new);
 
                 for (Field collectField : collectFields) {
                     String fieldName = collectField.getName();
-                    Field languageField = languageBlockClass.getDeclaredField(fieldName);
-
-                    ClassUtils.accessibleField(null, languageField, accessibleLanguageField -> {
-                        try {
-                            String languageString = (String) accessibleLanguageField.get(null);
-                            collectField.set(null, languageString);
-                        } catch (IllegalAccessException e) {
-                            log.error("Cannot set field for collect class", e);
-                        }
-                    });
-
+                    setFromBlock(
+                            collectField,
+                            languageBlockClass.getDeclaredField(fieldName),
+                            fieldName
+                    );
                 }
             } catch (Exception e) {
                 log.error("Load language error from class", e);
@@ -215,9 +234,8 @@ public class LanguageLoader {
         Set<Class<?>> allCollectClasses = new HashSet<>();
         ClassUtils.searchJar(Constants.LOCALE_COLLECT_PACKAGE, clazz -> {
             try {
-                if (clazz.asSubclass(LanguageCollect.class) != null) {
-                    return true;
-                }
+                clazz.asSubclass(LanguageCollect.class);
+                return true;
             } catch (Exception ignored) {
             }
             return false;
@@ -228,13 +246,13 @@ public class LanguageLoader {
             ObjectNode languageCollectNode = JacksonUtils.newTree();
 
             Field[] collectFields = Arrays.stream(collectClass.getDeclaredFields())
-                    .filter(field -> field.getType() == String.class)
+                    .filter(field -> field.getType() == LanguageString.class)
                     .toArray(Field[]::new);
             for (Field collectField : collectFields) {
                 String languageKey = collectField.getName();
-                String languageContent = (String) collectField.get(null);
+                LanguageString languageContent = (LanguageString) collectField.get(null);
 
-                languageCollectNode.put(languageKey, languageContent);
+                languageCollectNode.put(languageKey, languageContent.get().getString());
             }
 
             root.set(collectClass.getSimpleName(), languageCollectNode);
@@ -246,6 +264,31 @@ public class LanguageLoader {
         Writer writer = FileUtils.getWriter(file);
         writer.write(root.toString());
         writer.close();
+    }
+
+    /**
+     * @Description 从 {@link LanguageBlock} 中获取字段并设置到 {@link LanguageCollect}，
+     * 为了获取内容，
+     * 会暂时的把 {@link LanguageBlock} 中的字段设置为可访问，设置完成后再设置回去
+     *
+     * @param collectField
+     *        {@link LanguageCollect} 中需要设置的字段
+     * @param blockField
+     *        从 {@link LanguageBlock} 中获取的字段
+     * @param fieldName
+     *        字段名
+     * @Author gdrfgdrf
+     * @Date 2024/4/19
+     */
+    private void setFromBlock(Field collectField, Field blockField, String fieldName) {
+        ClassUtils.accessibleField(null, blockField, accessibleBlockField -> {
+            try {
+                LanguageString languageString = (LanguageString) accessibleBlockField.get(null);
+                collectField.set(null, languageString);
+            } catch (IllegalAccessException e) {
+                log.error("Cannot set field for collect class", e);
+            }
+        });
     }
 
     /**
@@ -263,9 +306,9 @@ public class LanguageLoader {
      * @Author gdrfgdrf
      * @Date 2024/4/12
      */
-    private void setLanguageContent(
+    private void setFromString(
             String languageKey,
-            String languageContent,
+            LanguageString languageContent,
             Class<? extends LanguageCollect> languageCollect
     ) throws NoSuchFieldException {
         if (StringUtils.isBlank(languageKey)) {

@@ -30,15 +30,18 @@ import lombok.Getter;
  * @Author gdrfgdrf
  * @Date 2024/4/8
  */
+@Getter
 @Undispatchable
 @AllArgsConstructor
 public class NotFoundExceptionHandlerException extends CustomRuntimeException {
-    @Getter
     private final Throwable throwable;
 
     @Override
     public String getI18NMessage() {
-        return ExceptionLanguage.NOT_FOUND_EXCEPTION_HANDLER;
+        return ExceptionLanguage.NOT_FOUND_EXCEPTION_HANDLER
+                .get()
+                .format(throwable)
+                .getString();
     }
 
     @Override

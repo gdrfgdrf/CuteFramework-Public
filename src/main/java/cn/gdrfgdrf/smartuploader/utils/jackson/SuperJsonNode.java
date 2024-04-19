@@ -27,8 +27,8 @@ import java.util.Iterator;
  * @Author gdrfgdrf
  * @Date 2024/4/12
  */
+@Getter
 public class SuperJsonNode {
-    @Getter
     private final JsonNode jsonNode;
 
     public SuperJsonNode(JsonNode jsonNode) {
@@ -55,6 +55,10 @@ public class SuperJsonNode {
             return jsonNode.get(key).asText();
         }
         return null;
+    }
+
+    public boolean contains(String key) {
+        return jsonNode.has(key);
     }
 
     public int size() {

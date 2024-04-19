@@ -98,7 +98,8 @@
  * 程序会先从配置文件中获取到设置的语言，<p>
  * 之后检查该语言文件是否存在，不存在则从语言实现类中读取语言并写入文件，存在则从文件中读取语言，<p>
  * 读取到语言之后将会通过反射赋值到汇总类。<p>
- * 所有实现了 {@link cn.gdrfgdrf.smartuploader.locale.base.LanguageBlock} 的类的所有字段的类型都必须是 {@link java.lang.String}，<p>
+ * 所有实现了 {@link cn.gdrfgdrf.smartuploader.locale.base.LanguageBlock} 的类的所有字段 <p>
+ * 的类型都必须是 {@link cn.gdrfgdrf.smartuploader.locale.LanguageString}，<p>
  * 并且字段名必须存在于汇总类中。<p>
  * 以下为语言文件的格式 <p>
  *      语言汇总类名: { <p>
@@ -115,8 +116,13 @@
  *                  从中读取出语言，假设读取到的 语言汇总类名 是 "SystemLanguage"，<p>
  *                  那么程序将会获取 cn.gdrfgdrf.smartuploader.locale.collect 下，<p>
  *                  实现了 {@link cn.gdrfgdrf.smartuploader.locale.base.LanguageCollect} 的 "SystemLanguage" 类，<p>
- *                  之后回到文件读取 语言汇总类名 "SystemLanguage" 节点下的所有信息，<p>
- *                  之后根据 键 反射获取 "SystemLanguage" 类的字段并赋值上对应的 值，<p>
+ *                  之后获取其中所有类型为 {@link cn.gdrfgdrf.smartuploader.locale.LanguageString} 的字段并进行循环，<p>
+ *                  获取到字段名，并到文件读取 语言汇总类名 "SystemLanguage" 节点下的和字段名相同的值，<p>
+ *                  之后反射设置给字段，<p>
+ *                  若 {@link cn.gdrfgdrf.smartuploader.locale.base.LanguageCollect} 的 "SystemLanguage" 类中 <p>
+ *                  有值是 语言汇总类名 "SystemLanguage" 节点下没有的，<p>
+ *                  则会从当前语言下对应 {@link cn.gdrfgdrf.smartuploader.locale.base.LanguageBlock} 的 "SystemLanguage" 类中获取。<p>
+ *                  若找不到则直接设置为 null，<p>
  *                  如此往复，语言文件读取完成。<p>
  *          文件不存在，<p>
  *                  将 chinese_simplified 的 "_" 全部替换为 "." 得到 chinese.simplified <p>

@@ -21,8 +21,6 @@ import cn.gdrfgdrf.smartuploader.exceptionhandler.annotation.Undispatchable;
 import cn.gdrfgdrf.smartuploader.exceptionhandler.base.ExceptionHandler;
 import cn.gdrfgdrf.smartuploader.exceptionhandler.exception.NotFoundExceptionHandlerException;
 import cn.gdrfgdrf.smartuploader.utils.asserts.AssertUtils;
-import lombok.Getter;
-import lombok.experimental.Accessors;
 
 import java.util.List;
 import java.util.Map;
@@ -168,16 +166,11 @@ public class ExceptionDispatcher {
                 throw new NotFoundExceptionHandlerException(throwable);
             }
 
-            exceptionHandlers.forEach(exceptionHandler -> {
-                exceptionHandler.handle(thread, throwable);
-            });
-
+            exceptionHandlers.forEach(exceptionHandler -> exceptionHandler.handle(thread, throwable));
             return;
         }
 
-        exceptionHandlers.forEach(exceptionHandler -> {
-            exceptionHandler.handle(thread, throwable);
-        });
+        exceptionHandlers.forEach(exceptionHandler -> exceptionHandler.handle(thread, throwable));
     }
 
     /**

@@ -15,15 +15,16 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.gdrfgdrf.smartuploader.locale.language.chinese.simplified;
+package cn.gdrfgdrf.smartuploader.locale.collect;
 
 import cn.gdrfgdrf.smartuploader.locale.LanguageString;
-import cn.gdrfgdrf.smartuploader.locale.base.LanguageBlock;
+import cn.gdrfgdrf.smartuploader.locale.base.LanguageCollect;
 
 /**
- * Basic:
- * gdrfgdrf | 2024-04-17
+ * @Description 断言信息语言汇总类
+ * @Author gdrfgdrf
+ * @Date 2024/4/17
  */
-class ExceptionLanguage implements LanguageBlock {
-    public static final LanguageString NOT_FOUND_EXCEPTION_HANDLER = new LanguageString("无法为 {} 找到异常处理器");
+public class AssertLanguage implements LanguageCollect {
+    public static LanguageString NOT_NULL;
 }

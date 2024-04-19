@@ -24,6 +24,6 @@ import cn.gdrfgdrf.smartuploader.locale.base.LanguageBlock;
  * Basic:
  * gdrfgdrf | 2024-04-17
  */
-class ExceptionLanguage implements LanguageBlock {
-    public static final LanguageString NOT_FOUND_EXCEPTION_HANDLER = new LanguageString("无法为 {} 找到异常处理器");
+class AssertLanguage implements LanguageBlock {
+    public static final LanguageString NOT_NULL = new LanguageString("{} 不能为 null");
 }

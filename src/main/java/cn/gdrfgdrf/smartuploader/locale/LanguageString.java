@@ -15,16 +15,32 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.gdrfgdrf.smartuploader.locale.collect;
-
-import cn.gdrfgdrf.smartuploader.locale.LanguageString;
-import cn.gdrfgdrf.smartuploader.locale.base.LanguageCollect;
+package cn.gdrfgdrf.smartuploader.locale;
 
 /**
- * @Description 异常信息语言汇总类
+ * @Description 语言字符串，
+ * 所有 {@link cn.gdrfgdrf.smartuploader.locale.base.LanguageBlock} 中的语言字符串必须使用该类型
+ * 才能被 {@link LanguageLoader} 识别到
+ *
  * @Author gdrfgdrf
  * @Date 2024/4/17
  */
-public class ExceptionLanguage implements LanguageCollect {
-    public static LanguageString NOT_FOUND_EXCEPTION_HANDLER;
+public class LanguageString {
+    private final String text;
+
+    public LanguageString(String text) {
+        this.text = text;
+    }
+
+    /**
+     * @Description 获取到可操作的语言字符串
+     * @return cn.gdrfgdrf.smartuploader.locale.AccessibleLanguageString
+     *         可操作的语言字符串
+     * @Author gdrfgdrf
+     * @Date 2024/4/18
+     */
+    public OperableLanguageString get() {
+        return new OperableLanguageString(text);
+    }
+
 }

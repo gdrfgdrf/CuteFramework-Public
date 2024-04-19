@@ -17,6 +17,7 @@
 
 package cn.gdrfgdrf.smartuploader.locale.collect;
 
+import cn.gdrfgdrf.smartuploader.locale.LanguageString;
 import cn.gdrfgdrf.smartuploader.locale.base.LanguageCollect;
 
 /**
@@ -25,5 +26,5 @@ import cn.gdrfgdrf.smartuploader.locale.base.LanguageCollect;
  * @Date 2024/4/16
  */
 public class SystemLanguage implements LanguageCollect {
-    public static String LOADING;
+    public static LanguageString LOADING;
 }
