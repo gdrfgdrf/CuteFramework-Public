@@ -160,14 +160,18 @@ public class LanguageLoader {
                         continue;
                     }
 
-                    Class<? extends LanguageBlock> languageBlockClass =
-                            (Class<? extends LanguageBlock>) Class.forName(
-                                    fullTargetLanguagePackage + "." + collectClassName
-                            );
-                    setFromBlock(collectField, languageBlockClass.getDeclaredField(fieldName), fieldName);
+                    try {
+                        Class<? extends LanguageBlock> languageBlockClass =
+                                (Class<? extends LanguageBlock>) Class.forName(
+                                        fullTargetLanguagePackage + "." + collectClassName
+                                );
+                        setFromBlock(collectField, languageBlockClass.getDeclaredField(fieldName), fieldName);
+                    } catch (Exception e) {
+                        log.error("Load language error from class", e);
+                    }
                 }
             } catch (Exception e) {
-                log.error("load language error from file", e);
+                log.error("Load language error from file", e);
             }
         });
     }
