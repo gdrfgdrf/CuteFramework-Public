@@ -15,36 +15,19 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.gdrfgdrf.smartuploader.bean;
+package cn.gdrfgdrf.smartuploader.bean.annotation;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
- * @Description Bean 管理器，对 Bean 进行创建，移除等操作
+ * @Description 被注解的类将会被 {@link cn.gdrfgdrf.smartuploader.bean.BeanManager} 扫描到并作为 Bean 加载
  * @Author gdrfgdrf
- * @Date 2024/4/6
+ * @Date 2024/4/20
  */
-public class BeanManager {
-    private static BeanManager INSTANCE;
-
-    private BeanManager() {}
-
-    /**
-     * @Description 单例模式，获取 {@link BeanManager} 实例
-     * @return cn.gdrfgdrf.smartuploader.bean.BeanManager
-     *         {@link BeanManager} 实例
-     * @Author gdrfgdrf
-     * @Date 2024/4/20
-     */
-    public static BeanManager getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new BeanManager();
-        }
-        return INSTANCE;
-    }
-
-    public void createByScanning() {
-
-
-    }
-
-
+@Target(value = ElementType.TYPE)
+@Retention(value = RetentionPolicy.RUNTIME)
+public @interface Component {
 }

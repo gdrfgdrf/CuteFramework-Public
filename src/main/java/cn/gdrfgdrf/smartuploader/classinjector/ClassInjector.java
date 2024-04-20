@@ -27,10 +27,9 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * @Description 类注入器，通过动态代理创建对象，
  * 若要使用该类，动态代理的拦截器，比如 Cglib 的 MethodInterceptor，
- * 都必须存在一个返回对象实例，参数为类对象，名称为 createInstance 的公开方法
- *
+ * 都必须存在一个返回对象实例，参数为类对象、构造函数参数类型、构造函数参数实例，名称为 createInstance 的公开方法
  * 例子：假设返回 Object 对象，接受所有类
- *      public static Object createInstance(Class<?> clazz) {
+ *      public static Object createInstance(Class<?> clazz, Class<?>[] argumentTypes, Object... arguments) {
  *          ...
  *      }
  *
@@ -43,7 +42,7 @@ public class ClassInjector {
     /**
      * createInstance 方法需要的类型到 createInstance 方法的映射，
      */
-    private final Map<Class, Method> CREATE_INSTANCE_METHOD_MAP = new ConcurrentHashMap<>();
+    private final Map<Class<?>, Method> CREATE_INSTANCE_METHOD_MAP = new ConcurrentHashMap<>();
 
     private ClassInjector() {}
 
@@ -77,11 +76,11 @@ public class ClassInjector {
      * @Author gdrfgdrf
      * @Date 2024/4/17
      */
-    public void registerInjector(Class<?> type, Class<?> injector) throws NoSuchMethodException {
+    public void registerInjector(Class<?> type, Class<?>[] argumentTypes, Class<?> injector) throws NoSuchMethodException {
         AssertUtils.notNull("type", type);
         AssertUtils.notNull("injector", injector);
 
-        Method method = injector.getDeclaredMethod("createInstance", type);
+        Method method = injector.getDeclaredMethod("createInstance", type, Class[].class, Object[].class);
         CREATE_INSTANCE_METHOD_MAP.put(type, method);
     }
 
@@ -100,6 +99,9 @@ public class ClassInjector {
         CREATE_INSTANCE_METHOD_MAP.remove(type);
     }
 
+    public Object createInstance(Class<?> clazz) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        return createInstance(clazz, null);
+    }
 
     /**
      * @Description 通过动态代理创建一个对象，
@@ -111,6 +113,10 @@ public class ClassInjector {
      *         最终的对象
      * @param clazz
 	 *        需要创建对象的类
+     * @param argumentTypes
+     *        构造函数需要的参数类型
+     * @param arguments
+     *        构造函数需要的参数实例
      * @throws NoSuchMethodException
      *         无法找到指定的动态代理创建对象的方法，尝试使用无参构造函数，但无法获取到无参构造函数时抛出
      * @throws InvocationTargetException
@@ -120,13 +126,16 @@ public class ClassInjector {
      * @Author gdrfgdrf
      * @Date 2024/4/7
      */
-    public Object createInstance(Class<?> clazz) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    public Object createInstance(Class<?> clazz, Class<?>[] argumentTypes, Object... arguments) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         Method method = CREATE_INSTANCE_METHOD_MAP.get(clazz);
         if (method == null) {
-            return clazz.getDeclaredConstructor().newInstance();
+            if (argumentTypes == null || arguments == null || arguments.length == 0) {
+                return clazz.getDeclaredConstructor().newInstance();
+            }
+            return clazz.getDeclaredConstructor(argumentTypes).newInstance(arguments);
         }
 
-        return method.invoke(null, clazz);
+        return method.invoke(null, clazz, argumentTypes, arguments);
     }
 
 

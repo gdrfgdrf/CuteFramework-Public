@@ -15,36 +15,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.gdrfgdrf.smartuploader.bean;
+package cn.gdrfgdrf.smartuploader;
 
 /**
- * @Description Bean 管理器，对 Bean 进行创建，移除等操作
+ * @Description
  * @Author gdrfgdrf
- * @Date 2024/4/6
+ * @Date 2024/4/20
  */
-public class BeanManager {
-    private static BeanManager INSTANCE;
-
-    private BeanManager() {}
-
-    /**
-     * @Description 单例模式，获取 {@link BeanManager} 实例
-     * @return cn.gdrfgdrf.smartuploader.bean.BeanManager
-     *         {@link BeanManager} 实例
-     * @Author gdrfgdrf
-     * @Date 2024/4/20
-     */
-    public static BeanManager getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new BeanManager();
-        }
-        return INSTANCE;
-    }
-
-    public void createByScanning() {
-
-
-    }
-
-
+public class Application {
 }
