@@ -27,4 +27,5 @@ import cn.gdrfgdrf.smartuploader.locale.base.LanguageCollect;
  */
 public class ExceptionLanguage implements LanguageCollect {
     public static LanguageString NOT_FOUND_EXCEPTION_HANDLER;
+    public static LanguageString EVENT_PROCESSING_EXCEPTION;
 }

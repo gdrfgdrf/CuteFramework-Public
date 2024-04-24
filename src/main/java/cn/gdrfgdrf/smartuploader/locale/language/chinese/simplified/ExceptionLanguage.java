@@ -26,4 +26,5 @@ import cn.gdrfgdrf.smartuploader.locale.base.LanguageBlock;
  */
 class ExceptionLanguage implements LanguageBlock {
     public static final LanguageString NOT_FOUND_EXCEPTION_HANDLER = new LanguageString("无法为 {} 找到异常处理器");
+    public static final LanguageString EVENT_PROCESSING_EXCEPTION = new LanguageString("处理 {} 事件时发生错误");
 }

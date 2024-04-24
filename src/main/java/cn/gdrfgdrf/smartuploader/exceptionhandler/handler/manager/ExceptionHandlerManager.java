@@ -17,6 +17,7 @@
 
 package cn.gdrfgdrf.smartuploader.exceptionhandler.handler.manager;
 
+import cn.gdrfgdrf.smartuploader.bean.annotation.Component;
 import cn.gdrfgdrf.smartuploader.exceptionhandler.handler.DefaultExceptionHandler;
 import cn.gdrfgdrf.smartuploader.exceptionhandler.handler.annotation.ExceptionHandlerInstantiate;
 
@@ -28,6 +29,7 @@ import cn.gdrfgdrf.smartuploader.exceptionhandler.handler.annotation.ExceptionHa
  * @Author gdrfgdrf
  * @Date 2024/4/7
  */
+@Component
 @ExceptionHandlerInstantiate(classes = {
         DefaultExceptionHandler.class
 })

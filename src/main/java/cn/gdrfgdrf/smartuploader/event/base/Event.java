@@ -15,12 +15,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.gdrfgdrf.smartuploader;
+package cn.gdrfgdrf.smartuploader.event.base;
 
 /**
- * @Description
+ * @Description 事件基类，所有事件都必须继承该类
  * @Author gdrfgdrf
- * @Date 2024/4/20
+ * @Date 2024/4/24
  */
-public class Application {
+public class Event {
 }

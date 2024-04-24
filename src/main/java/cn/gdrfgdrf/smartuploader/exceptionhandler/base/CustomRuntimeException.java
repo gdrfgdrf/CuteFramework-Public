@@ -17,12 +17,30 @@
 
 package cn.gdrfgdrf.smartuploader.exceptionhandler.base;
 
+import cn.gdrfgdrf.smartuploader.utils.StringUtils;
+
 /**
  * @Description 自定义运行时错误
  * @Author gdrfgdrf
  * @Date 2024/4/7
  */
 public abstract class CustomRuntimeException extends RuntimeException {
+    /**
+     * @Description 获取错误信息，优先获取当前语言下的错误信息，若为空则获取默认字符串
+     * @return java.lang.String
+     *         字符串
+     * @Author gdrfgdrf
+     * @Date 2024/4/24
+     */
+    @Override
+    public String getMessage() {
+        String i18nMessage = getI18NMessage();
+        if (StringUtils.isBlank(i18nMessage)) {
+            return getDefaultMessage();
+        }
+        return i18nMessage;
+    }
+
     /**
      * @Description 获取当前语言下的错误信息，该字符串可能会被显示到前台
      * @return java.lang.String

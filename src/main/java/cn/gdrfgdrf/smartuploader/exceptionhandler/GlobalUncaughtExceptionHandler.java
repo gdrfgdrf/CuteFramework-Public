@@ -17,12 +17,19 @@
 
 package cn.gdrfgdrf.smartuploader.exceptionhandler;
 
+import cn.gdrfgdrf.smartuploader.bean.annotation.Component;
+
 /**
  * @Description 全局异常捕获器，当异常没有被 try ... catch 捕获时，将会被该捕获器捕获
  * @Author gdrfgdrf
  * @Date 2024/4/7
  */
+@Component
 public class GlobalUncaughtExceptionHandler implements Thread.UncaughtExceptionHandler {
+    public GlobalUncaughtExceptionHandler() {
+        Thread.setDefaultUncaughtExceptionHandler(this);
+    }
+
     @Override
     public void uncaughtException(Thread t, Throwable e) {
         ExceptionDispatcher.getInstance().dispatch(t, e);

@@ -17,30 +17,24 @@
 
 package cn.gdrfgdrf.smartuploader.exceptionhandler.handler;
 
+import cn.gdrfgdrf.smartuploader.event.exception.EventException;
 import cn.gdrfgdrf.smartuploader.exceptionhandler.annotation.ExceptionSupport;
-import cn.gdrfgdrf.smartuploader.exceptionhandler.base.CustomRuntimeException;
 import cn.gdrfgdrf.smartuploader.exceptionhandler.base.ExceptionHandler;
-import cn.gdrfgdrf.smartuploader.utils.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * @Description 默认异常处理器，
- * 接受所有类型的异常，
- * 当 {@link cn.gdrfgdrf.smartuploader.exceptionhandler.ExceptionDispatcher} 找不到特定的异常处理器时将使用该类
+ * @Description 事件异常处理器，当事件处理出现异常时，会被 {@link cn.gdrfgdrf.smartuploader.event.EventExceptionHandler} 捕获
+ * 并分发到该类
  *
  * @Author gdrfgdrf
- * @Date 2024/4/8
+ * @Date 2024/4/24
  */
 @Slf4j
-@ExceptionSupport(support = Throwable.class)
-public class DefaultExceptionHandler implements ExceptionHandler {
+@ExceptionSupport(support = EventException.class)
+public class DefaultEventExceptionHandler implements ExceptionHandler {
     @Override
     public void handle(Thread thread, Throwable throwable) {
-        if (throwable instanceof CustomRuntimeException customRuntimeException) {
-            log.error(customRuntimeException.getMessage(), throwable);
-            return;
-        }
-
-        log.error("Unknown error occurred", throwable);
+        EventException eventException = (EventException) throwable;
+        log.error(eventException.getMessage(), eventException.getThrowable());
     }
 }

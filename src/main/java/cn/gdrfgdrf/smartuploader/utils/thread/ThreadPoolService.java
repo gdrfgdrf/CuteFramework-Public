@@ -17,6 +17,8 @@
 
 package cn.gdrfgdrf.smartuploader.utils.thread;
 
+import lombok.Getter;
+
 import java.util.concurrent.*;
 
 /**
