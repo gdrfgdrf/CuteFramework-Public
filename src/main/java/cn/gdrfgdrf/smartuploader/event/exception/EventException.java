@@ -17,7 +17,6 @@
 
 package cn.gdrfgdrf.smartuploader.event.exception;
 
-import cn.gdrfgdrf.smartuploader.event.base.Event;
 import cn.gdrfgdrf.smartuploader.exceptionhandler.base.CustomRuntimeException;
 import cn.gdrfgdrf.smartuploader.locale.collect.ExceptionLanguage;
 import com.google.common.eventbus.SubscriberExceptionContext;
@@ -29,10 +28,9 @@ import lombok.Getter;
  * @Author gdrfgdrf
  * @Date 2024/4/24
  */
+@Getter
 public class EventException extends CustomRuntimeException {
-    @Getter
     private final Throwable throwable;
-    @Getter
     private final SubscriberExceptionContext context;
 
     public EventException(Throwable throwable, SubscriberExceptionContext context) {
