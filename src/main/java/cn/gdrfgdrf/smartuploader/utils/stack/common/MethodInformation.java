@@ -15,20 +15,28 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.gdrfgdrf.smartuploader.locale.collect;
+package cn.gdrfgdrf.smartuploader.utils.stack.common;
 
-import cn.gdrfgdrf.smartuploader.locale.LanguageString;
-import cn.gdrfgdrf.smartuploader.locale.base.LanguageCollect;
+import lombok.Getter;
 
 /**
- * @Description 异常信息语言汇总类
+ * @Description 方法信息
  * @Author gdrfgdrf
- * @Date 2024/4/17
+ * @Date 2024/4/30
  */
-public class ExceptionLanguage implements LanguageCollect {
-    public static LanguageString NOT_FOUND_EXCEPTION_HANDLER;
-    public static LanguageString EVENT_PROCESSING_EXCEPTION;
+@Getter
+public class MethodInformation {
+    /**
+     * 方法所在的全限定类名
+     */
+    private final String className;
+    /**
+     * 方法的方法名
+     */
+    private final String methodName;
 
-    public static LanguageString STACK_ILLEGAL_OPERATION_EXCEPTION;
-    public static LanguageString STACK_ILLEGAL_ARGUMENT_EXCEPTION;
+    public MethodInformation(String className, String methodName) {
+        this.className = className;
+        this.methodName = methodName;
+    }
 }
