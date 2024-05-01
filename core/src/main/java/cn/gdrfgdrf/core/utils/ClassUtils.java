@@ -85,9 +85,7 @@ public class ClassUtils {
             }
 
             String finalPackageName = packageName;
-            Arrays.stream(files).forEach(file -> {
-                searchInternal(file, finalPackageName, predicate, result, false);
-            });
+            Arrays.stream(files).forEach(file -> searchInternal(file, finalPackageName, predicate, result, false));
 
             return;
         }

@@ -17,7 +17,6 @@
 
 package cn.gdrfgdrf.core.bean;
 
-import cn.gdrfgdrf.core.SmartUploader;
 import cn.gdrfgdrf.core.utils.stack.StackUtils;
 import org.reflections.Reflections;
 
@@ -46,17 +45,17 @@ public class BeanManager {
     }
 
     /**
-     * @Description 开始创建 Bean，该方法仅允许 {@link SmartUploader#run()} 调用
+     * @Description 开始创建 Bean，该方法仅允许 cn.gdrfgdrf.smartuploader.SmartUploader 调用
      * @throws cn.gdrfgdrf.core.utils.stack.exception.StackIllegalOperationException
      *         当不被允许的类或方法调用该方法时抛出
      * @Author gdrfgdrf
      * @Date 2024/5/1
      */
     public void createByScanning() {
-        StackUtils.onlyMethod(SmartUploader.class, "run");
+        StackUtils.onlyMethod("cn.gdrfgdrf.smartuploader.SmartUploader", "run");
 
         // create core beans
-        Reflections reflections = new Reflections("cn.gdrfgdrf.smartuploader");
+        Reflections reflections = new Reflections("cn.gdrfgdrf.core");
 
 
 

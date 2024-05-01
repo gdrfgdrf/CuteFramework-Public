@@ -17,6 +17,8 @@
 
 package cn.gdrfgdrf.core.utils.thread;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -30,6 +32,7 @@ public class NamedThreadFactory implements ThreadFactory {
     private final AtomicInteger count = new AtomicInteger();
     private final ThreadGroup group;
 
+    @SuppressWarnings("all")
     public NamedThreadFactory() {
         poolCount.incrementAndGet();
         SecurityManager securityManager = System.getSecurityManager();
@@ -39,7 +42,7 @@ public class NamedThreadFactory implements ThreadFactory {
     }
 
     @Override
-    public Thread newThread(Runnable r) {
+    public Thread newThread(@NotNull Runnable r) {
         Thread result = new Thread(group, r);
         result.setName("Pool-" + poolCount.incrementAndGet() + " Thread-" + count.incrementAndGet());
         return result;

@@ -21,6 +21,7 @@ import cn.gdrfgdrf.core.event.exception.EventException;
 import cn.gdrfgdrf.core.exceptionhandler.ExceptionDispatcher;
 import com.google.common.eventbus.SubscriberExceptionContext;
 import com.google.common.eventbus.SubscriberExceptionHandler;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @Description 事件处理时出现错误会被该类捕获并提供给 {@link cn.gdrfgdrf.core.exceptionhandler.ExceptionDispatcher} 进行分发
@@ -29,7 +30,7 @@ import com.google.common.eventbus.SubscriberExceptionHandler;
  */
 public class EventExceptionHandler implements SubscriberExceptionHandler {
     @Override
-    public void handleException(Throwable exception, SubscriberExceptionContext context) {
+    public void handleException(@NotNull Throwable exception, @NotNull SubscriberExceptionContext context) {
         EventException eventException = new EventException(exception, context);
         ExceptionDispatcher.getInstance().dispatch(Thread.currentThread(), eventException);
     }

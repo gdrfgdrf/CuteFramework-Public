@@ -15,21 +15,25 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.gdrfgdrf.core;
-
-import lombok.extern.slf4j.Slf4j;
+package cn.gdrfgdrf.smartuploader;
 
 /**
  * @Description 程序主类
  * @Author gdrfgdrf
- * @Date 2024/4/6
+ * @Date 2024/5/1
  */
-@Slf4j
 public class SmartUploader {
     private static SmartUploader INSTANCE;
 
     private SmartUploader() {}
 
+    /**
+     * @Description 单例模式，获取 {@link SmartUploader} 实例
+     * @return cn.gdrfgdrf.smartuploader.SmartUploader
+     *         {@link SmartUploader} 实例
+     * @Author gdrfgdrf
+     * @Date 2024/5/1
+     */
     public static SmartUploader getInstance() {
         if (INSTANCE == null) {
             INSTANCE = new SmartUploader();
@@ -38,7 +42,7 @@ public class SmartUploader {
     }
 
     public static void main(String[] args) {
-
+        SmartUploader.getInstance().run();
     }
 
     public void run() {
