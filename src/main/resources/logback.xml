@@ -17,7 +17,7 @@
   -->
 
 <configuration scan="true" scanPeriod="60 seconds" debug="false">
-    <conversionRule conversionWord="color" converterClass="cn.gdrfgdrf.smartuploader.log.LogColor"/>
+    <conversionRule conversionWord="color" converterClass="cn.gdrfgdrf.core.log.LogColor"/>
 
     <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
