@@ -29,6 +29,7 @@ import cn.gdrfgdrf.core.utils.jackson.JacksonUtils;
 import cn.gdrfgdrf.core.utils.jackson.SuperJsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.extern.slf4j.Slf4j;
+import org.reflections.Reflections;
 
 import java.io.File;
 import java.io.IOException;
@@ -120,15 +121,8 @@ public class LanguageLoader {
         String fullTargetLanguagePackage = Constants.LOCALE_LANGUAGE_PACKAGE + "." + targetLanguagePackageString;
         boolean languagePackageExists = ClassUtils.isPackageExists(fullTargetLanguagePackage);
 
-        Set<Class<?>> allLanguageCollectClasses = new HashSet<>();
-        ClassUtils.searchJar(Constants.LOCALE_COLLECT_PACKAGE, clazz -> {
-            try {
-                clazz.asSubclass(LanguageCollect.class);
-                return true;
-            } catch (Exception ignored) {
-            }
-            return false;
-        }, allLanguageCollectClasses);
+        Reflections reflections = new Reflections(Constants.LOCALE_COLLECT_PACKAGE);
+        Set<Class<? extends LanguageCollect>> allLanguageCollectClasses = reflections.getSubTypesOf(LanguageCollect.class);
 
         SuperJsonNode superJsonNode = JacksonUtils.readFileTree(languageFile);
         allLanguageCollectClasses.forEach(collectClass -> {
@@ -193,15 +187,8 @@ public class LanguageLoader {
             throw new NotFoundLanguagePackageException();
         }
 
-        Set<Class<?>> allLanguageBlockClasses = new HashSet<>();
-        ClassUtils.searchJar(fullTargetLanguagePackage, clazz -> {
-            try {
-                clazz.asSubclass(LanguageBlock.class);
-                return true;
-            } catch (Exception ignored) {
-            }
-            return false;
-        }, allLanguageBlockClasses);
+        Reflections reflections = new Reflections(fullTargetLanguagePackage);
+        Set<Class<? extends LanguageBlock>> allLanguageBlockClasses = reflections.getSubTypesOf(LanguageBlock.class);
 
         allLanguageBlockClasses.forEach(languageBlockClass -> {
             String className = languageBlockClass.getSimpleName();
@@ -235,15 +222,8 @@ public class LanguageLoader {
      * @Date 2024/4/16
      */
     private void saveCollectClass(File file) throws IOException, IllegalAccessException {
-        Set<Class<?>> allCollectClasses = new HashSet<>();
-        ClassUtils.searchJar(Constants.LOCALE_COLLECT_PACKAGE, clazz -> {
-            try {
-                clazz.asSubclass(LanguageCollect.class);
-                return true;
-            } catch (Exception ignored) {
-            }
-            return false;
-        }, allCollectClasses);
+        Reflections reflections = new Reflections(Constants.LOCALE_COLLECT_PACKAGE);
+        Set<Class<? extends LanguageCollect>> allCollectClasses = reflections.getSubTypesOf(LanguageCollect.class);
 
         ObjectNode root = JacksonUtils.newTree();
         for (Class<?> collectClass : allCollectClasses) {

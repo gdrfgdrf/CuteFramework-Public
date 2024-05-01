@@ -17,8 +17,11 @@
 
 package cn.gdrfgdrf.core.bean;
 
+import cn.gdrfgdrf.core.bean.annotation.Component;
 import cn.gdrfgdrf.core.utils.stack.StackUtils;
 import org.reflections.Reflections;
+
+import java.util.Set;
 
 /**
  * @Description Bean 管理器，对 Bean 进行创建，移除等操作
@@ -56,7 +59,10 @@ public class BeanManager {
 
         // create core beans
         Reflections reflections = new Reflections("cn.gdrfgdrf.core");
-
+        Set<Class<?>> components = reflections.getTypesAnnotatedWith(Component.class);
+        components.forEach(component -> {
+            
+        });
 
 
     }
