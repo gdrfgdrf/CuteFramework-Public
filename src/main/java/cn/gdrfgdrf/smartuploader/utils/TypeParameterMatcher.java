@@ -9,7 +9,6 @@ import java.util.Map;
 
 /**
  * Copy from io.netty.util.internal.TypeParameterMatcher of Netty. (Changed)
- *
  */
 public abstract class TypeParameterMatcher {
     /**
@@ -37,6 +36,9 @@ public abstract class TypeParameterMatcher {
     //=================================================================================================
 
     private static final TypeParameterMatcher NOOP = new TypeParameterMatcher() {
+        /**
+         * Changed: add implementation of getType method
+         */
         @Override
         public Class<?> getType() {
             return Object.class;
@@ -48,6 +50,9 @@ public abstract class TypeParameterMatcher {
         }
     };
 
+    /**
+     * Changed
+     */
     public static TypeParameterMatcher get(final Class<?> parameterType) {
         final Map<Class<?>, TypeParameterMatcher> getCache =
                 typeParameterMatcherGetCache();
@@ -65,6 +70,9 @@ public abstract class TypeParameterMatcher {
         return matcher;
     }
 
+    /**
+     * Changed
+     */
     public static TypeParameterMatcher find(
             final Object object, final Class<?> parametrizedSuperclass, final String typeParamName) {
 
@@ -83,6 +91,9 @@ public abstract class TypeParameterMatcher {
         return matcher;
     }
 
+    /**
+     * Changed
+     */
     private static Class<?> find0(
             final Object object, Class<?> parametrizedSuperclass, String typeParamName) {
 
@@ -161,9 +172,15 @@ public abstract class TypeParameterMatcher {
                 "cannot determine the type of the type parameter '" + typeParamName + "': " + type);
     }
 
+    /**
+     * Change: add getType method
+     */
     public abstract Class<?> getType();
     public abstract boolean match(Object msg);
 
+    /**
+     * Change: add @Getter
+     */
     @Getter
     private static final class ReflectiveMatcher extends TypeParameterMatcher {
         private final Class<?> type;
