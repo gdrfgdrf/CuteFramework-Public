@@ -63,7 +63,8 @@ public class BeanManager {
 
     /**
      * @Description 开始 Bean 的创建流程，该方法仅允许 cn.gdrfgdrf.smartuploader.SmartUploader 的 run 方法调用
-     * 插件会被最先加载，但不选最先加载插件的 Bean，首先会创建核心 Bean，之后再创建 cn.gdrfgdrf.smartuploader 下的 Bean，最后创建插件的 Bean
+     * 插件会被最先加载，但不最先加载插件的 Bean，
+     * 最先创建核心 Bean，之后再创建 cn.gdrfgdrf.smartuploader 下的 Bean，最后再创建插件的 Bean
      * @throws cn.gdrfgdrf.core.utils.stack.exception.StackIllegalOperationException
      *         当不被允许的类或方法调用该方法时抛出
      * @Author gdrfgdrf
@@ -82,6 +83,7 @@ public class BeanManager {
         StackUtils.onlyMethod("cn.gdrfgdrf.smartuploader.SmartUploader", "run");
 
         createCoreBeans();
+        createImplBeans();
     }
 
     /**
