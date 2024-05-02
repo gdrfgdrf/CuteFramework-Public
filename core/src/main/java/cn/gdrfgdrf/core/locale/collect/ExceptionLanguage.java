@@ -29,6 +29,8 @@ public class ExceptionLanguage implements LanguageCollect {
     public static LanguageString NOT_FOUND_EXCEPTION_HANDLER;
     public static LanguageString EVENT_PROCESSING_EXCEPTION;
 
+    public static LanguageString BEAN_NAME_CONFLICT_EXCEPTION;
+
     public static LanguageString STACK_ILLEGAL_OPERATION_EXCEPTION;
     public static LanguageString STACK_ILLEGAL_ARGUMENT_EXCEPTION;
 }

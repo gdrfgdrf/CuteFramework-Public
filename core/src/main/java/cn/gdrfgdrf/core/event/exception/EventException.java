@@ -17,7 +17,7 @@
 
 package cn.gdrfgdrf.core.event.exception;
 
-import cn.gdrfgdrf.core.exceptionhandler.base.CustomRuntimeException;
+import cn.gdrfgdrf.core.exceptionhandler.base.CustomException;
 import cn.gdrfgdrf.core.locale.collect.ExceptionLanguage;
 import com.google.common.eventbus.SubscriberExceptionContext;
 import lombok.Getter;
@@ -29,8 +29,14 @@ import lombok.Getter;
  * @Date 2024/4/24
  */
 @Getter
-public class EventException extends CustomRuntimeException {
+public class EventException extends CustomException {
+    /**
+     * 事件处理时抛出的异常实例
+     */
     private final Throwable throwable;
+    /**
+     * 事件订阅者上下文
+     */
     private final SubscriberExceptionContext context;
 
     public EventException(Throwable throwable, SubscriberExceptionContext context) {

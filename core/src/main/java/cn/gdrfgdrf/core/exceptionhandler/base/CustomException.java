@@ -24,7 +24,7 @@ import cn.gdrfgdrf.core.utils.StringUtils;
  * @Author gdrfgdrf
  * @Date 2024/4/7
  */
-public abstract class CustomRuntimeException extends RuntimeException {
+public abstract class CustomException extends Exception {
     /**
      * @Description 获取错误信息，优先获取当前语言下的错误信息，若为空则获取默认字符串
      * @return java.lang.String

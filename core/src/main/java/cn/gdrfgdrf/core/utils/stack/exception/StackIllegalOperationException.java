@@ -17,7 +17,7 @@
 
 package cn.gdrfgdrf.core.utils.stack.exception;
 
-import cn.gdrfgdrf.core.exceptionhandler.base.CustomRuntimeException;
+import cn.gdrfgdrf.core.exceptionhandler.base.CustomException;
 import cn.gdrfgdrf.core.locale.collect.ExceptionLanguage;
 
 /**
@@ -25,7 +25,7 @@ import cn.gdrfgdrf.core.locale.collect.ExceptionLanguage;
  * @Author gdrfgdrf
  * @Date 2024/4/30
  */
-public class StackIllegalOperationException extends CustomRuntimeException {
+public class StackIllegalOperationException extends CustomException {
     /**
      * 违规操作的调用方所在的类
      */

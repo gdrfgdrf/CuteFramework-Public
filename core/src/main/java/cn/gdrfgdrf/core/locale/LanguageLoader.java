@@ -25,6 +25,7 @@ import cn.gdrfgdrf.core.utils.ClassUtils;
 import cn.gdrfgdrf.core.utils.FileUtils;
 import cn.gdrfgdrf.core.utils.StringUtils;
 import cn.gdrfgdrf.core.utils.asserts.AssertUtils;
+import cn.gdrfgdrf.core.utils.asserts.exception.AssertNotNullException;
 import cn.gdrfgdrf.core.utils.jackson.JacksonUtils;
 import cn.gdrfgdrf.core.utils.jackson.SuperJsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -36,7 +37,6 @@ import java.io.IOException;
 import java.io.Writer;
 import java.lang.reflect.Field;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -70,16 +70,15 @@ public class LanguageLoader {
 	 *        语言
      * @throws cn.gdrfgdrf.core.utils.asserts.exception.AssertNotNullException
      *         language 为 null 时抛出
-     * @throws IOException
-     *         语言文件 IO 错误
-     * @throws NotFoundLanguagePackageException
-     *         当没有找到语言文件，尝试从类加载语言时，无法通过 language 找到对应的语言包时抛出
-     * @throws IllegalAccessException
-     *         序列化语言汇总类时，因为访问权限而无法从语言汇总类获取字符串
      * @Author gdrfgdrf
      * @Date 2024/4/12
      */
-    public void load(String language) throws IOException, NotFoundLanguagePackageException, IllegalAccessException {
+    public void load(String language) throws
+            IOException,
+            NotFoundLanguagePackageException,
+            IllegalAccessException,
+            AssertNotNullException
+    {
         AssertUtils.notNull("language", language);
 
         File languageFolder = new File(Constants.LOCALE_LANGUAGE_FOLDER);
@@ -109,7 +108,7 @@ public class LanguageLoader {
      * @Date 2024/4/12
      */
     @SuppressWarnings("unchecked")
-    private void loadFromFile(String language) throws IOException {
+    private void loadFromFile(String language) throws IOException, AssertNotNullException {
         AssertUtils.notNull("language", language);
 
         File languageFile = new File(Constants.LOCALE_LANGUAGE_FOLDER + language + ".json");
@@ -144,7 +143,7 @@ public class LanguageLoader {
                         LanguageString languageString = new LanguageString(languageContent);
 
                         try {
-                            setFromString(fieldName, languageString, (Class<? extends LanguageCollect>) collectClass);
+                            setFromString(fieldName, languageString, collectClass);
                         } catch (Exception e) {
                             log.error("Cannot set field for collect class", e);
                         }

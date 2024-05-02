@@ -18,12 +18,14 @@
 package cn.gdrfgdrf.core.exceptionhandler;
 
 import cn.gdrfgdrf.core.bean.annotation.Component;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @Description 全局异常捕获器，当异常没有被 try ... catch 捕获时，将会被该捕获器捕获
  * @Author gdrfgdrf
  * @Date 2024/4/7
  */
+@Slf4j
 @Component
 public class GlobalUncaughtExceptionHandler implements Thread.UncaughtExceptionHandler {
     public GlobalUncaughtExceptionHandler() {
@@ -32,6 +34,10 @@ public class GlobalUncaughtExceptionHandler implements Thread.UncaughtExceptionH
 
     @Override
     public void uncaughtException(Thread t, Throwable e) {
-        ExceptionDispatcher.getInstance().dispatch(t, e);
+        try {
+            ExceptionDispatcher.getInstance().dispatch(t, e);
+        } catch (Exception dispatcherException) {
+            log.error("An exception occurred in the exception dispatcher", dispatcherException);
+        }
     }
 }

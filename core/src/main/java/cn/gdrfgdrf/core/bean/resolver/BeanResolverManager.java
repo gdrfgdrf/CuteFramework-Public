@@ -18,6 +18,8 @@
 package cn.gdrfgdrf.core.bean.resolver;
 
 import cn.gdrfgdrf.core.bean.resolver.base.BeanResolver;
+import cn.gdrfgdrf.core.utils.asserts.AssertUtils;
+import cn.gdrfgdrf.core.utils.asserts.exception.AssertNotNullException;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -60,10 +62,14 @@ public class BeanResolverManager {
 	 *        Bean 类型
 	 * @param resolver
 	 *        Bean 解析器
+     * @throws AssertNotNullException
+     *         当 beanType 或 resolver 为 null 时抛出
      * @Author gdrfgdrf
      * @Date 2024/4/29
      */
-    public void registerBeanResolver(Class<?> beanType, BeanResolver resolver) {
+    public void registerBeanResolver(Class<?> beanType, BeanResolver resolver) throws AssertNotNullException {
+        AssertUtils.notNull("bean type", beanType);
+        AssertUtils.notNull("bean resolver", resolver);
         BEAN_RESOLVER_MAP.put(beanType, resolver);
     }
 
@@ -71,10 +77,13 @@ public class BeanResolverManager {
      * @Description 移除 Bean 解析器
      * @param beanType
 	 *        Bean 类型
+     * @throws AssertNotNullException
+     *         当 beanType 为 null 时抛出
      * @Author gdrfgdrf
      * @Date 2024/4/29
      */
-    public void removeBeanResolver(Class<?> beanType) {
+    public void removeBeanResolver(Class<?> beanType) throws AssertNotNullException {
+        AssertUtils.notNull("bean type", beanType);
         BEAN_RESOLVER_MAP.remove(beanType);
     }
 
@@ -82,10 +91,14 @@ public class BeanResolverManager {
      * @Description 获取并调用对应的 Bean 解析器
      * @param bean
 	 *        Bean 实例
+     * @throws AssertNotNullException
+     *         当 bean 为 null 时抛出
      * @Author gdrfgdrf
      * @Date 2024/4/29
      */
-    public void resolve(Object bean) {
+    public void resolve(Object bean) throws AssertNotNullException {
+        AssertUtils.notNull("bean", bean);
+
         BeanResolver resolver = BEAN_RESOLVER_MAP.get(bean.getClass());
         if (resolver == null) {
             return;

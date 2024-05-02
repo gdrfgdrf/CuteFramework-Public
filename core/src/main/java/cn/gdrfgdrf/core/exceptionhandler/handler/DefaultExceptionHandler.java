@@ -18,7 +18,7 @@
 package cn.gdrfgdrf.core.exceptionhandler.handler;
 
 import cn.gdrfgdrf.core.exceptionhandler.annotation.ExceptionSupport;
-import cn.gdrfgdrf.core.exceptionhandler.base.CustomRuntimeException;
+import cn.gdrfgdrf.core.exceptionhandler.base.CustomException;
 import cn.gdrfgdrf.core.exceptionhandler.base.ExceptionHandler;
 import lombok.extern.slf4j.Slf4j;
 
@@ -35,8 +35,8 @@ import lombok.extern.slf4j.Slf4j;
 public class DefaultExceptionHandler implements ExceptionHandler {
     @Override
     public void handle(Thread thread, Throwable throwable) {
-        if (throwable instanceof CustomRuntimeException customRuntimeException) {
-            log.error(customRuntimeException.getMessage(), throwable);
+        if (throwable instanceof CustomException customException) {
+            log.error(customException.getMessage(), throwable);
             return;
         }
 

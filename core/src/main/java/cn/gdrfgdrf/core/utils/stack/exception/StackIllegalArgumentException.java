@@ -17,7 +17,7 @@
 
 package cn.gdrfgdrf.core.utils.stack.exception;
 
-import cn.gdrfgdrf.core.exceptionhandler.base.CustomRuntimeException;
+import cn.gdrfgdrf.core.exceptionhandler.base.CustomException;
 import cn.gdrfgdrf.core.locale.collect.ExceptionLanguage;
 import lombok.Getter;
 
@@ -29,7 +29,7 @@ import lombok.Getter;
  * @Date 2024/4/30
  */
 @Getter
-public class StackIllegalArgumentException extends CustomRuntimeException {
+public class StackIllegalArgumentException extends CustomException {
     /**
      * 被保护的方法所在的类的类名
      */

@@ -15,37 +15,37 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.gdrfgdrf.core.exceptionhandler.exception;
+package cn.gdrfgdrf.core.bean.exception;
 
-import cn.gdrfgdrf.core.exceptionhandler.annotation.Undispatchable;
 import cn.gdrfgdrf.core.exceptionhandler.base.CustomException;
 import cn.gdrfgdrf.core.locale.collect.ExceptionLanguage;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 
 /**
- * @Description 无法获取到异常处理器时抛出，
- * 该异常不会被 {@link cn.gdrfgdrf.core.exceptionhandler.ExceptionDispatcher} 分发
- *
+ * @Description Bean 名称冲突移除，
+ * 当 {@link cn.gdrfgdrf.core.bean.BeanManager} 创建 Bean 类时发现已经有了一个同名的 Bean 实例存在时抛出
  * @Author gdrfgdrf
- * @Date 2024/4/8
+ * @Date 2024/5/2
  */
-@Getter
-@Undispatchable
-@AllArgsConstructor
-public class NotFoundExceptionHandlerException extends CustomException {
-    private final Throwable throwable;
+public class BeanNameConflictException extends CustomException {
+    /**
+     * Bean 类
+     */
+    private final Class<?> beanClass;
+
+    public BeanNameConflictException(Class<?> beanClass) {
+        this.beanClass = beanClass;
+    }
 
     @Override
     public String getI18NMessage() {
-        return ExceptionLanguage.NOT_FOUND_EXCEPTION_HANDLER
+        return ExceptionLanguage.BEAN_NAME_CONFLICT_EXCEPTION
                 .get()
-                .format(throwable)
+                .format(beanClass.getName())
                 .getString();
     }
 
     @Override
     public String getDefaultMessage() {
-        return "Not found exception handler by exception type " + throwable.getClass().getSimpleName();
+        return "The bean class " + beanClass.getName() + " cannot be created because a bean instance with the same name already exists";
     }
 }

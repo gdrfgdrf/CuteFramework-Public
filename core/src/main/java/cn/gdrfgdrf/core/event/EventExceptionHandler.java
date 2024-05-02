@@ -21,6 +21,7 @@ import cn.gdrfgdrf.core.event.exception.EventException;
 import cn.gdrfgdrf.core.exceptionhandler.ExceptionDispatcher;
 import com.google.common.eventbus.SubscriberExceptionContext;
 import com.google.common.eventbus.SubscriberExceptionHandler;
+import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -28,10 +29,16 @@ import org.jetbrains.annotations.NotNull;
  * @Author gdrfgdrf
  * @Date 2024/4/24
  */
+@Slf4j
 public class EventExceptionHandler implements SubscriberExceptionHandler {
     @Override
     public void handleException(@NotNull Throwable exception, @NotNull SubscriberExceptionContext context) {
         EventException eventException = new EventException(exception, context);
-        ExceptionDispatcher.getInstance().dispatch(Thread.currentThread(), eventException);
+
+        try {
+            ExceptionDispatcher.getInstance().dispatch(Thread.currentThread(), eventException);
+        } catch (Exception dispatcherException) {
+            log.error("An exception occurred in the exception dispatcher", dispatcherException);
+        }
     }
 }

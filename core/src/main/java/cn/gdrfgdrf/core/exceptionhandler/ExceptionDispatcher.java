@@ -21,6 +21,7 @@ import cn.gdrfgdrf.core.exceptionhandler.annotation.Undispatchable;
 import cn.gdrfgdrf.core.exceptionhandler.base.ExceptionHandler;
 import cn.gdrfgdrf.core.exceptionhandler.exception.NotFoundExceptionHandlerException;
 import cn.gdrfgdrf.core.utils.asserts.AssertUtils;
+import cn.gdrfgdrf.core.utils.asserts.exception.AssertNotNullException;
 
 import java.util.List;
 import java.util.Map;
@@ -68,7 +69,9 @@ public class ExceptionDispatcher {
      * @Author gdrfgdrf
      * @Date 2024/4/8
      */
-    public void registerExceptionHandler(Class<? extends Throwable> throwableType, ExceptionHandler exceptionHandler) {
+    public void registerExceptionHandler(Class<? extends Throwable> throwableType, ExceptionHandler exceptionHandler)
+            throws AssertNotNullException
+    {
         AssertUtils.notNull("exception type", throwableType);
         AssertUtils.notNull("exception handler", exceptionHandler);
 
@@ -90,7 +93,9 @@ public class ExceptionDispatcher {
      * @Author gdrfgdrf
      * @Date 2024/4/17
      */
-    public void unregisterExceptionHandler(Class<? extends Throwable> throwableType, ExceptionHandler exceptionHandler) {
+    public void unregisterExceptionHandler(Class<? extends Throwable> throwableType, ExceptionHandler exceptionHandler)
+            throws AssertNotNullException
+    {
         AssertUtils.notNull("exception type", throwableType);
         AssertUtils.notNull("exception handler", exceptionHandler);
 
@@ -116,7 +121,9 @@ public class ExceptionDispatcher {
      * @Author gdrfgdrf
      * @Date 2024/4/17
      */
-    public void unregisterExceptionHandler(Class<? extends Throwable> throwableType, int index) {
+    public void unregisterExceptionHandler(Class<? extends Throwable> throwableType, int index)
+            throws AssertNotNullException
+    {
         AssertUtils.notNull("exception type", throwableType);
         AssertUtils.notNull("exception handler index", index);
 
@@ -151,7 +158,10 @@ public class ExceptionDispatcher {
      * @Author gdrfgdrf
      * @Date 2024/4/8
      */
-    public void dispatch(Thread thread, Throwable throwable) {
+    public void dispatch(Thread thread, Throwable throwable) throws
+            AssertNotNullException,
+            NotFoundExceptionHandlerException
+    {
         AssertUtils.notNull("exception thread", thread);
         AssertUtils.notNull("throwable instance", throwable);
 

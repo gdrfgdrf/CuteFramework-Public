@@ -18,10 +18,19 @@
 package cn.gdrfgdrf.core.bean;
 
 import cn.gdrfgdrf.core.bean.annotation.Component;
+import cn.gdrfgdrf.core.bean.exception.BeanNameConflictException;
+import cn.gdrfgdrf.core.utils.StringUtils;
+import cn.gdrfgdrf.core.utils.asserts.AssertUtils;
+import cn.gdrfgdrf.core.utils.asserts.exception.AssertNotNullException;
 import cn.gdrfgdrf.core.utils.stack.StackUtils;
+import cn.gdrfgdrf.core.utils.stack.exception.StackIllegalArgumentException;
+import cn.gdrfgdrf.core.utils.stack.exception.StackIllegalOperationException;
 import org.reflections.Reflections;
 
+import java.lang.reflect.InvocationTargetException;
+import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @Description Bean 管理器，对 Bean 进行创建，移除等操作
@@ -30,6 +39,11 @@ import java.util.Set;
  */
 public class BeanManager {
     private static BeanManager INSTANCE;
+
+    /**
+     * Bean 名称到 Bean 实例的映射
+     */
+    private final Map<String, Object> BEAN_MAP = new ConcurrentHashMap<>();
 
     private BeanManager() {}
 
@@ -48,24 +62,122 @@ public class BeanManager {
     }
 
     /**
-     * @Description 开始创建 Bean，该方法仅允许 cn.gdrfgdrf.smartuploader.SmartUploader 调用
+     * @Description 开始 Bean 的创建流程，该方法仅允许 cn.gdrfgdrf.smartuploader.SmartUploader 的 run 方法调用
+     * 插件会被最先加载，但不选最先加载插件的 Bean，首先会创建核心 Bean，之后再创建 cn.gdrfgdrf.smartuploader 下的 Bean，最后创建插件的 Bean
      * @throws cn.gdrfgdrf.core.utils.stack.exception.StackIllegalOperationException
      *         当不被允许的类或方法调用该方法时抛出
      * @Author gdrfgdrf
      * @Date 2024/5/1
      */
-    public void createByScanning() {
+    public void createByScanning() throws
+            StackIllegalOperationException,
+            StackIllegalArgumentException,
+            AssertNotNullException,
+            BeanNameConflictException,
+            NoSuchMethodException,
+            InvocationTargetException,
+            InstantiationException,
+            IllegalAccessException
+    {
         StackUtils.onlyMethod("cn.gdrfgdrf.smartuploader.SmartUploader", "run");
 
-        // create core beans
-        Reflections reflections = new Reflections("cn.gdrfgdrf.core");
-        Set<Class<?>> components = reflections.getTypesAnnotatedWith(Component.class);
-        components.forEach(component -> {
-            
-        });
-
-
+        createCoreBeans();
     }
 
+    /**
+     * @Description 创建核心 Bean，该方法仅允许 cn.gdrfgdrf.core.bean.BeanManager 的 createByScanning 方法调用
+     * @throws cn.gdrfgdrf.core.utils.stack.exception.StackIllegalOperationException
+     *         当不被允许的类或方法调用该方法时抛出
+     * @Author gdrfgdrf
+     * @Date 2024/5/2
+     */
+    private void createCoreBeans() throws
+            StackIllegalOperationException,
+            StackIllegalArgumentException,
+            AssertNotNullException,
+            BeanNameConflictException,
+            NoSuchMethodException,
+            InvocationTargetException,
+            InstantiationException,
+            IllegalAccessException
+    {
+        StackUtils.onlyMethod("cn.gdrfgdrf.core.bean.BeanManager", "createByScanning");
 
+        Reflections reflections = new Reflections("cn.gdrfgdrf.core");
+        Set<Class<?>> components = reflections.getTypesAnnotatedWith(Component.class);
+        for (Class<?> component : components) {
+            create(component);
+        }
+    }
+
+    /**
+     * @Description 创建 cn.gdrfgdrf.smartuploader 下的 Bean，
+     * 该方法仅允许 cn.gdrfgdrf.core.bean.BeanManager 的 createByScanning 方法调用
+     * @throws cn.gdrfgdrf.core.utils.stack.exception.StackIllegalOperationException
+     *         当不被允许的类或方法调用该方法时抛出
+     * @Author gdrfgdrf
+     * @Date 2024/5/2
+     */
+    private void createImplBeans() throws
+            StackIllegalOperationException,
+            StackIllegalArgumentException,
+            AssertNotNullException,
+            BeanNameConflictException,
+            NoSuchMethodException,
+            InvocationTargetException,
+            InstantiationException,
+            IllegalAccessException
+    {
+        StackUtils.onlyMethod("cn.gdrfgdrf.core.bean.BeanManager", "createByScanning");
+
+        Reflections reflections = new Reflections("cn.gdrfgdrf.smartuploader");
+        Set<Class<?>> components = reflections.getTypesAnnotatedWith(Component.class);
+        for (Class<?> component : components) {
+            create(component);
+        }
+    }
+
+    /**
+     * @Description 创建 Bean，若 Bean 名称在 {@link BeanManager#BEAN_MAP} 中存在，则直接抛出
+     * @param beanClass
+	 *        Bean 类
+     * @throws cn.gdrfgdrf.core.utils.asserts.exception.AssertNotNullException
+     *         beanClass 为 null 时抛出
+     * @throws BeanNameConflictException
+     *         已经有了一个同名的 Bean 实例存在时抛出 {@link BeanNameConflictException}
+     * @throws NoSuchMethodException
+     *         无法从 Bean 类中找到构造函数
+     * @throws InvocationTargetException
+     *         Bean 类的构造函数有异常抛出
+     * @throws InstantiationException
+     *         Bean 类的构造函数有异常抛出
+     * @throws IllegalAccessException
+     *         因为访问权限而无法调用 Bean 类的构造函数
+     * @Author gdrfgdrf
+     * @Date 2024/5/2
+     */
+    public void create(Class<?> beanClass) throws
+            AssertNotNullException,
+            BeanNameConflictException,
+            NoSuchMethodException,
+            InvocationTargetException,
+            InstantiationException,
+            IllegalAccessException
+    {
+        AssertUtils.notNull("bean class", beanClass);
+
+        String name = beanClass.getSimpleName();
+        Component component = beanClass.getAnnotation(Component.class);
+        if (component != null) {
+            if (!StringUtils.isBlank(component.name())) {
+                name = component.name();
+            }
+        }
+        if (BEAN_MAP.containsKey(name)) {
+            throw new BeanNameConflictException(beanClass);
+        }
+
+        Object obj = beanClass.getDeclaredConstructor().newInstance();
+        BEAN_MAP.put(name, obj);
+    }
 }

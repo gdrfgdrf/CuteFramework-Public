@@ -18,6 +18,7 @@
 package cn.gdrfgdrf.core.classinjector;
 
 import cn.gdrfgdrf.core.utils.asserts.AssertUtils;
+import cn.gdrfgdrf.core.utils.asserts.exception.AssertNotNullException;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -76,7 +77,10 @@ public class ClassInjector {
      * @Author gdrfgdrf
      * @Date 2024/4/17
      */
-    public void registerInjector(Class<?> type, Class<?>[] argumentTypes, Class<?> injector) throws NoSuchMethodException {
+    public void registerInjector(Class<?> type, Class<?>[] argumentTypes, Class<?> injector) throws
+            AssertNotNullException,
+            NoSuchMethodException
+    {
         AssertUtils.notNull("type", type);
         AssertUtils.notNull("injector", injector);
 
@@ -93,13 +97,18 @@ public class ClassInjector {
      * @Author gdrfgdrf
      * @Date 2024/4/17
      */
-    public void unregisterInjector(Class<?> type) {
+    public void unregisterInjector(Class<?> type) throws AssertNotNullException {
         AssertUtils.notNull("type", type);
 
         CREATE_INSTANCE_METHOD_MAP.remove(type);
     }
 
-    public Object createInstance(Class<?> clazz) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    public Object createInstance(Class<?> clazz) throws
+            InvocationTargetException,
+            NoSuchMethodException,
+            InstantiationException,
+            IllegalAccessException
+    {
         return createInstance(clazz, null);
     }
 
@@ -126,7 +135,12 @@ public class ClassInjector {
      * @Author gdrfgdrf
      * @Date 2024/4/7
      */
-    public Object createInstance(Class<?> clazz, Class<?>[] argumentTypes, Object... arguments) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    public Object createInstance(Class<?> clazz, Class<?>[] argumentTypes, Object... arguments) throws
+            NoSuchMethodException,
+            InvocationTargetException,
+            InstantiationException,
+            IllegalAccessException
+    {
         Method method = CREATE_INSTANCE_METHOD_MAP.get(clazz);
         if (method == null) {
             if (argumentTypes == null || arguments == null || arguments.length == 0) {

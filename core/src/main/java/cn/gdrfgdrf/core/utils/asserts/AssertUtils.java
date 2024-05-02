@@ -28,7 +28,7 @@ import cn.gdrfgdrf.core.utils.asserts.exception.AssertNotNullException;
 public class AssertUtils {
     private AssertUtils() {}
 
-    public static void notNull(String parameterName, Object o) {
+    public static void notNull(String parameterName, Object o) throws AssertNotNullException {
         if (o == null) {
             throw new AssertNotNullException(parameterName);
         }

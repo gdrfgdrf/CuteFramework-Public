@@ -30,4 +30,12 @@ import java.lang.annotation.Target;
 @Target(value = ElementType.TYPE)
 @Retention(value = RetentionPolicy.RUNTIME)
 public @interface Component {
+    /**
+     * @Description 定义 Bean 名称，为空则默认为类名
+     * @return java.lang.String
+     *         Bean 名称
+     * @Author gdrfgdrf
+     * @Date 2024/5/2
+     */
+    String name() default "";
 }

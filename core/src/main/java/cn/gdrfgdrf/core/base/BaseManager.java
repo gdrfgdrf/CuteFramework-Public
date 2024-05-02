@@ -85,19 +85,16 @@ public abstract class BaseManager<T, A extends Annotation> {
 	 *        <T> 类
      * @return T
      *         <T> 对象
-     * @throws InvocationTargetException
-     *         {@link ClassInjector} 无法创建对象
-     * @throws NoSuchMethodException
-     *         {@link ClassInjector} 无法创建对象
-     * @throws InstantiationException
-     *         {@link ClassInjector} 无法创建对象
-     * @throws IllegalAccessException
-     *         {@link ClassInjector} 无法创建对象
      * @Author gdrfgdrf
      * @Date 2024/4/17
      */
     @SuppressWarnings("unchecked")
-    protected T createInstance(Class<? extends T> clazz) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    protected T createInstance(Class<? extends T> clazz) throws
+            InvocationTargetException,
+            NoSuchMethodException,
+            InstantiationException,
+            IllegalAccessException
+    {
         if (T_INSTANCE_MAP.containsKey(clazz)) {
             return T_INSTANCE_MAP.get(clazz);
         }

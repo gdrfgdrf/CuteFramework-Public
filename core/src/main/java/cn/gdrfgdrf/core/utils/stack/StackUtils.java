@@ -19,6 +19,7 @@ package cn.gdrfgdrf.core.utils.stack;
 
 import cn.gdrfgdrf.core.utils.StringUtils;
 import cn.gdrfgdrf.core.utils.asserts.AssertUtils;
+import cn.gdrfgdrf.core.utils.asserts.exception.AssertNotNullException;
 import cn.gdrfgdrf.core.utils.stack.common.MethodInformation;
 import cn.gdrfgdrf.core.utils.stack.exception.StackIllegalArgumentException;
 import cn.gdrfgdrf.core.utils.stack.exception.StackIllegalOperationException;
@@ -40,14 +41,16 @@ public class StackUtils {
      * @Description 仅允许某个方法执行某个方法
      * @param allowedMethod
      *        允许执行操作的方法
-     * @throws cn.gdrfgdrf.core.utils.stack.exception.StackIllegalOperationException
-     *         不被允许的调用方操作时抛出
      * @throws cn.gdrfgdrf.core.utils.asserts.exception.AssertNotNullException
      *         当 allowedMethod 为 null 时抛出
      * @Author gdrfgdrf
      * @Date 2024/4/30
      */
-    public static void onlyMethod(Method allowedMethod) {
+    public static void onlyMethod(Method allowedMethod) throws
+            AssertNotNullException,
+            StackIllegalOperationException,
+            StackIllegalArgumentException
+    {
         AssertUtils.notNull("be allowed method", allowedMethod);
         onlyCheckerInternal(allowedMethod.getDeclaringClass().getName(), allowedMethod.getName());
     }
@@ -58,14 +61,16 @@ public class StackUtils {
 	 *        允许执行操作的方法所在的类
 	 * @param allowedMethodName
 	 *        允许执行操作的方法的方法名
-     * @throws cn.gdrfgdrf.core.utils.stack.exception.StackIllegalOperationException
-     *         不被允许的调用方操作时抛出
      * @throws cn.gdrfgdrf.core.utils.asserts.exception.AssertNotNullException
      *         当 allowedClass 或 allowedMethodName 为 null 时抛出
      * @Author gdrfgdrf
      * @Date 2024/4/30
      */
-    public static void onlyMethod(Class<?> allowedClass, String allowedMethodName) {
+    public static void onlyMethod(Class<?> allowedClass, String allowedMethodName) throws
+            AssertNotNullException,
+            StackIllegalOperationException,
+            StackIllegalArgumentException
+    {
         AssertUtils.notNull("be allowed class", allowedClass);
         AssertUtils.notNull("be allowed method name", allowedMethodName);
         onlyCheckerInternal(allowedClass.getName(), allowedMethodName);
@@ -77,14 +82,16 @@ public class StackUtils {
      *        允许执行操作的方法所在的类的类名
      * @param allowedMethodName
      *        允许执行操作的方法的方法名
-     * @throws cn.gdrfgdrf.core.utils.stack.exception.StackIllegalOperationException
-     *         不被允许的调用方操作时抛出
      * @throws cn.gdrfgdrf.core.utils.asserts.exception.AssertNotNullException
      *         当 allowedClassName 或 allowedMethodName 为 null 时抛出
      * @Author gdrfgdrf
      * @Date 2024/4/30
      */
-    public static void onlyMethod(String allowedClassName, String allowedMethodName) {
+    public static void onlyMethod(String allowedClassName, String allowedMethodName) throws
+            AssertNotNullException,
+            StackIllegalOperationException,
+            StackIllegalArgumentException
+    {
         AssertUtils.notNull("be allowed class name", allowedClassName);
         AssertUtils.notNull("be allowed method name", allowedMethodName);
         onlyCheckerInternal(allowedClassName, allowedMethodName);
@@ -94,14 +101,16 @@ public class StackUtils {
      * @Description 仅允许某个类执行某个方法
      * @param allowedClass
      *        允许执行操作的类
-     * @throws cn.gdrfgdrf.core.utils.stack.exception.StackIllegalOperationException
-     *         检测到不被允许的调用方时抛出
      * @throws cn.gdrfgdrf.core.utils.asserts.exception.AssertNotNullException
      *         当 allowedClass 为 null 时抛出
      * @Author gdrfgdrf
      * @Date 2024/4/30
      */
-    public static void onlyClass(Class<?> allowedClass) {
+    public static void onlyClass(Class<?> allowedClass) throws
+            AssertNotNullException,
+            StackIllegalOperationException,
+            StackIllegalArgumentException
+    {
         AssertUtils.notNull("be allowed class", allowedClass);
         onlyCheckerInternal(allowedClass.getName(), null);
     }
@@ -110,14 +119,16 @@ public class StackUtils {
      * @Description 仅允许某个类执行某个方法
      * @param allowedClassName
 	 *        允许执行操作的类的类名
-     * @throws cn.gdrfgdrf.core.utils.stack.exception.StackIllegalOperationException
-     *         检测到不被允许的调用方时抛出
      * @throws cn.gdrfgdrf.core.utils.asserts.exception.AssertNotNullException
      *         当 allowedClassName 为 null 时抛出
      * @Author gdrfgdrf
      * @Date 2024/4/30
      */
-    public static void onlyClass(String allowedClassName) {
+    public static void onlyClass(String allowedClassName) throws
+            AssertNotNullException,
+            StackIllegalOperationException,
+            StackIllegalArgumentException
+    {
         AssertUtils.notNull("be allowed class name", allowedClassName);
         onlyCheckerInternal(allowedClassName, null);
     }
@@ -136,14 +147,17 @@ public class StackUtils {
 	 *        允许执行操作的类的类名
 	 * @param allowedMethodName
 	 *        允许执行操作的方法的方法名
-     * @throws cn.gdrfgdrf.core.utils.stack.exception.StackIllegalOperationException
+     * @throws StackIllegalOperationException
      *         检测到不被允许的调用方时抛出
      * @throws StackIllegalArgumentException
      *         当 allowedClassName 和 allowedMethodName 同时为空时抛出
      * @Author gdrfgdrf
      * @Date 2024/4/30
      */
-    private static void onlyCheckerInternal(String allowedClassName, String allowedMethodName) {
+    private static void onlyCheckerInternal(String allowedClassName, String allowedMethodName) throws
+            StackIllegalOperationException,
+            StackIllegalArgumentException
+    {
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         StackTraceElement stackTraceElement = stackTrace[RELATIVE_STACK_DEPTH];
 

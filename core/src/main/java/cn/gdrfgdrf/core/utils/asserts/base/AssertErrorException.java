@@ -17,7 +17,7 @@
 
 package cn.gdrfgdrf.core.utils.asserts.base;
 
-import cn.gdrfgdrf.core.exceptionhandler.base.CustomRuntimeException;
+import cn.gdrfgdrf.core.exceptionhandler.base.CustomException;
 import cn.gdrfgdrf.core.utils.asserts.AssertUtils;
 
 /**
@@ -25,7 +25,7 @@ import cn.gdrfgdrf.core.utils.asserts.AssertUtils;
  * @Author gdrfgdrf
  * @Date 2024/4/8
  */
-public abstract class AssertErrorException extends CustomRuntimeException {
+public abstract class AssertErrorException extends CustomException {
     public AssertErrorException() {
     }
 }
