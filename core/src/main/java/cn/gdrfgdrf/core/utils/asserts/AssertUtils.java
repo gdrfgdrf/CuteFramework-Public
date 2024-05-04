@@ -18,7 +18,10 @@
 package cn.gdrfgdrf.core.utils.asserts;
 
 import cn.gdrfgdrf.core.utils.asserts.base.AssertErrorException;
+import cn.gdrfgdrf.core.utils.asserts.exception.AssertArrayLengthMismatchException;
 import cn.gdrfgdrf.core.utils.asserts.exception.AssertNotNullException;
+
+import java.lang.reflect.Array;
 
 /**
  * @Description 断言工具类，断言失败时抛出 {@link AssertErrorException}
@@ -31,6 +34,12 @@ public class AssertUtils {
     public static void notNull(String parameterName, Object o) throws AssertNotNullException {
         if (o == null) {
             throw new AssertNotNullException(parameterName);
+        }
+    }
+
+    public static void arrayMin(String parameterName, Object array, int length) throws AssertArrayLengthMismatchException {
+        if (Array.getLength(array) < length) {
+            throw new AssertArrayLengthMismatchException(parameterName, length);
         }
     }
 }

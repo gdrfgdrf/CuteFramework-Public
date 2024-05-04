@@ -26,4 +26,5 @@ import cn.gdrfgdrf.core.locale.base.LanguageBlock;
  */
 class AssertLanguage implements LanguageBlock {
     public static final LanguageString NOT_NULL = new LanguageString("{} 不能为 null");
+    public static final LanguageString ARRAY_MIN = new LanguageString("数组 {} 的长度必须大于等于 {}");
 }

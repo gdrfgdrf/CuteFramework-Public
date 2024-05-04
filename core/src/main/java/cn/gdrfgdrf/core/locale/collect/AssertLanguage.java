@@ -27,4 +27,5 @@ import cn.gdrfgdrf.core.locale.base.LanguageCollect;
  */
 public class AssertLanguage implements LanguageCollect {
     public static LanguageString NOT_NULL;
+    public static LanguageString ARRAY_MIN;
 }

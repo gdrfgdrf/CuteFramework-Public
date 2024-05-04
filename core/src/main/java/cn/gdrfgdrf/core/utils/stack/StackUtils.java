@@ -19,12 +19,14 @@ package cn.gdrfgdrf.core.utils.stack;
 
 import cn.gdrfgdrf.core.utils.StringUtils;
 import cn.gdrfgdrf.core.utils.asserts.AssertUtils;
+import cn.gdrfgdrf.core.utils.asserts.exception.AssertArrayLengthMismatchException;
 import cn.gdrfgdrf.core.utils.asserts.exception.AssertNotNullException;
 import cn.gdrfgdrf.core.utils.stack.common.MethodInformation;
 import cn.gdrfgdrf.core.utils.stack.exception.StackIllegalArgumentException;
 import cn.gdrfgdrf.core.utils.stack.exception.StackIllegalOperationException;
 
 import java.lang.reflect.Method;
+import java.util.Arrays;
 
 /**
  * @Description 堆栈工具类
@@ -41,7 +43,7 @@ public class StackUtils {
      * @Description 仅允许某个方法执行某个方法
      * @param allowedMethod
      *        允许执行操作的方法
-     * @throws cn.gdrfgdrf.core.utils.asserts.exception.AssertNotNullException
+     * @throws AssertNotNullException
      *         当 allowedMethod 为 null 时抛出
      * @Author gdrfgdrf
      * @Date 2024/4/30
@@ -52,7 +54,37 @@ public class StackUtils {
             StackIllegalArgumentException
     {
         AssertUtils.notNull("be allowed method", allowedMethod);
-        onlyCheckerInternal(allowedMethod.getDeclaringClass().getName(), allowedMethod.getName());
+        onlyCheckerInternal(allowedMethod.getDeclaringClass().getName(), allowedMethod.getName(), 1, 0);
+    }
+
+    /**
+     * @Description 仅允许某些方法执行某个方法
+     * @param allowedMethodArray
+	 *        允许执行操作的方法数组
+     * @throws AssertNotNullException
+     *         allowedMethodArray 为 null 时抛出
+     * @throws AssertArrayLengthMismatchException
+     *         数组 allowedMethodArray 的长度小于 1 时抛出
+     * @Author gdrfgdrf
+     * @Date 2024/5/4
+     */
+    public static void onlyMethod(Method[] allowedMethodArray) throws
+            AssertNotNullException,
+            AssertArrayLengthMismatchException,
+            StackIllegalOperationException,
+            StackIllegalArgumentException
+    {
+        AssertUtils.notNull("be allowed method", allowedMethodArray);
+        AssertUtils.arrayMin("be allowed method", allowedMethodArray, 1);
+
+        String[] allowedClassNameArray = Arrays.stream(allowedMethodArray)
+                .map(method -> method.getDeclaringClass().getName())
+                .toArray(String[]::new);
+        String[] allowedMethodNameArray = Arrays.stream(allowedMethodArray)
+                .map(Method::getName)
+                .toArray(String[]::new);
+
+        onlyCheckerInternal(allowedClassNameArray, allowedMethodNameArray);
     }
 
     /**
@@ -61,7 +93,7 @@ public class StackUtils {
 	 *        允许执行操作的方法所在的类
 	 * @param allowedMethodName
 	 *        允许执行操作的方法的方法名
-     * @throws cn.gdrfgdrf.core.utils.asserts.exception.AssertNotNullException
+     * @throws AssertNotNullException
      *         当 allowedClass 或 allowedMethodName 为 null 时抛出
      * @Author gdrfgdrf
      * @Date 2024/4/30
@@ -73,7 +105,33 @@ public class StackUtils {
     {
         AssertUtils.notNull("be allowed class", allowedClass);
         AssertUtils.notNull("be allowed method name", allowedMethodName);
-        onlyCheckerInternal(allowedClass.getName(), allowedMethodName);
+        onlyCheckerInternal(allowedClass.getName(), allowedMethodName, 1, 0);
+    }
+
+    /**
+     * @Description 仅允许某些方法执行某个方法
+     * @param allowedClassArray
+     *        允许执行操作的方法所在的类的数组
+     * @param allowedMethodNameArray
+     *        允许执行操作的方法的方法名的数组
+     * @throws AssertNotNullException
+     *         数组 allowedClassArray 或 数组 allowedMethodNameArray 为 null 时抛出
+     * @throws AssertArrayLengthMismatchException
+     *         数组 allowedClassArray 或 数组 allowedMethodNameArray 的长度小于 1 时抛出
+     * @Author gdrfgdrf
+     * @Date 2024/5/4
+     */
+    public static void onlyMethod(Class<?>[] allowedClassArray, String[] allowedMethodNameArray) throws AssertNotNullException, AssertArrayLengthMismatchException, StackIllegalOperationException, StackIllegalArgumentException {
+        AssertUtils.notNull("be allowed class array", allowedClassArray);
+        AssertUtils.notNull("be allowed method name array", allowedMethodNameArray);
+        AssertUtils.arrayMin("be allowed class", allowedClassArray, 1);
+        AssertUtils.arrayMin("be allowed method name", allowedMethodNameArray, 1);
+
+        String[] allowedClassNameArray = Arrays.stream(allowedClassArray)
+                .map(Class::getName)
+                .toArray(String[]::new);
+
+        onlyCheckerInternal(allowedClassNameArray, allowedMethodNameArray);
     }
 
     /**
@@ -82,7 +140,7 @@ public class StackUtils {
      *        允许执行操作的方法所在的类的类名
      * @param allowedMethodName
      *        允许执行操作的方法的方法名
-     * @throws cn.gdrfgdrf.core.utils.asserts.exception.AssertNotNullException
+     * @throws AssertNotNullException
      *         当 allowedClassName 或 allowedMethodName 为 null 时抛出
      * @Author gdrfgdrf
      * @Date 2024/4/30
@@ -94,14 +152,41 @@ public class StackUtils {
     {
         AssertUtils.notNull("be allowed class name", allowedClassName);
         AssertUtils.notNull("be allowed method name", allowedMethodName);
-        onlyCheckerInternal(allowedClassName, allowedMethodName);
+        onlyCheckerInternal(allowedClassName, allowedMethodName, 1, 0);
+    }
+
+    /**
+     * @Description 仅允许某些方法执行某个方法
+     * @param allowedClassNameArray
+     *        允许执行操作的方法所在的类的类名的数组
+     * @param allowedMethodNameArray
+     *        允许执行操作的方法的方法名的数组
+     * @throws AssertNotNullException
+     *         当 数组 allowedClassNameArray 或 数组 allowedMethodNameArray 为 null 时抛出
+     * @throws AssertArrayLengthMismatchException
+     *         当 数组 allowedClassNameArray 或 数组 allowedMethodNameArray 的长度小于 1 时抛出
+     * @Author gdrfgdrf
+     * @Date 2024/4/30
+     */
+    public static void onlyMethod(String[] allowedClassNameArray, String[] allowedMethodNameArray) throws
+            AssertNotNullException,
+            AssertArrayLengthMismatchException,
+            StackIllegalOperationException,
+            StackIllegalArgumentException
+    {
+        AssertUtils.notNull("be allowed class name array", allowedClassNameArray);
+        AssertUtils.notNull("be allowed method name array", allowedMethodNameArray);
+        AssertUtils.arrayMin("be allowed class name", allowedClassNameArray, 1);
+        AssertUtils.arrayMin("be allowed method name", allowedMethodNameArray, 1);
+
+        onlyCheckerInternal(allowedClassNameArray, allowedMethodNameArray);
     }
 
     /**
      * @Description 仅允许某个类执行某个方法
      * @param allowedClass
      *        允许执行操作的类
-     * @throws cn.gdrfgdrf.core.utils.asserts.exception.AssertNotNullException
+     * @throws AssertNotNullException
      *         当 allowedClass 为 null 时抛出
      * @Author gdrfgdrf
      * @Date 2024/4/30
@@ -112,14 +197,41 @@ public class StackUtils {
             StackIllegalArgumentException
     {
         AssertUtils.notNull("be allowed class", allowedClass);
-        onlyCheckerInternal(allowedClass.getName(), null);
+        onlyCheckerInternal(allowedClass.getName(), null, 1, 0);
+    }
+
+    /**
+     * @Description 仅允许某些类执行某个方法
+     * @param allowedClassArray
+     *        允许执行操作的类的数组
+     * @throws AssertNotNullException
+     *         当 数组 allowedClassArray 为 null 时抛出
+     * @throws AssertArrayLengthMismatchException
+     *         当 数组 allowedClassArray 的长度小于 1 时抛出
+     * @Author gdrfgdrf
+     * @Date 2024/5/4
+     */
+    public static void onlyClass(Class<?>[] allowedClassArray) throws
+            AssertNotNullException,
+            AssertArrayLengthMismatchException,
+            StackIllegalOperationException,
+            StackIllegalArgumentException
+    {
+        AssertUtils.notNull("be allowed class array", allowedClassArray);
+        AssertUtils.arrayMin("be allowed class", allowedClassArray, 1);
+
+        String[] allowedClassNameArray = Arrays.stream(allowedClassArray)
+                .map(Class::getName)
+                .toArray(String[]::new);
+
+        onlyCheckerInternal(allowedClassNameArray, null);
     }
 
     /**
      * @Description 仅允许某个类执行某个方法
      * @param allowedClassName
 	 *        允许执行操作的类的类名
-     * @throws cn.gdrfgdrf.core.utils.asserts.exception.AssertNotNullException
+     * @throws AssertNotNullException
      *         当 allowedClassName 为 null 时抛出
      * @Author gdrfgdrf
      * @Date 2024/4/30
@@ -130,7 +242,76 @@ public class StackUtils {
             StackIllegalArgumentException
     {
         AssertUtils.notNull("be allowed class name", allowedClassName);
-        onlyCheckerInternal(allowedClassName, null);
+        onlyCheckerInternal(allowedClassName, null, 1, 0);
+    }
+
+    /**
+     * @Description 仅允许某些类执行某个方法
+     * @param allowedClassNameArray
+	 *        允许执行操作的类的类名的数组
+     * @throws AssertNotNullException
+     *         当 allowedClassNameArray 为 null 时抛出
+     * @throws AssertArrayLengthMismatchException
+     *         数组 allowedClassNameArray 的长度小于 1 时抛出
+     * @Author gdrfgdrf
+     * @Date 2024/5/4
+     */
+    public static void onlyClass(String[] allowedClassNameArray) throws
+            AssertNotNullException,
+            AssertArrayLengthMismatchException,
+            StackIllegalOperationException,
+            StackIllegalArgumentException
+    {
+        AssertUtils.notNull("be allowed class name array", allowedClassNameArray);
+        AssertUtils.arrayMin("be allowed class name", allowedClassNameArray, 1);
+
+        onlyCheckerInternal(allowedClassNameArray, null);
+    }
+
+    /**
+     * @Description 对数组进行检测，
+     * 两个数组一一对应，一一对应的调用 {@link StackUtils#onlyCheckerInternal(String, String, int, int)}，
+     * 若有一对数组通过则不直接返回，若全部数组均不通过则抛出异常
+     *
+     * @param allowedClassNameArray
+	 *        允许执行操作的类的类名的数组
+	 * @param allowedMethodNameArray
+	 *        允许执行操作的方法的方法名的数组
+     * @Author gdrfgdrf
+     * @Date 2024/5/4
+     */
+    private static void onlyCheckerInternal(String[] allowedClassNameArray, String[] allowedMethodNameArray) throws
+            StackIllegalOperationException,
+            StackIllegalArgumentException
+    {
+        Exception exception = null;
+        boolean pass = false;
+
+        for (int i = 0; i < allowedClassNameArray.length; i++) {
+            String allowedClassName = allowedClassNameArray[i];
+            String allowedMethodName = null;
+
+            if (allowedMethodNameArray != null && allowedMethodNameArray.length >= i) {
+                allowedMethodName = allowedMethodNameArray[i];
+            }
+
+            try {
+                onlyCheckerInternal(allowedClassName, allowedMethodName, 2, 1);
+                pass = true;
+                break;
+            } catch (StackIllegalOperationException | StackIllegalArgumentException e) {
+                exception = e;
+            }
+        }
+
+        if (!pass) {
+            if (exception instanceof StackIllegalOperationException stackIllegalOperationException) {
+                throw stackIllegalOperationException;
+            }
+            if (exception instanceof StackIllegalArgumentException stackIllegalArgumentException) {
+                throw stackIllegalArgumentException;
+            }
+        }
     }
 
     /**
@@ -140,13 +321,17 @@ public class StackUtils {
      * 调用方所在类的类名 和 被允许的类的类名，
      * 调用方的方法名 和 被允许的方法名。
      * 类名对比成功下一步将会对比方法名，
-     * 类名对比失败则直接抛出 {@link cn.gdrfgdrf.core.utils.stack.exception.StackIllegalOperationException}，
-     * 方法名对比失败也直接抛出 {@link cn.gdrfgdrf.core.utils.stack.exception.StackIllegalOperationException}
+     * 类名对比失败则直接抛出 {@link StackIllegalOperationException}，
+     * 方法名对比失败也直接抛出 {@link StackIllegalOperationException}
      *
      * @param allowedClassName
 	 *        允许执行操作的类的类名
 	 * @param allowedMethodName
 	 *        允许执行操作的方法的方法名
+     * @param callerOffset
+     *        获取被保护的方法的调用者的偏移量
+     * @param protectOffset
+     *        获取被保护的方法的偏移量
      * @throws StackIllegalOperationException
      *         检测到不被允许的调用方时抛出
      * @throws StackIllegalArgumentException
@@ -154,15 +339,20 @@ public class StackUtils {
      * @Author gdrfgdrf
      * @Date 2024/4/30
      */
-    private static void onlyCheckerInternal(String allowedClassName, String allowedMethodName) throws
+    private static void onlyCheckerInternal(
+            String allowedClassName,
+            String allowedMethodName,
+            int callerOffset,
+            int protectOffset
+    ) throws
             StackIllegalOperationException,
             StackIllegalArgumentException
     {
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
         StackTraceElement stackTraceElement = stackTrace[RELATIVE_STACK_DEPTH];
 
-        MethodInformation callerMethodInformation = parseStack(RELATIVE_STACK_DEPTH + 1);
-        MethodInformation protectMethodInformation = parseStack(RELATIVE_STACK_DEPTH);
+        MethodInformation callerMethodInformation = parseStack(RELATIVE_STACK_DEPTH + callerOffset);
+        MethodInformation protectMethodInformation = parseStack(RELATIVE_STACK_DEPTH + protectOffset);
 
         if (!StringUtils.isBlank(allowedClassName)) {
             if (!allowedClassName.equals(callerMethodInformation.getClassName())) {
