@@ -76,7 +76,7 @@ public abstract class BeanEvent extends Event {
     }
 
     /**
-     * @Description 整体 Bean 被加载事件，此时 Bean 和 beanName 都为空，该事件会被 {@link BeanManager#startCreating()} 发布
+     * @Description  Bean 全部被加载事件，此时 Bean 和 beanName 都为空，该事件会被 {@link BeanManager#startCreating()} 发布
      * @Author gdrfgdrf
      * @Date 2024/5/4
      */
@@ -86,7 +86,7 @@ public abstract class BeanEvent extends Event {
         }
 
         /**
-         * @Description 整体 Bean 被加载前事件
+         * @Description  Bean 全部被加载前事件
          * @Author gdrfgdrf
          * @Date 2024/5/4
          */
@@ -95,7 +95,7 @@ public abstract class BeanEvent extends Event {
         }
 
         /**
-         * @Description 整体 Bean 被加载后事件
+         * @Description  Bean 全部被加载后事件
          * @Author gdrfgdrf
          * @Date 2024/5/4
          */
