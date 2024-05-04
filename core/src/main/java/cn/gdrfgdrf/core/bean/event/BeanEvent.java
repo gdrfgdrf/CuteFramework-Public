@@ -53,7 +53,7 @@ public abstract class BeanEvent extends Event {
         }
 
         /**
-         * @Description Bean 被加载前事件，此时 Bean 实例为空，beanName 存在
+         * @Description Bean 被加载前事件，此时 {@link BeanEvent#bean} 为空，{@link BeanEvent#beanName} 存在
          * @Author gdrfgdrf
          * @Date 2024/5/4
          */
@@ -64,7 +64,7 @@ public abstract class BeanEvent extends Event {
         }
 
         /**
-         * @Description Bean 被加载后事件，此时 Bean 和 beanName 均存在
+         * @Description Bean 被加载后事件，此时 {@link BeanEvent#bean} 和 {@link BeanEvent#beanName} 均存在
          * @Author gdrfgdrf
          * @Date 2024/5/4
          */
@@ -76,7 +76,9 @@ public abstract class BeanEvent extends Event {
     }
 
     /**
-     * @Description  Bean 全部被加载事件，此时 Bean 和 beanName 都为空，该事件会被 {@link BeanManager#startCreating()} 发布
+     * @Description  Bean 全部被加载事件，
+     * 此时 {@link BeanEvent#bean} 和 {@link BeanEvent#beanName} 都为空，该事件仅会被 {@link BeanManager#startCreating()} 发布
+     *
      * @Author gdrfgdrf
      * @Date 2024/5/4
      */
@@ -90,17 +92,13 @@ public abstract class BeanEvent extends Event {
          * @Author gdrfgdrf
          * @Date 2024/5/4
          */
-        public static class Pre extends LoadAll {
-
-        }
+        public static class Pre extends LoadAll {}
 
         /**
          * @Description  Bean 全部被加载后事件
          * @Author gdrfgdrf
          * @Date 2024/5/4
          */
-        public static class Post extends LoadAll {
-
-        }
+        public static class Post extends LoadAll {}
     }
 }
