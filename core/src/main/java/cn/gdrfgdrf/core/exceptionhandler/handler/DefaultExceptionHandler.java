@@ -17,24 +17,33 @@
 
 package cn.gdrfgdrf.core.exceptionhandler.handler;
 
-import cn.gdrfgdrf.core.exceptionhandler.annotation.ExceptionSupport;
+import cn.gdrfgdrf.core.bean.annotation.Component;
+import cn.gdrfgdrf.core.exceptionhandler.annotation.ExceptionHandler;
 import cn.gdrfgdrf.core.exceptionhandler.base.CustomException;
-import cn.gdrfgdrf.core.exceptionhandler.base.ExceptionHandler;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * @Description 默认异常处理器，
- * 接受所有类型的异常，
- * 当 {@link cn.gdrfgdrf.core.exceptionhandler.ExceptionDispatcher} 找不到特定的异常处理器时将使用该类
- *
+ * @Description 默认异常处理器
  * @Author gdrfgdrf
  * @Date 2024/4/8
  */
 @Slf4j
-@ExceptionSupport(support = Throwable.class)
-public class DefaultExceptionHandler implements ExceptionHandler {
-    @Override
-    public void handle(Thread thread, Throwable throwable) {
+@Component
+public class DefaultExceptionHandler {
+    /**
+     * @Description 默认异常处理方法，
+     * 接受所有类型的异常，
+     * 当 {@link cn.gdrfgdrf.core.exceptionhandler.ExceptionDispatcher} 找不到定制的异常处理器时将使用该方法
+     *
+     * @param thread
+	 *        异常所在线程
+	 * @param throwable
+	 *        异常实例
+     * @Author gdrfgdrf
+     * @Date 2024/5/4
+     */
+    @ExceptionHandler(support = Throwable.class)
+    public static void handle(Thread thread, Throwable throwable) {
         if (throwable instanceof CustomException customException) {
             log.error(customException.getMessage(), throwable);
             return;

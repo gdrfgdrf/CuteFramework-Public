@@ -15,26 +15,20 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.gdrfgdrf.core.exceptionhandler.handler.manager;
+package cn.gdrfgdrf.core.bean.resolver.annotation;
 
 import cn.gdrfgdrf.core.bean.annotation.Component;
-import cn.gdrfgdrf.core.exceptionhandler.handler.DefaultExceptionHandler;
-import cn.gdrfgdrf.core.exceptionhandler.handler.annotation.ExceptionHandlerInstantiate;
+
+import java.lang.annotation.*;
 
 /**
- * @Description 管理异常处理器，
- * 对 {@link cn.gdrfgdrf.core.exceptionhandler.base.ExceptionHandler} 进行创建，
- * 并注册到 {@link cn.gdrfgdrf.core.exceptionhandler.ExceptionDispatcher}
- *
+ * @Description 标记一个类是 Bean 方法解析器，作为 Bean 方法解析器将会被 {@link cn.gdrfgdrf.core.bean.BeanManager} 最先创建
  * @Author gdrfgdrf
- * @Date 2024/4/7
+ * @Date 2024/5/4
  */
 @Component
-@ExceptionHandlerInstantiate(classes = {
-        DefaultExceptionHandler.class
-})
-public class ExceptionHandlerManager extends AbstractExceptionHandlerManager {
-    public ExceptionHandlerManager() {
-        super.instantiate();
-    }
+@Target(value = ElementType.TYPE)
+@Retention(value = RetentionPolicy.RUNTIME)
+public @interface BeanMethodResolverAnnotation {
+    Class<? extends Annotation> targetMethodAnnotation();
 }

@@ -18,7 +18,14 @@
 package cn.gdrfgdrf.core.bean;
 
 import cn.gdrfgdrf.core.bean.annotation.Component;
+import cn.gdrfgdrf.core.bean.event.BeanEvent;
 import cn.gdrfgdrf.core.bean.exception.BeanNameConflictException;
+import cn.gdrfgdrf.core.bean.resolver.BeanMethodResolverManager;
+import cn.gdrfgdrf.core.bean.resolver.annotation.BeanMethodResolverAnnotation;
+import cn.gdrfgdrf.core.bean.resolver.base.BeanMethodResolver;
+import cn.gdrfgdrf.core.bean.resolver.exception.BeanMethodResolverException;
+import cn.gdrfgdrf.core.classinjector.ClassInjector;
+import cn.gdrfgdrf.core.event.EventManager;
 import cn.gdrfgdrf.core.utils.StringUtils;
 import cn.gdrfgdrf.core.utils.asserts.AssertUtils;
 import cn.gdrfgdrf.core.utils.asserts.exception.AssertNotNullException;
@@ -27,6 +34,7 @@ import cn.gdrfgdrf.core.utils.stack.exception.StackIllegalArgumentException;
 import cn.gdrfgdrf.core.utils.stack.exception.StackIllegalOperationException;
 import org.reflections.Reflections;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 import java.util.Set;
@@ -70,7 +78,7 @@ public class BeanManager {
      * @Author gdrfgdrf
      * @Date 2024/5/1
      */
-    public void createByScanning() throws
+    public void startCreating() throws
             StackIllegalOperationException,
             StackIllegalArgumentException,
             AssertNotNullException,
@@ -78,12 +86,17 @@ public class BeanManager {
             NoSuchMethodException,
             InvocationTargetException,
             InstantiationException,
-            IllegalAccessException
+            IllegalAccessException,
+            BeanMethodResolverException
     {
         StackUtils.onlyMethod("cn.gdrfgdrf.smartuploader.SmartUploader", "run");
 
+        EventManager.getInstance().post(new BeanEvent.LoadAll.Pre());
+
         createCoreBeans();
         createImplBeans();
+
+        EventManager.getInstance().post(new BeanEvent.LoadAll.Post());
     }
 
     /**
@@ -101,7 +114,8 @@ public class BeanManager {
             NoSuchMethodException,
             InvocationTargetException,
             InstantiationException,
-            IllegalAccessException
+            IllegalAccessException,
+            BeanMethodResolverException
     {
         StackUtils.onlyMethod("cn.gdrfgdrf.core.bean.BeanManager", "createByScanning");
 
@@ -128,7 +142,8 @@ public class BeanManager {
             NoSuchMethodException,
             InvocationTargetException,
             InstantiationException,
-            IllegalAccessException
+            IllegalAccessException,
+            BeanMethodResolverException
     {
         StackUtils.onlyMethod("cn.gdrfgdrf.core.bean.BeanManager", "createByScanning");
 
@@ -140,7 +155,10 @@ public class BeanManager {
     }
 
     /**
-     * @Description 创建 Bean，若 Bean 名称在 {@link BeanManager#BEAN_MAP} 中存在，则直接抛出
+     * @Description 创建 Bean，并调用对应的 {@link BeanMethodResolver}
+     * 若 Bean 名称在 {@link BeanManager#BEAN_MAP} 中存在，则直接抛出 {@link BeanNameConflictException}，
+     * 若 Bean 类型为 {@link BeanMethodResolver}，则跳过调用解析器并注册到 {@link BeanMethodResolverManager}
+     *
      * @param beanClass
 	 *        Bean 类
      * @throws cn.gdrfgdrf.core.utils.asserts.exception.AssertNotNullException
@@ -155,6 +173,8 @@ public class BeanManager {
      *         Bean 类的构造函数有异常抛出
      * @throws IllegalAccessException
      *         因为访问权限而无法调用 Bean 类的构造函数
+     * @throws BeanMethodResolverException
+     *         当 Bean 方法解析器发生错误时抛出
      * @Author gdrfgdrf
      * @Date 2024/5/2
      */
@@ -164,7 +184,8 @@ public class BeanManager {
             NoSuchMethodException,
             InvocationTargetException,
             InstantiationException,
-            IllegalAccessException
+            IllegalAccessException,
+            BeanMethodResolverException
     {
         AssertUtils.notNull("bean class", beanClass);
 
@@ -179,7 +200,34 @@ public class BeanManager {
             throw new BeanNameConflictException(beanClass);
         }
 
-        Object obj = beanClass.getDeclaredConstructor().newInstance();
+        EventManager.getInstance().post(new BeanEvent.Load.Pre(null, name));
+
+        Object obj = ClassInjector.getInstance().createInstance(beanClass);
         BEAN_MAP.put(name, obj);
+
+        if (!(obj instanceof BeanMethodResolver resolver)) {
+            BeanMethodResolverManager.getInstance().resolve(obj);
+        } else {
+            registerBeanMethodResolver(resolver);
+        }
+
+        EventManager.getInstance().post(new BeanEvent.Load.Pre(obj, name));
+    }
+
+    /**
+     * @Description 注册 Bean 方法解析器到 {@link BeanMethodResolverManager}
+     * @param resolver
+	 *        Bean 方法解析器实例
+     * @throws AssertNotNullException
+     *         当 Bean 方法解析器没有 {@link BeanMethodResolverAnnotation} 注解时抛出
+     * @Author gdrfgdrf
+     * @Date 2024/5/4
+     */
+    private void registerBeanMethodResolver(BeanMethodResolver resolver) throws AssertNotNullException {
+        BeanMethodResolverAnnotation annotation = resolver.getClass().getAnnotation(BeanMethodResolverAnnotation.class);
+        AssertUtils.notNull("bean method resolver annotation", annotation);
+
+        Class<? extends Annotation> targetMethodAnnotation = annotation.targetMethodAnnotation();
+        BeanMethodResolverManager.getInstance().registerBeanResolver(targetMethodAnnotation, resolver);
     }
 }

@@ -26,10 +26,13 @@ import cn.gdrfgdrf.core.locale.base.LanguageCollect;
  * @Date 2024/4/17
  */
 public class ExceptionLanguage implements LanguageCollect {
+    public static LanguageString BEAN_METHOD_ARGUMENT_TYPE_MISMATCH;
+    public static LanguageString EXCEPTION_HANDLE_METHOD_IS_NOT_STATIC;
     public static LanguageString NOT_FOUND_EXCEPTION_HANDLER;
     public static LanguageString EVENT_PROCESSING_EXCEPTION;
 
     public static LanguageString BEAN_NAME_CONFLICT_EXCEPTION;
+    public static LanguageString BEAN_METHOD_RESOLVER_EXCEPTION;
 
     public static LanguageString STACK_ILLEGAL_OPERATION_EXCEPTION;
     public static LanguageString STACK_ILLEGAL_ARGUMENT_EXCEPTION;

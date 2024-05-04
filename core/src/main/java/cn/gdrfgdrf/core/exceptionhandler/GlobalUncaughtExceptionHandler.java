@@ -32,6 +32,15 @@ public class GlobalUncaughtExceptionHandler implements Thread.UncaughtExceptionH
         Thread.setDefaultUncaughtExceptionHandler(this);
     }
 
+    /**
+     * @Description 发送给 {@link ExceptionDispatcher} 以分发异常到异常处理分发
+     * @param t
+	 *        异常所在线程
+	 * @param e
+	 *        异常实例
+     * @Author gdrfgdrf
+     * @Date 2024/5/4
+     */
     @Override
     public void uncaughtException(Thread t, Throwable e) {
         try {

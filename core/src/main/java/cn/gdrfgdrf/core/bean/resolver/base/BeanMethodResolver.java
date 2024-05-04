@@ -17,27 +17,49 @@
 
 package cn.gdrfgdrf.core.bean.resolver.base;
 
-import cn.gdrfgdrf.core.bean.resolver.BeanResolverManager;
+import cn.gdrfgdrf.core.bean.resolver.BeanMethodResolverManager;
+import cn.gdrfgdrf.core.bean.resolver.exception.BeanMethodArgumentTypeMismatchException;
+
+import java.lang.reflect.Method;
+import java.util.Arrays;
 
 /**
  * @Description Bean 解析器，Bean 由 {@link cn.gdrfgdrf.core.bean.BeanManager} 实例化完成后，
- * 将会使用 {@link BeanResolverManager} 分发到指定的 {@link BeanResolver}，
+ * 将会使用 {@link BeanMethodResolverManager} 分发到指定的 {@link BeanMethodResolver}，
  * 该类可对 Bean 进行初始化，
  * 比如说获取所有带有 {@link cn.gdrfgdrf.core.exceptionhandler.annotation.ExceptionHandler} 注解的方法，
- * 并注册到 {@link cn.gdrfgdrf.core.exceptionhandler.handler.manager.ExceptionHandlerManager}。
+ * 并注册到 {@link cn.gdrfgdrf.core.exceptionhandler.ExceptionDispatcher}。
  * 建议该类只进行例如解析注解并注册到管理器之类的操作，不推荐进行设置 Bean 的字段之类的操作
  * 设置 Bean 字段的操作应该在构造函数内进行，也就是被 {@link cn.gdrfgdrf.core.bean.BeanManager} 实例化时
  *
  * @Author gdrfgdrf
  * @Date 2024/4/29
  */
-public interface BeanResolver {
+public abstract class BeanMethodResolver {
     /**
      * @Description 对 Bean 进行解析，
      * @param bean
 	 *        Bean 实例
+     * @param method
+     *        需要解析的方法
      * @Author gdrfgdrf
      * @Date 2024/4/29
      */
-    void resolve(Object bean);
+    public abstract void resolve(Object bean, Method method) throws Exception;
+
+    /**
+     * @Description 检查某个方法的参数是否是指定参数
+     * @param method
+	 *        需要检查的方法
+	 * @param arguments
+	 *        指定参数
+     * @Author gdrfgdrf
+     * @Date 2024/5/4
+     */
+    public void checkMethodArgument(Method method, Class<?>... arguments) throws BeanMethodArgumentTypeMismatchException {
+        Class<?>[] parameterTypes = method.getParameterTypes();
+        if (!Arrays.equals(parameterTypes, arguments)) {
+            throw new BeanMethodArgumentTypeMismatchException(method, arguments, method.getDeclaringClass());
+        }
+    }
 }

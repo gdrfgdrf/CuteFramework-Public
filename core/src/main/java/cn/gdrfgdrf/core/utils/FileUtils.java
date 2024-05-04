@@ -29,6 +29,45 @@ public class FileUtils {
     private FileUtils() {}
 
     /**
+     * @Description 获取文件夹内所有的文件，若提供的文件不是一个文件夹则返回 null
+     * @param folder
+	 *        文件夹
+	 * @param fileFilter
+	 *        文件过滤器，若返回 true 则放入结果，返回 false 则跳过
+     * @return java.io.File[]
+     *        文件夹内的文件，若提供的文件不是一个文件夹则返回 null
+     * @Author gdrfgdrf
+     * @Date 2024/5/4
+     */
+    public static File[] getFiles(File folder, FileFilter fileFilter) {
+        if (!folder.isDirectory()) {
+            return null;
+        }
+        if (fileFilter == null) {
+            return folder.listFiles();
+        }
+        return folder.listFiles(fileFilter);
+    }
+
+    /**
+     * @Description 获取文件后缀名
+     * @param file
+	 *        文件
+     * @return java.lang.String
+     *         文件后缀名，若提供的文件是一个文件夹则返回 null
+     * @Author gdrfgdrf
+     * @Date 2024/5/4
+     */
+    public static String getExtension(File file) {
+        if (!file.isFile()) {
+            return null;
+        }
+        return file.getName().substring(
+                file.getName().lastIndexOf(".")
+        );
+    }
+
+    /**
      * @Description 以 UTF-8 编码获取文件读取器
      * @param file
 	 *        文件

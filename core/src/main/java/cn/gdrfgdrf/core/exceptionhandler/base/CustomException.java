@@ -18,12 +18,14 @@
 package cn.gdrfgdrf.core.exceptionhandler.base;
 
 import cn.gdrfgdrf.core.utils.StringUtils;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @Description 自定义运行时错误
  * @Author gdrfgdrf
  * @Date 2024/4/7
  */
+@Slf4j
 public abstract class CustomException extends Exception {
     /**
      * @Description 获取错误信息，优先获取当前语言下的错误信息，若为空则获取默认字符串
@@ -34,11 +36,15 @@ public abstract class CustomException extends Exception {
      */
     @Override
     public String getMessage() {
-        String i18nMessage = getI18NMessage();
-        if (StringUtils.isBlank(i18nMessage)) {
-            return getDefaultMessage();
+        String message = null;
+        try {
+            message = getI18NMessage();
+        } catch (Exception ignored) {
         }
-        return i18nMessage;
+        if (StringUtils.isBlank(message)) {
+            message = getDefaultMessage();
+        }
+        return message;
     }
 
     /**

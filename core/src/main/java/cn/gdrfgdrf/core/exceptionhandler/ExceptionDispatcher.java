@@ -18,11 +18,12 @@
 package cn.gdrfgdrf.core.exceptionhandler;
 
 import cn.gdrfgdrf.core.exceptionhandler.annotation.Undispatchable;
-import cn.gdrfgdrf.core.exceptionhandler.base.ExceptionHandler;
 import cn.gdrfgdrf.core.exceptionhandler.exception.NotFoundExceptionHandlerException;
+import cn.gdrfgdrf.core.utils.ClassUtils;
 import cn.gdrfgdrf.core.utils.asserts.AssertUtils;
 import cn.gdrfgdrf.core.utils.asserts.exception.AssertNotNullException;
 
+import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -37,10 +38,10 @@ public class ExceptionDispatcher {
     private static ExceptionDispatcher INSTANCE;
 
     /**
-     * 异常类型到异常处理器的映射，
-     * {@link ExceptionDispatcher#dispatch(Thread, Throwable)} 将根据该映射分发到对应的 {@link ExceptionHandler}
+     * 异常类型到异常处理方法的映射，
+     * {@link ExceptionDispatcher#dispatch(Thread, Throwable)} 将根据该映射分发到对应的异常处理方法
      */
-    private final Map<Class<? extends Throwable>, List<ExceptionHandler>> EXCEPTION_HANDLER_MAP = new ConcurrentHashMap<>();
+    private final Map<Class<? extends Throwable>, List<Method>> EXCEPTION_HANDLER_MAP = new ConcurrentHashMap<>();
 
     private ExceptionDispatcher() {}
 
@@ -59,51 +60,51 @@ public class ExceptionDispatcher {
     }
 
     /**
-     * @Description 注册异常处理器，会根据异常类型添加到对应的 {@link ExceptionDispatcher#EXCEPTION_HANDLER_MAP}
+     * @Description 注册异常处理方法，会根据异常类型添加到对应的 {@link ExceptionDispatcher#EXCEPTION_HANDLER_MAP}
      * @param throwableType
 	 *        异常类型
-	 * @param exceptionHandler
-	 *        异常处理器实例
+	 * @param exceptionHandleMethod
+	 *        异常处理方法
      * @throws cn.gdrfgdrf.core.utils.asserts.exception.AssertNotNullException
-     *         当 throwableType 或 exceptionHandler 为 null 时抛出
+     *         当 throwableType 或 exceptionHandleMethod 为 null 时抛出
      * @Author gdrfgdrf
      * @Date 2024/4/8
      */
-    public void registerExceptionHandler(Class<? extends Throwable> throwableType, ExceptionHandler exceptionHandler)
+    public void registerExceptionHandler(Class<? extends Throwable> throwableType, Method exceptionHandleMethod)
             throws AssertNotNullException
     {
         AssertUtils.notNull("exception type", throwableType);
-        AssertUtils.notNull("exception handler", exceptionHandler);
+        AssertUtils.notNull("exception handle method", exceptionHandleMethod);
 
-        List<ExceptionHandler> exceptionHandlers = EXCEPTION_HANDLER_MAP.computeIfAbsent(
+        List<Method> exceptionHandlers = EXCEPTION_HANDLER_MAP.computeIfAbsent(
                 throwableType,
                 clazz -> new CopyOnWriteArrayList<>()
         );
-        exceptionHandlers.add(exceptionHandler);
+        exceptionHandlers.add(exceptionHandleMethod);
     }
 
     /**
-     * @Description 移除移除处理器，会根据异常类型从 {@link ExceptionDispatcher#EXCEPTION_HANDLER_MAP} 中异常对应的 {@link ExceptionHandler}
+     * @Description 移除移除处理器，会根据异常类型从 {@link ExceptionDispatcher#EXCEPTION_HANDLER_MAP} 中异常对应的异常处理方法
      * @param throwableType
      *        异常类型
-     * @param exceptionHandler
-     *        异常处理器
+     * @param exceptionHandleMethod
+     *        异常处理方法
      * @throws cn.gdrfgdrf.core.utils.asserts.exception.AssertNotNullException
      *         当 throwableType 或 exceptionHandler 为 null 时抛出
      * @Author gdrfgdrf
      * @Date 2024/4/17
      */
-    public void unregisterExceptionHandler(Class<? extends Throwable> throwableType, ExceptionHandler exceptionHandler)
+    public void unregisterExceptionHandler(Class<? extends Throwable> throwableType, Method exceptionHandleMethod)
             throws AssertNotNullException
     {
         AssertUtils.notNull("exception type", throwableType);
-        AssertUtils.notNull("exception handler", exceptionHandler);
+        AssertUtils.notNull("exception handle method", exceptionHandleMethod);
 
         if (!EXCEPTION_HANDLER_MAP.containsKey(throwableType)) {
             return;
         }
-        List<ExceptionHandler> exceptionHandlers = EXCEPTION_HANDLER_MAP.get(throwableType);
-        exceptionHandlers.remove(exceptionHandler);
+        List<Method> exceptionHandlers = EXCEPTION_HANDLER_MAP.get(throwableType);
+        exceptionHandlers.remove(exceptionHandleMethod);
 
         if (exceptionHandlers.isEmpty()) {
             EXCEPTION_HANDLER_MAP.remove(throwableType);
@@ -111,11 +112,12 @@ public class ExceptionDispatcher {
     }
 
     /**
-     * @Description 根据索引移除移除处理器，会根据异常类型从 {@link ExceptionDispatcher#EXCEPTION_HANDLER_MAP} 中异常对应的 {@link ExceptionHandler}
+     * @Description 根据索引移除移除处理器，
+     * 会根据异常类型从 {@link ExceptionDispatcher#EXCEPTION_HANDLER_MAP} 中移除对应的异常处理方法
      * @param throwableType
      *        异常类型
      * @param index
-     *        异常处理器在 {@link ExceptionDispatcher#EXCEPTION_HANDLER_MAP} 的值中的序号
+     *        异常处理方法在 {@link ExceptionDispatcher#EXCEPTION_HANDLER_MAP} 的值中的序号
      * @throws cn.gdrfgdrf.core.utils.asserts.exception.AssertNotNullException
      *         当 throwableType 或 exceptionHandler 为 null 时抛出
      * @Author gdrfgdrf
@@ -130,7 +132,7 @@ public class ExceptionDispatcher {
         if (!EXCEPTION_HANDLER_MAP.containsKey(throwableType)) {
             return;
         }
-        List<ExceptionHandler> exceptionHandlers = EXCEPTION_HANDLER_MAP.get(throwableType);
+        List<Method> exceptionHandlers = EXCEPTION_HANDLER_MAP.get(throwableType);
         exceptionHandlers.remove(index);
 
         if (exceptionHandlers.isEmpty()) {
@@ -140,10 +142,10 @@ public class ExceptionDispatcher {
 
     /**
      * @Description 分发异常，
-     * 将根据异常类型从 {@link ExceptionDispatcher#EXCEPTION_HANDLER_MAP} 中获取异常处理器，
-     * 并调用 {@link ExceptionHandler#handle(Thread, Throwable)}，
-     * 若无法获取到定制异常处理器，将会使用 {@link cn.gdrfgdrf.core.exceptionhandler.handler.DefaultExceptionHandler}
-     * 若无法获取到 {@link cn.gdrfgdrf.core.exceptionhandler.handler.DefaultExceptionHandler}，
+     * 将根据异常类型从 {@link ExceptionDispatcher#EXCEPTION_HANDLER_MAP} 中获取并调用异常处理方法，
+     * 若无法获取到定制异常处理方法，
+     * 将会使用 {@link cn.gdrfgdrf.core.exceptionhandler.handler.DefaultExceptionHandler} 的 handle 方法，
+     * 若无法获取到 {@link cn.gdrfgdrf.core.exceptionhandler.handler.DefaultExceptionHandler} 的 handle 方法，
      * 将会抛出 {@link cn.gdrfgdrf.core.exceptionhandler.exception.NotFoundExceptionHandlerException}
      * 当异常类拥有 {@link Undispatchable} 注解时，该方法不会生效
      *
@@ -154,7 +156,7 @@ public class ExceptionDispatcher {
      * @throws cn.gdrfgdrf.core.utils.asserts.exception.AssertNotNullException
      *         当 thread 或 throwable 为 null 时抛出
      * @throws cn.gdrfgdrf.core.exceptionhandler.exception.NotFoundExceptionHandlerException
-     *         无法获取定制异常处理器以及默认异常处理器时抛出
+     *         无法获取定制异常处理方法以及默认异常处理方法时抛出
      * @Author gdrfgdrf
      * @Date 2024/4/8
      */
@@ -169,28 +171,29 @@ public class ExceptionDispatcher {
             return;
         }
 
-        List<ExceptionHandler> exceptionHandlers = EXCEPTION_HANDLER_MAP.get(throwable.getClass());
+        List<Method> exceptionHandlers = EXCEPTION_HANDLER_MAP.get(throwable.getClass());
         if (exceptionHandlers == null || exceptionHandlers.isEmpty()) {
             exceptionHandlers = EXCEPTION_HANDLER_MAP.get(Throwable.class);
             if (exceptionHandlers == null || exceptionHandlers.isEmpty()) {
                 throw new NotFoundExceptionHandlerException(throwable);
             }
-
-            exceptionHandlers.forEach(exceptionHandler -> exceptionHandler.handle(thread, throwable));
-            return;
         }
 
-        exceptionHandlers.forEach(exceptionHandler -> exceptionHandler.handle(thread, throwable));
+        for (Method exceptionHandleMethod : exceptionHandlers) {
+            ClassUtils.safetyInvoke(null, exceptionHandleMethod, thread, throwable);
+        }
     }
 
     /**
-     * @Description 获取异常类型到异常处理器的映射
-     * @return java.util.Map<java.lang.Class<? extends java.lang.Throwable>,java.util.List<cn.gdrfgdrf.smartuploader.exceptionhandler.base.ExceptionHandler>>
-     *         异常类型到异常处理器的映射
+     * @Description 获取异常类型到异常处理方法的映射
+     * @return java.util.Map<java.lang.Class<? extends java.lang.Throwable>,java.util.List<java.lang.reflect.Method>>
+     *         异常类型到异常处理方法的映射
      * @Author gdrfgdrf
-     * @Date 2024/4/8
+     * @Date 2024/5/4
      */
-    public Map<Class<? extends Throwable>, List<ExceptionHandler>> getExceptionHandlerMap() {
+    public Map<Class<? extends Throwable>, List<Method>> getExceptionHandlerMap() {
          return EXCEPTION_HANDLER_MAP;
     }
+
+
 }

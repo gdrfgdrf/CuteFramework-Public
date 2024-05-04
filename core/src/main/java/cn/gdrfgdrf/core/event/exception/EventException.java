@@ -48,12 +48,15 @@ public class EventException extends CustomException {
     public String getI18NMessage() {
         return ExceptionLanguage.EVENT_PROCESSING_EXCEPTION
                 .get()
-                .format(context.getEvent().getClass().getSimpleName())
+                .format(context.getEvent().getClass().getSimpleName(), throwable.getMessage())
                 .getString();
     }
 
     @Override
     public String getDefaultMessage() {
-        return "An exception occurred while processing event " + context.getClass().getSimpleName();
+        return "Error occurred while processing " +
+                context.getEvent().getClass().getSimpleName() +
+                " event: " +
+                throwable.getMessage();
     }
 }

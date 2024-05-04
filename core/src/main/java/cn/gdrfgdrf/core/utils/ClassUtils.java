@@ -17,9 +17,13 @@
 
 package cn.gdrfgdrf.core.utils;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.JarURLConnection;
 import java.net.URL;
 import java.util.Arrays;
@@ -35,8 +39,18 @@ import java.util.jar.JarFile;
  * @Author gdrfgdrf
  * @Date 2024/4/6
  */
+@Slf4j
 public class ClassUtils {
     private ClassUtils() {}
+
+    @SuppressWarnings("all")
+    public static Object safetyInvoke(Object obj, Method method, Object... arguments) {
+        try {
+            return method.invoke(obj, arguments);
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            return null;
+        }
+    }
 
     public static void accessibleField(Object obj, Field field, Consumer<Field> consumer) {
         boolean changeAccessible = false;

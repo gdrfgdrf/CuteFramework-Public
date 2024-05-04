@@ -25,10 +25,13 @@ import cn.gdrfgdrf.core.locale.base.LanguageBlock;
  * gdrfgdrf | 2024-04-17
  */
 class ExceptionLanguage implements LanguageBlock {
+    public static final LanguageString BEAN_METHOD_ARGUMENT_TYPE_MISMATCH = new LanguageString("Bean 方法 {} 的参数必须是 {}，所在类 {}");
+    public static final LanguageString EXCEPTION_HANDLE_METHOD_IS_NOT_STATIC = new LanguageString("异常处理方法 {} 不是静态方法，所在类 {}");
     public static final LanguageString NOT_FOUND_EXCEPTION_HANDLER = new LanguageString("无法为 {} 找到异常处理器");
-    public static final LanguageString EVENT_PROCESSING_EXCEPTION = new LanguageString("处理 {} 事件时发生错误");
+    public static final LanguageString EVENT_PROCESSING_EXCEPTION = new LanguageString("处理 {} 事件时发生错误：{}");
 
     public static final LanguageString BEAN_NAME_CONFLICT_EXCEPTION = new LanguageString("无法创建 Bean 类 {}，因为已经有了一个同名的 Bean 实例存在");
+    public static final LanguageString BEAN_METHOD_RESOLVER_EXCEPTION = new LanguageString("Bean 方法解析器 {} 处理 Bean {} 时发生错误：{}");
 
     public static final LanguageString STACK_ILLEGAL_OPERATION_EXCEPTION = new LanguageString("{} 类的 {} 方法违规调用了 {} 类的 {} 方法，已终止其操作");
     public static final LanguageString STACK_ILLEGAL_ARGUMENT_EXCEPTION = new LanguageString("{} 类的 {} 需要被保护，但提供了错误的参数，已终止其调用方的操作");

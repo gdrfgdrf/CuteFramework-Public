@@ -17,23 +17,32 @@
 
 package cn.gdrfgdrf.core.exceptionhandler.handler;
 
+import cn.gdrfgdrf.core.bean.annotation.Component;
 import cn.gdrfgdrf.core.event.exception.EventException;
-import cn.gdrfgdrf.core.exceptionhandler.annotation.ExceptionSupport;
-import cn.gdrfgdrf.core.exceptionhandler.base.ExceptionHandler;
+import cn.gdrfgdrf.core.exceptionhandler.annotation.ExceptionHandler;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * @Description 事件异常处理器，当事件处理出现异常时，会被 {@link cn.gdrfgdrf.core.event.EventExceptionHandler} 捕获
- * 并分发到该类
- *
+ * @Description 事件异常处理器
  * @Author gdrfgdrf
  * @Date 2024/4/24
  */
 @Slf4j
-@ExceptionSupport(support = EventException.class)
-public class DefaultEventExceptionHandler implements ExceptionHandler {
-    @Override
-    public void handle(Thread thread, Throwable throwable) {
+@Component
+public class DefaultEventExceptionHandler {
+    /**
+     * @Description 异常处理方法，当事件处理出现异常时，
+     * 会被 {@link cn.gdrfgdrf.core.event.EventExceptionHandler} 捕获并分发到该方法
+     *
+     * @param thread
+	 *        异常所在线程
+	 * @param throwable
+	 *        异常实例
+     * @Author gdrfgdrf
+     * @Date 2024/5/4
+     */
+    @ExceptionHandler(support = EventException.class)
+    public static void handle(Thread thread, Throwable throwable) {
         EventException eventException = (EventException) throwable;
         log.error(eventException.getMessage(), eventException.getThrowable());
     }
