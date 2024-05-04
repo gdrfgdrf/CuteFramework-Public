@@ -100,7 +100,7 @@ public class BeanManager {
     }
 
     /**
-     * @Description 创建核心 Bean，该方法仅允许 cn.gdrfgdrf.core.bean.BeanManager 的 createByScanning 方法调用
+     * @Description 创建核心 Bean，该方法仅允许 cn.gdrfgdrf.core.bean.BeanManager 的 startCreating 方法调用
      * @throws cn.gdrfgdrf.core.utils.stack.exception.StackIllegalOperationException
      *         当不被允许的类或方法调用该方法时抛出
      * @Author gdrfgdrf
@@ -117,10 +117,12 @@ public class BeanManager {
             IllegalAccessException,
             BeanMethodResolverException
     {
-        StackUtils.onlyMethod("cn.gdrfgdrf.core.bean.BeanManager", "createByScanning");
+        StackUtils.onlyMethod("cn.gdrfgdrf.core.bean.BeanManager", "startCreating");
 
         Reflections reflections = new Reflections("cn.gdrfgdrf.core");
         Set<Class<?>> components = reflections.getTypesAnnotatedWith(Component.class);
+
+
         for (Class<?> component : components) {
             create(component);
         }
@@ -128,7 +130,7 @@ public class BeanManager {
 
     /**
      * @Description 创建 cn.gdrfgdrf.smartuploader 下的 Bean，
-     * 该方法仅允许 cn.gdrfgdrf.core.bean.BeanManager 的 createByScanning 方法调用
+     * 该方法仅允许 cn.gdrfgdrf.core.bean.BeanManager 的 startCreating 方法调用
      * @throws cn.gdrfgdrf.core.utils.stack.exception.StackIllegalOperationException
      *         当不被允许的类或方法调用该方法时抛出
      * @Author gdrfgdrf
@@ -145,7 +147,7 @@ public class BeanManager {
             IllegalAccessException,
             BeanMethodResolverException
     {
-        StackUtils.onlyMethod("cn.gdrfgdrf.core.bean.BeanManager", "createByScanning");
+        StackUtils.onlyMethod("cn.gdrfgdrf.core.bean.BeanManager", "startCreating");
 
         Reflections reflections = new Reflections("cn.gdrfgdrf.smartuploader");
         Set<Class<?>> components = reflections.getTypesAnnotatedWith(Component.class);
