@@ -15,48 +15,42 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.gdrfgdrf.core.event.exception;
+package cn.gdrfgdrf.core.api.exception;
 
 import cn.gdrfgdrf.core.exceptionhandler.base.CustomException;
 import cn.gdrfgdrf.core.locale.collect.ExceptionLanguage;
-import com.google.common.eventbus.SubscriberExceptionContext;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.io.File;
+
 /**
- * @Description 当事件处理时发生异常，将由 {@link cn.gdrfgdrf.core.event.EventExceptionHandler} 捕获
- * 并使用该类对异常实例进行包装提供给 {@link cn.gdrfgdrf.core.exceptionhandler.ExceptionDispatcher} 进行分发
+ * @Description 当插件的 plugin.json 中有必要的属性未定义时抛出
  * @Author gdrfgdrf
- * @Date 2024/4/24
+ * @Date 2024/5/5
  */
 @Getter
-public class EventException extends CustomException {
+@AllArgsConstructor
+public class PluginUndefinedPropertyException extends CustomException {
     /**
-     * 事件处理时抛出的异常实例
+     * 插件文件
      */
-    private final Throwable throwable;
+    private final File pluginFile;
     /**
-     * 事件订阅者上下文
+     * 未定义的必需属性
      */
-    private final SubscriberExceptionContext context;
-
-    public EventException(Throwable throwable, SubscriberExceptionContext context) {
-        this.throwable = throwable;
-        this.context = context;
-    }
+    private final String undefinedProperty;
 
     @Override
     public String getI18NMessage() {
-        return ExceptionLanguage.EVENT_PROCESSING_ERROR
+        return ExceptionLanguage.PLUGIN_UNDEFINED_PROPERTY
                 .get()
-                .format(context.getEvent().getClass().getName(), throwable.getMessage())
+                .format(pluginFile.getName(), undefinedProperty)
                 .getString();
     }
 
     @Override
     public String getDefaultMessage() {
-        return "Error occurred while processing " +
-                context.getEvent().getClass().getName() +
-                " event: " +
-                throwable.getMessage();
+        return "Plugin " + pluginFile.getName() + " has undefined required attributes " + undefinedProperty;
     }
 }

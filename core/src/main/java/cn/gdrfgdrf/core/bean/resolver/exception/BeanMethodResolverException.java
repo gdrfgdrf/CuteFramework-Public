@@ -21,6 +21,7 @@ import cn.gdrfgdrf.core.bean.resolver.base.BeanMethodResolver;
 import cn.gdrfgdrf.core.exceptionhandler.base.CustomException;
 import cn.gdrfgdrf.core.locale.collect.ExceptionLanguage;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 /**
  * @Description 当 {@link cn.gdrfgdrf.core.bean.resolver.base.BeanMethodResolver} 发生错误时
@@ -29,6 +30,7 @@ import lombok.AllArgsConstructor;
  * @Author gdrfgdrf
  * @Date 2024/5/4
  */
+@Getter
 @AllArgsConstructor
 public class BeanMethodResolverException extends CustomException {
     /**
@@ -46,11 +48,11 @@ public class BeanMethodResolverException extends CustomException {
 
     @Override
     public String getI18NMessage() {
-        return ExceptionLanguage.BEAN_METHOD_RESOLVER_EXCEPTION
+        return ExceptionLanguage.BEAN_METHOD_RESOLVER_ERROR
                 .get()
                 .format(
-                        resolver.getClass().getSimpleName(),
-                        bean.getClass().getSimpleName(),
+                        resolver.getClass().getName(),
+                        bean.getClass().getName(),
                         throwable.getMessage()
                 )
                 .getString();
@@ -59,8 +61,8 @@ public class BeanMethodResolverException extends CustomException {
     @Override
     public String getDefaultMessage() {
         return "Error occurred when bean method resolver " +
-                resolver.getClass().getSimpleName() +
-                " processed bean " + bean.getClass().getSimpleName() +
+                resolver.getClass().getName() +
+                " processed bean " + bean.getClass().getName() +
                 ": " +
                 throwable.getMessage();
     }

@@ -15,48 +15,46 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.gdrfgdrf.core.event.exception;
+package cn.gdrfgdrf.core.api.exception;
 
+import cn.gdrfgdrf.core.api.common.PluginDescription;
 import cn.gdrfgdrf.core.exceptionhandler.base.CustomException;
 import cn.gdrfgdrf.core.locale.collect.ExceptionLanguage;
-import com.google.common.eventbus.SubscriberExceptionContext;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * @Description 当事件处理时发生异常，将由 {@link cn.gdrfgdrf.core.event.EventExceptionHandler} 捕获
- * 并使用该类对异常实例进行包装提供给 {@link cn.gdrfgdrf.core.exceptionhandler.ExceptionDispatcher} 进行分发
+ * @Description 当 main-class 不是继承的 {@link cn.gdrfgdrf.core.api.base.Plugin} 时抛出
  * @Author gdrfgdrf
- * @Date 2024/4/24
+ * @Date 2024/5/5
  */
 @Getter
-public class EventException extends CustomException {
+@AllArgsConstructor
+public class PluginMainClassExtendException extends CustomException {
     /**
-     * 事件处理时抛出的异常实例
+     * 插件描述
      */
-    private final Throwable throwable;
+    private final PluginDescription pluginDescription;
     /**
-     * 事件订阅者上下文
+     * 插件的 main-class，该类必须继承 {@link cn.gdrfgdrf.core.api.base.Plugin}，
+     * 但当该异常抛出时，该类没有继承 {@link cn.gdrfgdrf.core.api.base.Plugin}
      */
-    private final SubscriberExceptionContext context;
-
-    public EventException(Throwable throwable, SubscriberExceptionContext context) {
-        this.throwable = throwable;
-        this.context = context;
-    }
+    private final Class<?> mainClass;
 
     @Override
     public String getI18NMessage() {
-        return ExceptionLanguage.EVENT_PROCESSING_ERROR
+        return ExceptionLanguage.PLUGIN_MAIN_CLASS_EXTEND_ERROR
                 .get()
-                .format(context.getEvent().getClass().getName(), throwable.getMessage())
+                .format(pluginDescription.getName(), mainClass.getName())
                 .getString();
     }
 
     @Override
     public String getDefaultMessage() {
-        return "Error occurred while processing " +
-                context.getEvent().getClass().getName() +
-                " event: " +
-                throwable.getMessage();
+        return "The main class " +
+                mainClass.getName() +
+                " of plugin " +
+                pluginDescription.getName() +
+                " must be a subclass of cn.gdrfgdrf.core.api.base.Plugin";
     }
 }

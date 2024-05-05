@@ -29,11 +29,17 @@ public class ExceptionLanguage implements LanguageCollect {
     public static LanguageString BEAN_METHOD_ARGUMENT_TYPE_MISMATCH;
     public static LanguageString EXCEPTION_HANDLE_METHOD_IS_NOT_STATIC;
     public static LanguageString NOT_FOUND_EXCEPTION_HANDLER;
-    public static LanguageString EVENT_PROCESSING_EXCEPTION;
+    public static LanguageString EVENT_PROCESSING_ERROR;
 
-    public static LanguageString BEAN_NAME_CONFLICT_EXCEPTION;
-    public static LanguageString BEAN_METHOD_RESOLVER_EXCEPTION;
+    public static LanguageString BEAN_NAME_CONFLICT;
+    public static LanguageString BEAN_METHOD_RESOLVER_ERROR;
 
-    public static LanguageString STACK_ILLEGAL_OPERATION_EXCEPTION;
-    public static LanguageString STACK_ILLEGAL_ARGUMENT_EXCEPTION;
+    public static LanguageString STACK_ILLEGAL_OPERATION;
+    public static LanguageString STACK_ILLEGAL_ARGUMENT;
+
+    public static LanguageString PLUGIN_LOAD_FAILED;
+    public static LanguageString UNSUPPORTED_PLUGIN;
+    public static LanguageString PLUGIN_UNDEFINED_PROPERTY;
+    public static LanguageString PLUGIN_MAIN_CLASS_EXTEND_ERROR;
+    public static LanguageString PLUGIN_NAME_CONFLICT;
 }

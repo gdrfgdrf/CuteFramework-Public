@@ -15,48 +15,43 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.gdrfgdrf.core.event.exception;
+package cn.gdrfgdrf.core.api.exception;
 
+import cn.gdrfgdrf.core.common.VersionEnum;
 import cn.gdrfgdrf.core.exceptionhandler.base.CustomException;
 import cn.gdrfgdrf.core.locale.collect.ExceptionLanguage;
-import com.google.common.eventbus.SubscriberExceptionContext;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.io.File;
+
 /**
- * @Description 当事件处理时发生异常，将由 {@link cn.gdrfgdrf.core.event.EventExceptionHandler} 捕获
- * 并使用该类对异常实例进行包装提供给 {@link cn.gdrfgdrf.core.exceptionhandler.ExceptionDispatcher} 进行分发
+ * @Description 不支持的插件，当插件描述文件中的 api-version 加载时被解析为 {@link VersionEnum#UNDEFINED} 时抛出
  * @Author gdrfgdrf
- * @Date 2024/4/24
+ * @Date 2024/5/5
  */
 @Getter
-public class EventException extends CustomException {
+@AllArgsConstructor
+public class UnsupportedPluginException extends CustomException {
     /**
-     * 事件处理时抛出的异常实例
+     * 插件文件
      */
-    private final Throwable throwable;
+    private final File pluginFile;
     /**
-     * 事件订阅者上下文
+     * 插件的 api-version
      */
-    private final SubscriberExceptionContext context;
-
-    public EventException(Throwable throwable, SubscriberExceptionContext context) {
-        this.throwable = throwable;
-        this.context = context;
-    }
+    private final String pluginApiVersion;
 
     @Override
     public String getI18NMessage() {
-        return ExceptionLanguage.EVENT_PROCESSING_ERROR
+        return ExceptionLanguage.UNSUPPORTED_PLUGIN
                 .get()
-                .format(context.getEvent().getClass().getName(), throwable.getMessage())
+                .format(pluginFile.getName(), pluginApiVersion, VersionEnum.CURRENT.name())
                 .getString();
     }
 
     @Override
     public String getDefaultMessage() {
-        return "Error occurred while processing " +
-                context.getEvent().getClass().getName() +
-                " event: " +
-                throwable.getMessage();
+        return null;
     }
 }

@@ -47,19 +47,32 @@ import lombok.Getter;
  */
 @Getter
 public enum VersionEnum {
-    v1_0_0("v1.0.0");
+    v1_0_0("v1.0.0"),
+    UNDEFINED("undefined");
 
+    /**
+     * 当前的核心版本
+     */
+    public static final VersionEnum CURRENT = VersionEnum.v1_0_0;
+    /**
+     * 版本字符串
+     */
     private final String version;
 
     VersionEnum(String version) {
         this.version = version;
     }
 
+    public int compare(VersionEnum version2) {
+        return VersionEnum.compare(this, version2);
+    }
+
     /**
      * @Description 对比两个版本之间的大小，
      * 返回 -1 说明 version1 < version2，
      * 返回 0 说明 version1 = version2，
-     * 返回 1 说明 version1 > version2
+     * 返回 1 说明 version1 > version2，
+     * 两个版本中有一个或全部为 {@link VersionEnum#UNDEFINED} 时返回 -2
      *
      * @param version1
 	 *        用来对比的第一个版本
@@ -71,9 +84,25 @@ public enum VersionEnum {
      * @Date 2024/5/2
      */
     public static int compare(VersionEnum version1, VersionEnum version2) {
+        if (version1 == VersionEnum.UNDEFINED || version2 == VersionEnum.UNDEFINED) {
+            return -2;
+        }
+
         int ordinal1 = version1.ordinal();
         int ordinal2 = version2.ordinal();
 
         return Integer.compare(ordinal1, ordinal2);
+    }
+
+    public static VersionEnum get(String versionStr) {
+        Object[] versions = VersionEnum.class.getEnumConstants();
+        for (Object version : versions) {
+            VersionEnum versionEnum = (VersionEnum) version;
+            if (versionEnum.getVersion().equals(versionStr)) {
+                return versionEnum;
+            }
+        }
+
+        return VersionEnum.UNDEFINED;
     }
 }

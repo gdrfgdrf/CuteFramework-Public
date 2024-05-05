@@ -15,37 +15,50 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.gdrfgdrf.core.exceptionhandler.exception;
+package cn.gdrfgdrf.core.api.exception;
 
-import cn.gdrfgdrf.core.exceptionhandler.annotation.Undispatchable;
+import cn.gdrfgdrf.core.api.base.Plugin;
 import cn.gdrfgdrf.core.exceptionhandler.base.CustomException;
 import cn.gdrfgdrf.core.locale.collect.ExceptionLanguage;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * @Description 无法获取到异常处理器时抛出，
- * 该异常不会被 {@link cn.gdrfgdrf.core.exceptionhandler.ExceptionDispatcher} 分发
+ * @Description 当拥有相同名称的插件尝试注册到 {@link cn.gdrfgdrf.core.api.PluginManager} 时抛出，
+ * 此时将会放弃注册后来的插件，保留前来的插件
  *
  * @Author gdrfgdrf
- * @Date 2024/4/8
+ * @Date 2024/5/5
  */
 @Getter
-@Undispatchable
 @AllArgsConstructor
-public class NotFoundExceptionHandlerException extends CustomException {
-    private final Throwable throwable;
+public class PluginNameConflictException extends CustomException {
+    /**
+     * 前来的插件
+     */
+    private final Plugin plugin1;
+    /**
+     * 后来的插件
+     */
+    private final Plugin plugin2;
 
     @Override
     public String getI18NMessage() {
-        return ExceptionLanguage.NOT_FOUND_EXCEPTION_HANDLER
+        return ExceptionLanguage.PLUGIN_NAME_CONFLICT
                 .get()
-                .format(throwable.getClass().getName())
+                .format(
+                        plugin2.getPluginDescription().getPluginFile().getName(),
+                        plugin1.getPluginDescription().getPluginFile().getName()
+                )
                 .getString();
     }
 
     @Override
     public String getDefaultMessage() {
-        return "Not found exception handler by exception type " + throwable.getClass().getName();
+        return "Plugin " +
+                plugin2.getPluginDescription().getPluginFile().getName() +
+                " cannot be registered because plugin " +
+                plugin1.getPluginDescription().getPluginFile().getName() +
+                " with the same name was previously registered";
     }
 }

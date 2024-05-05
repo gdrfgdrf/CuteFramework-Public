@@ -17,7 +17,6 @@
 
 package cn.gdrfgdrf.core.event;
 
-import cn.gdrfgdrf.core.event.base.Event;
 import cn.gdrfgdrf.core.utils.asserts.AssertUtils;
 import cn.gdrfgdrf.core.utils.asserts.exception.AssertNotNullException;
 import com.google.common.eventbus.EventBus;
@@ -60,7 +59,7 @@ public class EventManager {
      * @Author gdrfgdrf
      * @Date 2024/4/24
      */
-    public void post(Event event) throws AssertNotNullException {
+    public void post(Object event) throws AssertNotNullException {
         AssertUtils.notNull("event", event);
         EVENT_BUS.post(event);
     }

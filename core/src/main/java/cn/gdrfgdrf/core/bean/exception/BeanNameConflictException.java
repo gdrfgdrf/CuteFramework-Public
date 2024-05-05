@@ -19,6 +19,7 @@ package cn.gdrfgdrf.core.bean.exception;
 
 import cn.gdrfgdrf.core.exceptionhandler.base.CustomException;
 import cn.gdrfgdrf.core.locale.collect.ExceptionLanguage;
+import lombok.Getter;
 
 /**
  * @Description Bean 名称冲突移除，
@@ -26,6 +27,7 @@ import cn.gdrfgdrf.core.locale.collect.ExceptionLanguage;
  * @Author gdrfgdrf
  * @Date 2024/5/2
  */
+@Getter
 public class BeanNameConflictException extends CustomException {
     /**
      * Bean 类
@@ -38,7 +40,7 @@ public class BeanNameConflictException extends CustomException {
 
     @Override
     public String getI18NMessage() {
-        return ExceptionLanguage.BEAN_NAME_CONFLICT_EXCEPTION
+        return ExceptionLanguage.BEAN_NAME_CONFLICT
                 .get()
                 .format(beanClass.getName())
                 .getString();

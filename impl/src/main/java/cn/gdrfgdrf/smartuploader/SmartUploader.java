@@ -17,6 +17,12 @@
 
 package cn.gdrfgdrf.smartuploader;
 
+import cn.gdrfgdrf.core.api.loader.PluginLoader;
+import cn.gdrfgdrf.core.common.Constants;
+import cn.gdrfgdrf.core.config.ConfigManager;
+import cn.gdrfgdrf.core.config.common.Config;
+import cn.gdrfgdrf.core.locale.LanguageLoader;
+
 /**
  * @Description 程序主类
  * @Author gdrfgdrf
@@ -41,11 +47,24 @@ public class SmartUploader {
         return INSTANCE;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         SmartUploader.getInstance().run();
     }
 
-    public void run() {
+    /**
+     * @Description 程序开始运行
+     * @throws Exception
+     *         程序出现未被捕获的错误，此时程序将会直接崩溃
+     * @Author gdrfgdrf
+     * @Date 2024/5/4
+     */
+    public void run() throws Exception {
+        ConfigManager.getInstance().load(Constants.CONFIG_FILE_NAME);
+        Config config = ConfigManager.getInstance().getConfig();
+
+        LanguageLoader.getInstance().load(config.getLanguage());
+
+        PluginLoader pluginLoader = PluginLoader.getInstance();
 
     }
 

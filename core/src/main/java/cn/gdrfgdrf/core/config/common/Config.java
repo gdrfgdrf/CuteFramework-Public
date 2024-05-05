@@ -15,21 +15,21 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.gdrfgdrf.core.common;
+package cn.gdrfgdrf.core.config.common;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
 
 /**
- * @Description 常量类
+ * @Description 配置类
  * @Author gdrfgdrf
- * @Date 2024/4/8
+ * @Date 2024/5/4
  */
-public class Constants {
-    public static final String LOCALE_COLLECT_PACKAGE = "cn.gdrfgdrf.smartuploader.locale.collect";
-    public static final String LOCALE_LANGUAGE_PACKAGE = "cn.gdrfgdrf.smartuploader.locale.language";
-    public static final String LOCALE_LANGUAGE_FOLDER = "language/";
-
-    public static final String PLUGIN_FOLDER = "plugin/";
-    public static final String PLUGIN_DESCRIPTION_FILE_NAME = "plugin.json";
-
-    public static final String CONFIG_FILE_NAME = "config.json";
-
+@Data
+public class Config {
+    /**
+     * 语言
+     */
+    @JsonProperty(defaultValue = "chinese_simplified")
+    private String language;
 }

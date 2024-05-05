@@ -19,12 +19,14 @@ package cn.gdrfgdrf.core.utils.stack.exception;
 
 import cn.gdrfgdrf.core.exceptionhandler.base.CustomException;
 import cn.gdrfgdrf.core.locale.collect.ExceptionLanguage;
+import lombok.Getter;
 
 /**
  * @Description 当 {@link cn.gdrfgdrf.core.utils.stack.StackUtils} 检测到违规操作时抛出
  * @Author gdrfgdrf
  * @Date 2024/4/30
  */
+@Getter
 public class StackIllegalOperationException extends CustomException {
     /**
      * 违规操作的调用方所在的类
@@ -52,7 +54,7 @@ public class StackIllegalOperationException extends CustomException {
 
     @Override
     public String getI18NMessage() {
-        return ExceptionLanguage.STACK_ILLEGAL_OPERATION_EXCEPTION
+        return ExceptionLanguage.STACK_ILLEGAL_OPERATION
                 .get()
                 .format(callerClassName, caller, protectClassName, protect)
                 .getString();

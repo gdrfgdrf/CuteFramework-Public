@@ -20,6 +20,7 @@ package cn.gdrfgdrf.core.bean.resolver.exception;
 import cn.gdrfgdrf.core.exceptionhandler.base.CustomException;
 import cn.gdrfgdrf.core.locale.collect.ExceptionLanguage;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -29,6 +30,7 @@ import java.util.Arrays;
  * @Author gdrfgdrf
  * @Date 2024/5/4
  */
+@Getter
 @AllArgsConstructor
 public class BeanMethodArgumentTypeMismatchException extends CustomException {
     /**
@@ -48,7 +50,7 @@ public class BeanMethodArgumentTypeMismatchException extends CustomException {
     public String getI18NMessage() {
         return ExceptionLanguage.BEAN_METHOD_ARGUMENT_TYPE_MISMATCH
                 .get()
-                .format(method, Arrays.toString(need), clazz.getSimpleName())
+                .format(method, Arrays.toString(need), clazz.getName())
                 .getString();
     }
 
@@ -59,6 +61,6 @@ public class BeanMethodArgumentTypeMismatchException extends CustomException {
                 " must be " +
                 Arrays.toString(need) +
                 ", the class " +
-                clazz.getSimpleName();
+                clazz.getName();
     }
 }

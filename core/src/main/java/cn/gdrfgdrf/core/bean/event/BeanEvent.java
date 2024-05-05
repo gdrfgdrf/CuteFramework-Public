@@ -18,7 +18,6 @@
 package cn.gdrfgdrf.core.bean.event;
 
 import cn.gdrfgdrf.core.bean.BeanManager;
-import cn.gdrfgdrf.core.event.base.Event;
 import lombok.Getter;
 
 /**
@@ -27,7 +26,7 @@ import lombok.Getter;
  * @Date 2024/5/4
  */
 @Getter
-public abstract class BeanEvent extends Event {
+public abstract class BeanEvent {
     /**
      * Bean 实例
      */

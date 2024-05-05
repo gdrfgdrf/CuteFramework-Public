@@ -46,7 +46,7 @@ public class StackIllegalArgumentException extends CustomException {
 
     @Override
     public String getI18NMessage() {
-        return ExceptionLanguage.STACK_ILLEGAL_ARGUMENT_EXCEPTION
+        return ExceptionLanguage.STACK_ILLEGAL_ARGUMENT
                 .get()
                 .format(protectClassName, protectMethodName)
                 .getString();

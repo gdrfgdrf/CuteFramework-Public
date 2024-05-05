@@ -15,48 +15,44 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.gdrfgdrf.core.event.exception;
+package cn.gdrfgdrf.core.api.exception;
 
 import cn.gdrfgdrf.core.exceptionhandler.base.CustomException;
 import cn.gdrfgdrf.core.locale.collect.ExceptionLanguage;
-import com.google.common.eventbus.SubscriberExceptionContext;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.io.File;
+
 /**
- * @Description 当事件处理时发生异常，将由 {@link cn.gdrfgdrf.core.event.EventExceptionHandler} 捕获
- * 并使用该类对异常实例进行包装提供给 {@link cn.gdrfgdrf.core.exceptionhandler.ExceptionDispatcher} 进行分发
+ * @Description 插件加载错误，当 {@link cn.gdrfgdrf.core.api.loader.PluginLoader} 加载插件错误时将抛出此类，
+ * 错误实例将会包含在该类中并继续抛出
+ *
  * @Author gdrfgdrf
- * @Date 2024/4/24
+ * @Date 2024/5/5
  */
 @Getter
-public class EventException extends CustomException {
+@AllArgsConstructor
+public class PluginLoadException extends CustomException {
     /**
-     * 事件处理时抛出的异常实例
+     * 插件文件
+     */
+    private final File pluginFile;
+    /**
+     * 加载插件时的错误实例
      */
     private final Throwable throwable;
-    /**
-     * 事件订阅者上下文
-     */
-    private final SubscriberExceptionContext context;
-
-    public EventException(Throwable throwable, SubscriberExceptionContext context) {
-        this.throwable = throwable;
-        this.context = context;
-    }
 
     @Override
     public String getI18NMessage() {
-        return ExceptionLanguage.EVENT_PROCESSING_ERROR
+        return ExceptionLanguage.PLUGIN_LOAD_FAILED
                 .get()
-                .format(context.getEvent().getClass().getName(), throwable.getMessage())
+                .format(pluginFile.getName(), throwable.getMessage())
                 .getString();
     }
 
     @Override
     public String getDefaultMessage() {
-        return "Error occurred while processing " +
-                context.getEvent().getClass().getName() +
-                " event: " +
-                throwable.getMessage();
+        return "An error occurred while loading plugin " + pluginFile.getName() + ": " + throwable.getMessage();
     }
 }

@@ -31,6 +31,12 @@ import java.lang.reflect.Array;
 public class AssertUtils {
     private AssertUtils() {}
 
+    public static <T extends Throwable> void expression(boolean expression, T throwable) throws T {
+        if (!expression) {
+            throw throwable;
+        }
+    }
+
     public static void notNull(String parameterName, Object o) throws AssertNotNullException {
         if (o == null) {
             throw new AssertNotNullException(parameterName);

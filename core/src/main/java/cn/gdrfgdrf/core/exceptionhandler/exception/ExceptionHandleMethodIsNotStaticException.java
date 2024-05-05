@@ -47,7 +47,7 @@ public class ExceptionHandleMethodIsNotStaticException extends CustomException {
     public String getI18NMessage() {
         return ExceptionLanguage.EXCEPTION_HANDLE_METHOD_IS_NOT_STATIC
                 .get()
-                .format(exceptionHandleMethod.getName(), clazz.getSimpleName())
+                .format(exceptionHandleMethod.getName(), clazz.getName())
                 .getString();
     }
 
