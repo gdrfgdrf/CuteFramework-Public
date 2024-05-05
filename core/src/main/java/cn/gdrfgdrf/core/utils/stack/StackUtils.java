@@ -54,7 +54,12 @@ public class StackUtils {
             StackIllegalArgumentException
     {
         AssertUtils.notNull("be allowed method", allowedMethod);
-        onlyCheckerInternal(allowedMethod.getDeclaringClass().getName(), allowedMethod.getName(), 1, 0);
+        onlyCheckerInternal(
+                allowedMethod.getDeclaringClass().getName(),
+                allowedMethod.getName(),
+                1,
+                0
+        );
     }
 
     /**
@@ -121,7 +126,12 @@ public class StackUtils {
      * @Author gdrfgdrf
      * @Date 2024/5/4
      */
-    public static void onlyMethod(Class<?>[] allowedClassArray, String[] allowedMethodNameArray) throws AssertNotNullException, AssertArrayLengthMismatchException, StackIllegalOperationException, StackIllegalArgumentException {
+    public static void onlyMethod(Class<?>[] allowedClassArray, String[] allowedMethodNameArray) throws
+            AssertNotNullException,
+            AssertArrayLengthMismatchException,
+            StackIllegalOperationException,
+            StackIllegalArgumentException
+    {
         AssertUtils.notNull("be allowed class array", allowedClassArray);
         AssertUtils.notNull("be allowed method name array", allowedMethodNameArray);
         AssertUtils.arrayMin("be allowed class", allowedClassArray, 1);
