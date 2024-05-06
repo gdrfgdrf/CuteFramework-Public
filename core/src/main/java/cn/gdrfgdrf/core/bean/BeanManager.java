@@ -20,6 +20,7 @@ package cn.gdrfgdrf.core.bean;
 import cn.gdrfgdrf.core.api.PluginManager;
 import cn.gdrfgdrf.core.api.base.Plugin;
 import cn.gdrfgdrf.core.bean.annotation.Component;
+import cn.gdrfgdrf.core.bean.compare.OrderComparator;
 import cn.gdrfgdrf.core.bean.event.BeanEvent;
 import cn.gdrfgdrf.core.bean.exception.BeanNameConflictException;
 import cn.gdrfgdrf.core.bean.resolver.BeanMethodResolverManager;
@@ -40,13 +41,11 @@ import cn.gdrfgdrf.core.utils.stack.StackUtils;
 import cn.gdrfgdrf.core.utils.stack.exception.StackIllegalArgumentException;
 import cn.gdrfgdrf.core.utils.stack.exception.StackIllegalOperationException;
 
-import javax.annotation.processing.Generated;
 import java.lang.annotation.*;
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 /**
  * @Description Bean 管理器，对 Bean 进行创建，移除等操作
@@ -127,13 +126,16 @@ public class BeanManager {
             String mainClassPackage = plugin.getClass().getPackageName();
             String mainClassLastPackage = mainClassPackage.substring(0, mainClassPackage.lastIndexOf("."));
 
-            Set<Class<?>> components = new HashSet<>();
+            Set<Class<?>> components = new LinkedHashSet<>();
             ClassUtils.searchJar(
                     classLoader,
                     mainClassLastPackage,
-                    clazz -> !clazz.isAnnotation() && hasAnnotation(clazz, Component.class),
+                    clazz -> !clazz.isAnnotation() && ClassUtils.hasAnnotation(clazz, Component.class),
                     components
             );
+            components = components.stream()
+                    .sorted(OrderComparator.getInstance())
+                    .collect(Collectors.toCollection(LinkedHashSet::new));
 
             for (Class<?> component : components) {
                 create(component);
@@ -162,13 +164,16 @@ public class BeanManager {
     {
         StackUtils.onlyMethod("cn.gdrfgdrf.core.bean.BeanManager", "startCreating");
 
-        Set<Class<?>> components = new HashSet<>();
+        Set<Class<?>> components = new LinkedHashSet<>();
         ClassUtils.searchJar(
                 Thread.currentThread().getContextClassLoader(),
                 "cn.gdrfgdrf.core",
-                clazz -> !clazz.isAnnotation() && hasAnnotation(clazz, Component.class),
+                clazz -> !clazz.isAnnotation() && ClassUtils.hasAnnotation(clazz, Component.class),
                 components
         );
+        components = components.stream()
+                .sorted(OrderComparator.getInstance())
+                .collect(Collectors.toCollection(LinkedHashSet::new));
 
         for (Class<?> component : components) {
             create(component);
@@ -197,13 +202,16 @@ public class BeanManager {
     {
         StackUtils.onlyMethod("cn.gdrfgdrf.core.bean.BeanManager", "startCreating");
 
-        Set<Class<?>> components = new HashSet<>();
+        Set<Class<?>> components = new LinkedHashSet<>();
         ClassUtils.searchJar(
                 Thread.currentThread().getContextClassLoader(),
                 "cn.gdrfgdrf.smartuploader",
-                clazz -> !clazz.isAnnotation() && hasAnnotation(clazz, Component.class),
+                clazz -> !clazz.isAnnotation() && ClassUtils.hasAnnotation(clazz, Component.class),
                 components
         );
+        components = components.stream()
+                .sorted(OrderComparator.getInstance())
+                .collect(Collectors.toCollection(LinkedHashSet::new));
 
         for (Class<?> component : components) {
             create(component);
@@ -311,28 +319,5 @@ public class BeanManager {
 
         Class<? extends Annotation> targetMethodAnnotation = annotation.targetMethodAnnotation();
         BeanMethodResolverManager.getInstance().registerBeanMethodResolver(targetMethodAnnotation, resolver);
-    }
-
-    private static boolean hasAnnotation(Class<?> clazz, Class<? extends Annotation> targetAnnotation) {
-        Annotation[] annotations = clazz.getAnnotations();
-
-        for (Annotation annotation : annotations) {
-            if (annotation.annotationType() != Deprecated.class &&
-                    annotation.annotationType() != SuppressWarnings.class &&
-                    annotation.annotationType() != Override.class &&
-                    annotation.annotationType() != Generated.class &&
-                    annotation.annotationType() != Target.class &&
-                    annotation.annotationType() != Retention.class &&
-                    annotation.annotationType() != Documented.class &&
-                    annotation.annotationType() != Inherited.class
-            ) {
-                if (annotation.annotationType() == targetAnnotation) {
-                    return true;
-                }
-                return hasAnnotation(annotation.annotationType(), targetAnnotation);
-            }
-        }
-
-        return false;
     }
 }

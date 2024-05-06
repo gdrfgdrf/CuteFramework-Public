@@ -18,6 +18,7 @@
 package cn.gdrfgdrf.core.bean.resolver.clazz.annotation;
 
 import cn.gdrfgdrf.core.bean.annotation.Component;
+import cn.gdrfgdrf.core.bean.annotation.Order;
 
 import java.lang.annotation.*;
 
@@ -26,6 +27,7 @@ import java.lang.annotation.*;
  * @Author gdrfgdrf
  * @Date 2024/5/6
  */
+@Order(1)
 @Component
 @Target(value = ElementType.TYPE)
 @Retention(value = RetentionPolicy.RUNTIME)

@@ -24,6 +24,7 @@ import cn.gdrfgdrf.core.exceptionhandler.exception.NotFoundExceptionHandlerExcep
 import cn.gdrfgdrf.core.utils.ClassUtils;
 import cn.gdrfgdrf.core.utils.asserts.AssertUtils;
 import cn.gdrfgdrf.core.utils.asserts.exception.AssertNotNullException;
+import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.Method;
 import java.util.List;
@@ -36,6 +37,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * @Author gdrfgdrf
  * @Date 2024/4/7
  */
+@Slf4j
 public class ExceptionDispatcher {
     private static ExceptionDispatcher INSTANCE;
 
@@ -181,10 +183,33 @@ public class ExceptionDispatcher {
                 throw new NotFoundExceptionHandlerException(throwable);
             }
         }
-        System.out.println("Dispatch exception " + throwable.getClass().getName());
 
         for (Method exceptionHandleMethod : exceptionHandlers) {
             ClassUtils.safetyInvoke(null, exceptionHandleMethod, thread, throwable);
+        }
+    }
+
+    /**
+     * @Description 安全的分发异常到异常处理方法，该方法不会抛出错误，
+     * 当 {@link ExceptionDispatcher#dispatch(Thread, Throwable)} 抛出一般错误时将会输出一段日志，
+     * 当 {@link ExceptionDispatcher#dispatch(Thread, Throwable)} 抛出了 {@link NotFoundExceptionHandlerException} 时
+     * 将会在此对其进行一次分发，但由于该异常类被 {@link Undispatchable} 所注解，
+     * 所以将会发布 {@link cn.gdrfgdrf.core.exceptionhandler.event.ExceptionEvent.UndispatchableExceptionThrownEvent} 事件
+     *
+     * @param thread
+	 *        异常所在线程
+	 * @param throwable
+	 *        异常实例
+     * @Author gdrfgdrf
+     * @Date 2024/5/6
+     */
+    public void dispatchSafety(Thread thread, Throwable throwable) {
+        try {
+            dispatch(thread, throwable);
+        } catch (NotFoundExceptionHandlerException dispatcherException) {
+            dispatchSafety(thread, dispatcherException);
+        } catch (Exception e) {
+            log.error("An exception occurred in the exception dispatcher", e);
         }
     }
 

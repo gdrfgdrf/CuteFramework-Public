@@ -44,7 +44,7 @@ public abstract class ExceptionEvent {
      * @Description 无法被分发的异常被抛出，
      * 所有拥有的 {@link cn.gdrfgdrf.core.exceptionhandler.annotation.Undispatchable} 注解的异常类
      * 都不会被 {@link cn.gdrfgdrf.core.exceptionhandler.ExceptionDispatcher} 分发，
-     * 但是会发布该事件说明有无法被分发的异常被抛出
+     * 但是会发布该事件说明有无法被分发的异常被抛出，
      *
      * @Author gdrfgdrf
      * @Date 2024/5/6

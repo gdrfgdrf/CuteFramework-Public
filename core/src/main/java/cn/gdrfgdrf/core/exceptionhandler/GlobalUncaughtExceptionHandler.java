@@ -43,10 +43,6 @@ public class GlobalUncaughtExceptionHandler implements Thread.UncaughtExceptionH
      */
     @Override
     public void uncaughtException(Thread t, Throwable e) {
-        try {
-            ExceptionDispatcher.getInstance().dispatch(t, e);
-        } catch (Exception dispatcherException) {
-            log.error("An exception occurred in the exception dispatcher", dispatcherException);
-        }
+        ExceptionDispatcher.getInstance().dispatchSafety(t, e);
     }
 }

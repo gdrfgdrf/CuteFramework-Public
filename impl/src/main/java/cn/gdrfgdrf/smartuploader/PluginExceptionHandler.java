@@ -18,7 +18,6 @@
 package cn.gdrfgdrf.smartuploader;
 
 import cn.gdrfgdrf.core.api.exception.PluginIllegalStateChangeException;
-import cn.gdrfgdrf.core.bean.annotation.Component;
 import cn.gdrfgdrf.core.event.annotation.EventListener;
 import cn.gdrfgdrf.core.exceptionhandler.annotation.ExceptionHandler;
 import cn.gdrfgdrf.core.exceptionhandler.event.ExceptionEvent;
@@ -29,7 +28,6 @@ import com.google.common.eventbus.Subscribe;
  * @Author gdrfgdrf
  * @Date 2024/5/6
  */
-@Component
 @EventListener
 public class PluginExceptionHandler {
 

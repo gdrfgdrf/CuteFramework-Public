@@ -36,11 +36,6 @@ public class EventExceptionHandler implements SubscriberExceptionHandler {
     @Override
     public void handleException(@NotNull Throwable exception, @NotNull SubscriberExceptionContext context) {
         EventException eventException = new EventException(exception, context);
-
-        try {
-            ExceptionDispatcher.getInstance().dispatch(Thread.currentThread(), eventException);
-        } catch (Exception dispatcherException) {
-            log.error("An exception occurred in the exception dispatcher", dispatcherException);
-        }
+        ExceptionDispatcher.getInstance().dispatchSafety(Thread.currentThread(), eventException);
     }
 }

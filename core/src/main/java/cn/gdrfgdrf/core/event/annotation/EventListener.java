@@ -17,6 +17,8 @@
 
 package cn.gdrfgdrf.core.event.annotation;
 
+import cn.gdrfgdrf.core.bean.annotation.Component;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -27,6 +29,7 @@ import java.lang.annotation.Target;
  * @Author gdrfgdrf
  * @Date 2024/5/6
  */
+@Component
 @Target(value = ElementType.TYPE)
 @Retention(value = RetentionPolicy.RUNTIME)
 public @interface EventListener {
