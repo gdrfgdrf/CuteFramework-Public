@@ -87,8 +87,11 @@ public class SmartUploader {
 
             PluginManager.getInstance().enablePlugin(name);
             PluginManager.getInstance().loadPlugin(name);
-            PluginManager.getInstance().disablePlugin(name);
         }
+
+        BeanManager.getInstance().startCreatingPluginBeans();
+
+        throw new NullPointerException("test");
     }
 
     @Subscribe

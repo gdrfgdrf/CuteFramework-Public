@@ -33,7 +33,7 @@ import com.google.common.eventbus.Subscribe;
 @EventListener
 public class PluginExceptionHandler {
 
-    @ExceptionHandler(support = {PluginIllegalStateChangeException.class})
+    @ExceptionHandler(support = {Throwable.class})
     public static void onException(Thread thread, Throwable throwable) {
         System.out.println("1、捕获到线程 " + thread.getName() + " 的异常 " + throwable.getMessage());
     }

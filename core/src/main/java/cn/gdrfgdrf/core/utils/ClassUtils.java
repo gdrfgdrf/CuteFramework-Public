@@ -77,9 +77,10 @@ public class ClassUtils {
             File searchRoot,
             String packageName,
             Predicate<Class<?>> predicate,
+            ClassLoader classLoader,
             Set<Class<?>> result
     ) {
-        searchInternal(searchRoot, packageName, predicate, result, true);
+        searchInternal(searchRoot, packageName, predicate, result, classLoader, true);
     }
 
     private static void searchInternal(
@@ -87,6 +88,7 @@ public class ClassUtils {
             String packageName,
             Predicate<Class<?>> predicate,
             Set<Class<?>> result,
+            ClassLoader classLoader,
             boolean flag
     ) {
         if (searchRoot.isDirectory()) {
@@ -99,17 +101,19 @@ public class ClassUtils {
             }
 
             String finalPackageName = packageName;
-            Arrays.stream(files).forEach(file -> searchInternal(file, finalPackageName, predicate, result, false));
+            Arrays.stream(files).forEach(file -> searchInternal(file, finalPackageName, predicate, result, classLoader, false));
 
             return;
         }
         if (searchRoot.getName().endsWith(".class")) {
             try {
-                Class<?> clazz = Class.forName(packageName + "." +
-                        searchRoot.getName().substring(
-                                0,
-                                searchRoot.getName().lastIndexOf(".")
-                        ));
+                Class<?> clazz = Class.forName(
+                        packageName + "." + searchRoot
+                                .getName()
+                                .substring(0, searchRoot.getName().lastIndexOf(".")),
+                        true,
+                        classLoader
+                );
                 if (predicate == null || predicate.test(clazz)) {
                     result.add(clazz);
                 }
@@ -120,12 +124,13 @@ public class ClassUtils {
     }
 
     public static void searchJar(
+            ClassLoader classLoader,
             String packageName,
             Predicate<Class<?>> predicate,
             Set<Class<?>> result
     ) {
         try {
-            Enumeration<URL> urlEnumeration = Thread.currentThread().getContextClassLoader()
+            Enumeration<URL> urlEnumeration = classLoader
                     .getResources(packageName.replace(".", "/"));
 
             while (urlEnumeration.hasMoreElements()) {
@@ -141,7 +146,7 @@ public class ClassUtils {
                         String packagePath = packageName.replace(".", "/");
                         File searchRoot = new File(classpath + packagePath);
 
-                        search(searchRoot, packageName, predicate, result);
+                        search(searchRoot, packageName, predicate, classLoader, result);
                     }
                     continue;
                 }
@@ -164,7 +169,7 @@ public class ClassUtils {
                     }
                     String className = entryName.substring(0, entryName.lastIndexOf("."))
                             .replace("/", ".");
-                    Class<?> clazz = Class.forName(className);
+                    Class<?> clazz = Class.forName(className, true, classLoader);
 
                     if (predicate == null || predicate.test(clazz)) {
                         result.add(clazz);

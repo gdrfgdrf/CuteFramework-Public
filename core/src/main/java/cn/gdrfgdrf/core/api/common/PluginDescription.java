@@ -60,6 +60,10 @@ public class PluginDescription {
      * 插件文件
      */
     private File pluginFile;
+    /**
+     * 加载该插件时使用的类加载器
+     */
+    private ClassLoader classLoader;
 
     @JsonCreator
     public PluginDescription(

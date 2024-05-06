@@ -17,6 +17,8 @@
 
 package cn.gdrfgdrf.core.bean;
 
+import cn.gdrfgdrf.core.api.PluginManager;
+import cn.gdrfgdrf.core.api.base.Plugin;
 import cn.gdrfgdrf.core.bean.annotation.Component;
 import cn.gdrfgdrf.core.bean.event.BeanEvent;
 import cn.gdrfgdrf.core.bean.exception.BeanNameConflictException;
@@ -114,8 +116,29 @@ public class BeanManager {
      * @Author gdrfgdrf
      * @Date 2024/5/4
      */
-    public void startCreatingPluginBeans() {
+    public void startCreatingPluginBeans() throws StackIllegalOperationException, AssertNotNullException, StackIllegalArgumentException, BeanClassResolverException, BeanNameConflictException, BeanMethodResolverException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        StackUtils.onlyMethod("cn.gdrfgdrf.smartuploader.SmartUploader", "run");
 
+        for (Map.Entry<String, Plugin> pluginEntry : PluginManager.getInstance().getPlugins().entrySet()) {
+            String name = pluginEntry.getKey();
+            Plugin plugin = pluginEntry.getValue();
+
+            ClassLoader classLoader = plugin.getPluginDescription().getClassLoader();
+            String mainClassPackage = plugin.getClass().getPackageName();
+            String mainClassLastPackage = mainClassPackage.substring(0, mainClassPackage.lastIndexOf("."));
+
+            Set<Class<?>> components = new HashSet<>();
+            ClassUtils.searchJar(
+                    classLoader,
+                    mainClassLastPackage,
+                    clazz -> !clazz.isAnnotation() && hasAnnotation(clazz, Component.class),
+                    components
+            );
+
+            for (Class<?> component : components) {
+                create(component);
+            }
+        }
     }
 
     /**
@@ -141,6 +164,7 @@ public class BeanManager {
 
         Set<Class<?>> components = new HashSet<>();
         ClassUtils.searchJar(
+                Thread.currentThread().getContextClassLoader(),
                 "cn.gdrfgdrf.core",
                 clazz -> !clazz.isAnnotation() && hasAnnotation(clazz, Component.class),
                 components
@@ -175,6 +199,7 @@ public class BeanManager {
 
         Set<Class<?>> components = new HashSet<>();
         ClassUtils.searchJar(
+                Thread.currentThread().getContextClassLoader(),
                 "cn.gdrfgdrf.smartuploader",
                 clazz -> !clazz.isAnnotation() && hasAnnotation(clazz, Component.class),
                 components

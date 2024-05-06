@@ -40,8 +40,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Objects;
 import java.util.jar.JarEntry;
@@ -168,20 +166,18 @@ public class PluginLoader {
         checkPluginCoreVersion(pluginDescription);
 
         // instantiate plugin main class
-        Plugin plugin = loadPluginMainClass(pluginDescription);
+        Plugin plugin = loadPluginClass(pluginDescription);
         plugin.setPluginDescription(pluginDescription);
 
         PluginManager.getInstance().registerPlugin(pluginDescription.getName(), plugin);
     }
 
     /**
-     * @Description 加载插件主类
+     * @Description 加载插件的类
      * @param pluginDescription
 	 *        插件描述文件
      * @return cn.gdrfgdrf.core.api.base.Plugin
-     *         被正常加载的插件主类
-     * @throws MalformedURLException
-     *         无法将插件文件转为 {@link URL}
+     *         正常加载的插件主类
      * @throws ClassNotFoundException
      *         无法在插件文件中找到所定义的 main-class
      * @throws PluginMainClassExtendException
@@ -199,8 +195,7 @@ public class PluginLoader {
      * @Author gdrfgdrf
      * @Date 2024/5/5
      */
-    private Plugin loadPluginMainClass(PluginDescription pluginDescription) throws
-            MalformedURLException,
+    private Plugin loadPluginClass(PluginDescription pluginDescription) throws
             ClassNotFoundException,
             PluginMainClassExtendException,
             NoSuchMethodException,
@@ -212,9 +207,15 @@ public class PluginLoader {
         File pluginFile = pluginDescription.getPluginFile();
         String mainClassPath = pluginDescription.getMainClass();
 
-        @Cleanup
-        URLClassLoader urlClassLoader =  new URLClassLoader(new URL[]{pluginFile.toURI().toURL()});
-        Class<?> mainClass = urlClassLoader.loadClass(mainClassPath);
+        ClassLoader originClassLoader = Thread.currentThread().getContextClassLoader();
+        ClassLoader jarClassLoader =  new JarClassLoader(pluginFile);
+        Thread.currentThread().setContextClassLoader(jarClassLoader);
+
+        Class<?> mainClass = jarClassLoader.loadClass(mainClassPath);
+
+        Thread.currentThread().setContextClassLoader(originClassLoader);
+
+        pluginDescription.setClassLoader(jarClassLoader);
         if (mainClass.getSuperclass() != Plugin.class) {
             throw new PluginMainClassExtendException(pluginDescription, mainClass);
         }
