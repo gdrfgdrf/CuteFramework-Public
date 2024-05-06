@@ -19,8 +19,10 @@ package cn.gdrfgdrf.core.utils;
 
 import lombok.extern.slf4j.Slf4j;
 
+import javax.annotation.processing.Generated;
 import java.io.File;
 import java.io.IOException;
+import java.lang.annotation.*;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -42,6 +44,39 @@ import java.util.jar.JarFile;
 @Slf4j
 public class ClassUtils {
     private ClassUtils() {}
+
+    public static boolean hasAnnotation(Class<?> clazz, Class<? extends Annotation> targetAnnotation) {
+        Annotation annotation = getAnnotation(clazz, targetAnnotation);
+        return annotation != null;
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <T extends Annotation> T getAnnotation(Class<?> clazz, Class<? extends T> targetAnnotation) {
+        Annotation[] annotations = clazz.getAnnotations();
+
+        for (Annotation annotation : annotations) {
+            if (annotation.annotationType() != Deprecated.class &&
+                    annotation.annotationType() != SuppressWarnings.class &&
+                    annotation.annotationType() != Override.class &&
+                    annotation.annotationType() != Generated.class &&
+                    annotation.annotationType() != Target.class &&
+                    annotation.annotationType() != Retention.class &&
+                    annotation.annotationType() != Documented.class &&
+                    annotation.annotationType() != Inherited.class
+            ) {
+                if (annotation.annotationType() == targetAnnotation) {
+                    return (T) annotation;
+                } else {
+                    T deeperAnnotation = getAnnotation(annotation.annotationType(), targetAnnotation);
+                    if (deeperAnnotation != null) {
+                        return deeperAnnotation;
+                    }
+                }
+            }
+        }
+
+        return null;
+    }
 
     @SuppressWarnings("all")
     public static Object safetyInvoke(Object obj, Method method, Object... arguments) {
