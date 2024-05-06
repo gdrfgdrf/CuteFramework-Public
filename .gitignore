@@ -39,3 +39,4 @@ build/
 /log/
 /language/
 /.idea/
+/config.json
