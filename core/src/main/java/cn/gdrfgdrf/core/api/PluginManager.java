@@ -20,6 +20,7 @@ package cn.gdrfgdrf.core.api;
 import cn.gdrfgdrf.core.api.base.Plugin;
 import cn.gdrfgdrf.core.api.common.PluginState;
 import cn.gdrfgdrf.core.api.event.PluginEvent;
+import cn.gdrfgdrf.core.api.exception.PluginIllegalStateChangeException;
 import cn.gdrfgdrf.core.api.exception.PluginNameConflictException;
 import cn.gdrfgdrf.core.event.EventManager;
 import cn.gdrfgdrf.core.utils.asserts.AssertUtils;
@@ -175,7 +176,7 @@ public class PluginManager {
      * @Author gdrfgdrf
      * @Date 2024/5/5
      */
-    public void enablePlugin(String name) throws AssertNotNullException {
+    public void enablePlugin(String name) throws AssertNotNullException, PluginIllegalStateChangeException {
         updatePluginState(name, PluginState.ENABLED, Plugin::onEnable);
     }
 
@@ -188,7 +189,7 @@ public class PluginManager {
      * @Author gdrfgdrf
      * @Date 2024/5/5
      */
-    public void loadPlugin(String name) throws AssertNotNullException {
+    public void loadPlugin(String name) throws AssertNotNullException, PluginIllegalStateChangeException {
         updatePluginState(name, PluginState.LOADED, Plugin::onLoad);
     }
 
@@ -201,7 +202,7 @@ public class PluginManager {
      * @Author gdrfgdrf
      * @Date 2024/5/5
      */
-    public void stopPlugin(String name) throws AssertNotNullException {
+    public void stopPlugin(String name) throws AssertNotNullException, PluginIllegalStateChangeException {
         updatePluginState(name, PluginState.STOPPED, Plugin::onStop);
     }
 
@@ -214,7 +215,7 @@ public class PluginManager {
      * @Author gdrfgdrf
      * @Date 2024/5/5
      */
-    public void disablePlugin(String name) throws AssertNotNullException {
+    public void disablePlugin(String name) throws AssertNotNullException, PluginIllegalStateChangeException {
         updatePluginState(name, PluginState.DISABLED, Plugin::onDisable);
     }
 
@@ -228,6 +229,8 @@ public class PluginManager {
 	 *        需要调用的插件主类的方法
      * @throws AssertNotNullException
      *         当 name 或 targetState 或 consumer 或 获取到的插件主类实例 为 null 时抛出
+     * @throws PluginIllegalStateChangeException
+     *         异常的状态变化顺序
      * @Author gdrfgdrf
      * @Date 2024/5/5
      */
@@ -235,7 +238,7 @@ public class PluginManager {
             String name,
             PluginState targetState,
             Consumer<Plugin> consumer
-    ) throws AssertNotNullException {
+    ) throws AssertNotNullException, PluginIllegalStateChangeException {
         AssertUtils.notNull("plugin name", name);
         AssertUtils.notNull("target plugin state", targetState);
         AssertUtils.notNull("plugin main class method", consumer);
@@ -243,11 +246,15 @@ public class PluginManager {
         Plugin plugin = getPlugin(name);
         AssertUtils.notNull("plugin main class instance", plugin);
 
-        PluginState previousState = PLUGIN_STATE_MAP.get(plugin);
+        PluginState currentPluginState = PLUGIN_STATE_MAP.get(plugin);
+        if (!currentPluginState.validate(targetState)) {
+            throw new PluginIllegalStateChangeException(plugin, currentPluginState, targetState);
+        }
+
         EventManager.getInstance().post(new PluginEvent.StateChange.Pre(
                 plugin,
                 targetState,
-                previousState
+                currentPluginState
         ));
 
         consumer.accept(plugin);
@@ -256,7 +263,7 @@ public class PluginManager {
         EventManager.getInstance().post(new PluginEvent.StateChange.Post(
                 plugin,
                 targetState,
-                previousState
+                currentPluginState
         ));
     }
 

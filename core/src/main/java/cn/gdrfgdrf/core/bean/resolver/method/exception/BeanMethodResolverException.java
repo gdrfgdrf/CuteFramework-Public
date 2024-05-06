@@ -15,16 +15,16 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.gdrfgdrf.core.bean.resolver.exception;
+package cn.gdrfgdrf.core.bean.resolver.method.exception;
 
-import cn.gdrfgdrf.core.bean.resolver.base.BeanMethodResolver;
+import cn.gdrfgdrf.core.bean.resolver.method.base.BeanMethodResolver;
 import cn.gdrfgdrf.core.exceptionhandler.base.CustomException;
 import cn.gdrfgdrf.core.locale.collect.ExceptionLanguage;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * @Description 当 {@link cn.gdrfgdrf.core.bean.resolver.base.BeanMethodResolver} 发生错误时
+ * @Description 当 {@link BeanMethodResolver} 发生错误时
  * {@link cn.gdrfgdrf.core.bean.resolver.BeanMethodResolverManager} 将会把异常实例包装到该类并抛出
  *
  * @Author gdrfgdrf
@@ -48,7 +48,7 @@ public class BeanMethodResolverException extends CustomException {
 
     @Override
     public String getI18NMessage() {
-        return ExceptionLanguage.BEAN_METHOD_RESOLVER_ERROR
+        return ExceptionLanguage.BEAN_METHOD_RESOLVER_PROCESSING_ERROR
                 .get()
                 .format(
                         resolver.getClass().getName(),

@@ -398,7 +398,7 @@ public class StackUtils {
 
     /**
      * @Description 解析堆栈，获取指定深度的方法信息，深度包括该方法
-     * @return cn.gdrfgdrf.smartuploader.utils.stack.common.CallerInformation
+     * @return cn.gdrfgdrf.core.utils.stack.common.CallerInformation
      *         调用方信息集合
      * @Author gdrfgdrf
      * @Date 2024/4/30

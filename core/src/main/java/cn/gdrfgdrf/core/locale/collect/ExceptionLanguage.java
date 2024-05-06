@@ -32,7 +32,8 @@ public class ExceptionLanguage implements LanguageCollect {
     public static LanguageString EVENT_PROCESSING_ERROR;
 
     public static LanguageString BEAN_NAME_CONFLICT;
-    public static LanguageString BEAN_METHOD_RESOLVER_ERROR;
+    public static LanguageString BEAN_CLASS_RESOLVER_PROCESSING_ERROR;
+    public static LanguageString BEAN_METHOD_RESOLVER_PROCESSING_ERROR;
 
     public static LanguageString STACK_ILLEGAL_OPERATION;
     public static LanguageString STACK_ILLEGAL_ARGUMENT;
@@ -42,4 +43,5 @@ public class ExceptionLanguage implements LanguageCollect {
     public static LanguageString PLUGIN_UNDEFINED_PROPERTY;
     public static LanguageString PLUGIN_MAIN_CLASS_EXTEND_ERROR;
     public static LanguageString PLUGIN_NAME_CONFLICT;
+    public static LanguageString PLUGIN_ILLEGAL_STATE_CHANGE;
 }

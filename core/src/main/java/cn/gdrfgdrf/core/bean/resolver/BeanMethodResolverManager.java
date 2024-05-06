@@ -17,8 +17,8 @@
 
 package cn.gdrfgdrf.core.bean.resolver;
 
-import cn.gdrfgdrf.core.bean.resolver.base.BeanMethodResolver;
-import cn.gdrfgdrf.core.bean.resolver.exception.BeanMethodResolverException;
+import cn.gdrfgdrf.core.bean.resolver.method.base.BeanMethodResolver;
+import cn.gdrfgdrf.core.bean.resolver.method.exception.BeanMethodResolverException;
 import cn.gdrfgdrf.core.utils.asserts.AssertUtils;
 import cn.gdrfgdrf.core.utils.asserts.exception.AssertNotNullException;
 
@@ -48,7 +48,7 @@ public class BeanMethodResolverManager {
 
     /**
      * @Description 单例模式，获取 {@link BeanMethodResolverManager} 实例
-     * @return cn.gdrfgdrf.smartuploader.bean.resolver.BeanResolverManager
+     * @return cn.gdrfgdrf.core.bean.resolver.BeanResolverManager
      *         {@link BeanMethodResolverManager} 实例
      * @Author gdrfgdrf
      * @Date 2024/4/29
@@ -61,7 +61,7 @@ public class BeanMethodResolverManager {
     }
 
     /**
-     * @Description 注册 Bean 解析器
+     * @Description 注册 Bean 方法解析器
      * @param beanAnnotationType
 	 *        Bean 类型
 	 * @param resolver
@@ -71,14 +71,14 @@ public class BeanMethodResolverManager {
      * @Author gdrfgdrf
      * @Date 2024/4/29
      */
-    public void registerBeanResolver(Class<? extends Annotation> beanAnnotationType, BeanMethodResolver resolver) throws AssertNotNullException {
-        AssertUtils.notNull("bean annotation type", beanAnnotationType);
-        AssertUtils.notNull("bean resolver", resolver);
+    public void registerBeanMethodResolver(Class<? extends Annotation> beanAnnotationType, BeanMethodResolver resolver) throws AssertNotNullException {
+        AssertUtils.notNull("bean method annotation type", beanAnnotationType);
+        AssertUtils.notNull("bean method resolver", resolver);
         BEAN_METHOD_RESOLVER_MAP.put(beanAnnotationType, resolver);
     }
 
     /**
-     * @Description 移除 Bean 解析器
+     * @Description 移除 Bean 方法解析器
      * @param beanAnnotationType
 	 *        Bean 类型
      * @throws AssertNotNullException
@@ -86,8 +86,8 @@ public class BeanMethodResolverManager {
      * @Author gdrfgdrf
      * @Date 2024/4/29
      */
-    public void removeBeanResolver(Class<?> beanAnnotationType) throws AssertNotNullException {
-        AssertUtils.notNull("bean annotation type", beanAnnotationType);
+    public void removeBeanMethodResolver(Class<? extends Annotation> beanAnnotationType) throws AssertNotNullException {
+        AssertUtils.notNull("bean method annotation type", beanAnnotationType);
         BEAN_METHOD_RESOLVER_MAP.remove(beanAnnotationType);
     }
 
@@ -112,7 +112,6 @@ public class BeanMethodResolverManager {
                             BEAN_METHOD_RESOLVER_MAP.containsKey(annotation.annotationType()));
                 })
                 .toArray(Method[]::new);
-
 
         for (Method method : methods) {
             Annotation[] annotations = method.getAnnotations();

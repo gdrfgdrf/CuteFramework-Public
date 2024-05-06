@@ -38,7 +38,7 @@ public class EventManager {
 
     /**
      * @Description 单例模式，获取 {@link EventManager} 实例
-     * @return cn.gdrfgdrf.smartuploader.event.EventManager
+     * @return cn.gdrfgdrf.core.event.EventManager
      *         {@link EventManager} 实例
      * @Author gdrfgdrf
      * @Date 2024/4/24

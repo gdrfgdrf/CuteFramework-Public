@@ -15,22 +15,24 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.gdrfgdrf.core.bean.resolver.base;
+package cn.gdrfgdrf.core.bean.resolver.method.base;
 
 import cn.gdrfgdrf.core.bean.resolver.BeanMethodResolverManager;
-import cn.gdrfgdrf.core.bean.resolver.exception.BeanMethodArgumentTypeMismatchException;
+import cn.gdrfgdrf.core.bean.resolver.method.exception.BeanMethodArgumentTypeMismatchException;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
 
 /**
- * @Description Bean 解析器，Bean 由 {@link cn.gdrfgdrf.core.bean.BeanManager} 实例化完成后，
+ * @Description Bean 方法解析器，Bean 由 {@link cn.gdrfgdrf.core.bean.BeanManager} 实例化完成后，
  * 将会使用 {@link BeanMethodResolverManager} 分发到指定的 {@link BeanMethodResolver}，
  * 该类可对 Bean 进行初始化，
  * 比如说获取所有带有 {@link cn.gdrfgdrf.core.exceptionhandler.annotation.ExceptionHandler} 注解的方法，
  * 并注册到 {@link cn.gdrfgdrf.core.exceptionhandler.ExceptionDispatcher}。
  * 建议该类只进行例如解析注解并注册到管理器之类的操作，不推荐进行设置 Bean 的字段之类的操作
  * 设置 Bean 字段的操作应该在构造函数内进行，也就是被 {@link cn.gdrfgdrf.core.bean.BeanManager} 实例化时
+ * 该类必须拥有 {@link cn.gdrfgdrf.core.bean.resolver.method.annotation.BeanMethodResolverAnnotation}
+ * 才能被 {@link cn.gdrfgdrf.core.bean.BeanManager} 识别到
  *
  * @Author gdrfgdrf
  * @Date 2024/4/29

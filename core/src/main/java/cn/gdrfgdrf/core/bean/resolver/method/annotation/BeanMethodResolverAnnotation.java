@@ -15,24 +15,20 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.gdrfgdrf.core.bean.annotation;
+package cn.gdrfgdrf.core.bean.resolver.method.annotation;
+
+import cn.gdrfgdrf.core.bean.annotation.Component;
 
 import java.lang.annotation.*;
 
 /**
- * @Description 被注解的类将会被 {@link cn.gdrfgdrf.core.bean.BeanManager} 扫描到并作为 Bean 加载
+ * @Description 标记一个类是 Bean 方法解析器，作为 Bean 方法解析器将会被 {@link cn.gdrfgdrf.core.bean.BeanManager} 最先创建
  * @Author gdrfgdrf
- * @Date 2024/4/20
+ * @Date 2024/5/4
  */
+@Component
 @Target(value = ElementType.TYPE)
 @Retention(value = RetentionPolicy.RUNTIME)
-public @interface Component {
-    /**
-     * @Description 定义 Bean 名称，为空则默认为类名
-     * @return java.lang.String
-     *         Bean 名称
-     * @Author gdrfgdrf
-     * @Date 2024/5/2
-     */
-    String name() default "";
+public @interface BeanMethodResolverAnnotation {
+    Class<? extends Annotation> targetMethodAnnotation();
 }

@@ -52,7 +52,7 @@ public class LanguageLoader {
 
     /**
      * @Description 单例模式，获取 {@link LanguageLoader} 实例
-     * @return cn.gdrfgdrf.smartuploader.locale.LanguageLoader
+     * @return cn.gdrfgdrf.core.locale.LanguageLoader
      *         {@link LanguageLoader} 实例
      * @Author gdrfgdrf
      * @Date 2024/4/11

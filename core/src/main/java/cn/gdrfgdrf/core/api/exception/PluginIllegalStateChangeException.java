@@ -15,52 +15,51 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.gdrfgdrf.core.bean.resolver.exception;
+package cn.gdrfgdrf.core.api.exception;
 
+import cn.gdrfgdrf.core.api.base.Plugin;
+import cn.gdrfgdrf.core.api.common.PluginState;
 import cn.gdrfgdrf.core.exceptionhandler.base.CustomException;
 import cn.gdrfgdrf.core.locale.collect.ExceptionLanguage;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import java.lang.reflect.Method;
-import java.util.Arrays;
-
 /**
- * @Description 当方法参数和需要参数不相同时抛出
+ * @Description 当尝试对插件进行异常的状态改变时抛出，例如 disable 之后直接调用 load 而不是先调用 enable 时抛出
  * @Author gdrfgdrf
- * @Date 2024/5/4
+ * @Date 2024/5/6
  */
 @Getter
 @AllArgsConstructor
-public class BeanMethodArgumentTypeMismatchException extends CustomException {
+public class PluginIllegalStateChangeException extends CustomException {
     /**
-     * Bean 方法
+     * 插件主类实例
      */
-    private final Method method;
+    private final Plugin plugin;
     /**
-     * 需要的参数
+     * 插件目前的状态，由于该类抛出时说明插件状态变化失败，说明该值不变
      */
-    private final Class<?>[] need;
+    private final PluginState currentPluginState;
     /**
-     * Bean 方法所在类
+     * 期望变化到的状态，但由于是非法的状态变化，该值未能正确生效
      */
-    private final Class<?> clazz;
+    private final PluginState expectPluginState;
 
     @Override
     public String getI18NMessage() {
-        return ExceptionLanguage.BEAN_METHOD_ARGUMENT_TYPE_MISMATCH
+        return ExceptionLanguage.PLUGIN_ILLEGAL_STATE_CHANGE
                 .get()
-                .format(method, Arrays.toString(need), clazz.getName())
+                .format(plugin.getPluginDescription().getName(), currentPluginState, expectPluginState)
                 .getString();
     }
 
     @Override
     public String getDefaultMessage() {
-        return "The parameter of the bean method " +
-                method.getName() +
-                " must be " +
-                Arrays.toString(need) +
-                ", the class " +
-                clazz.getName();
+        return "Cannot change the state of the plugin " +
+                plugin.getPluginDescription().getName() +
+                ", from state " +
+                currentPluginState +
+                " to state " +
+                expectPluginState;
     }
 }

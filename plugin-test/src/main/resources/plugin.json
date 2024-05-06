@@ -1,0 +1,6 @@
+{
+  "name": "TestPlugin",
+  "main-class": "cn.gdrfgdrf.plugintest.TestPlugin",
+  "api-version": "v1.0.0",
+  "author": "gdrfgdrf"
+}

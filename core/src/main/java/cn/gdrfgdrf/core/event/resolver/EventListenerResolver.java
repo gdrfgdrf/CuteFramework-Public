@@ -15,24 +15,22 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.gdrfgdrf.core.bean.annotation;
+package cn.gdrfgdrf.core.event.resolver;
 
-import java.lang.annotation.*;
+import cn.gdrfgdrf.core.bean.resolver.clazz.annotation.BeanClassResolverAnnotation;
+import cn.gdrfgdrf.core.bean.resolver.clazz.base.BeanClassResolver;
+import cn.gdrfgdrf.core.event.EventManager;
+import cn.gdrfgdrf.core.event.annotation.EventListener;
 
 /**
- * @Description 被注解的类将会被 {@link cn.gdrfgdrf.core.bean.BeanManager} 扫描到并作为 Bean 加载
+ * @Description 接收所有拥有 {@link cn.gdrfgdrf.core.exceptionhandler.annotation.ExceptionHandler} 的类
  * @Author gdrfgdrf
- * @Date 2024/4/20
+ * @Date 2024/5/6
  */
-@Target(value = ElementType.TYPE)
-@Retention(value = RetentionPolicy.RUNTIME)
-public @interface Component {
-    /**
-     * @Description 定义 Bean 名称，为空则默认为类名
-     * @return java.lang.String
-     *         Bean 名称
-     * @Author gdrfgdrf
-     * @Date 2024/5/2
-     */
-    String name() default "";
+@BeanClassResolverAnnotation(targetClassAnnotation = EventListener.class)
+public class EventListenerResolver implements BeanClassResolver {
+    @Override
+    public void resolve(Object bean) throws Exception {
+        EventManager.getInstance().register(bean);
+    }
 }

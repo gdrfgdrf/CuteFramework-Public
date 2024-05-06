@@ -17,6 +17,7 @@
 
 package cn.gdrfgdrf.core.event;
 
+import cn.gdrfgdrf.core.bean.annotation.Component;
 import cn.gdrfgdrf.core.event.exception.EventException;
 import cn.gdrfgdrf.core.exceptionhandler.ExceptionDispatcher;
 import com.google.common.eventbus.SubscriberExceptionContext;
@@ -30,6 +31,7 @@ import org.jetbrains.annotations.NotNull;
  * @Date 2024/4/24
  */
 @Slf4j
+@Component
 public class EventExceptionHandler implements SubscriberExceptionHandler {
     @Override
     public void handleException(@NotNull Throwable exception, @NotNull SubscriberExceptionContext context) {

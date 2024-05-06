@@ -12,6 +12,7 @@
         <module>core</module>
         <module>impl</module>
         <module>packer</module>
+        <module>plugin-test</module>
     </modules>
 
     <properties>

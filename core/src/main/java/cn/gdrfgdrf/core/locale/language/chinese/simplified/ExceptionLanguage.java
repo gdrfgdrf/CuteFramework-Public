@@ -31,6 +31,7 @@ class ExceptionLanguage implements LanguageBlock {
     public static final LanguageString EVENT_PROCESSING_ERROR = new LanguageString("处理 {} 事件时发生错误：{}");
 
     public static final LanguageString BEAN_NAME_CONFLICT = new LanguageString("无法创建 Bean 类 {}，因为已经有了一个同名的 Bean 实例存在");
+    public static final LanguageString BEAN_CLASS_RESOLVER_PROCESSING_ERROR = new LanguageString("Bean 类解析器 {} 处理 Bean {} 是发生错误：{}");
     public static final LanguageString BEAN_METHOD_RESOLVER_PROCESSING_ERROR = new LanguageString("Bean 方法解析器 {} 处理 Bean {} 时发生错误：{}");
 
     public static final LanguageString STACK_ILLEGAL_OPERATION = new LanguageString("{} 类的 {} 方法违规调用了 {} 类的 {} 方法，已终止其操作");
@@ -41,4 +42,5 @@ class ExceptionLanguage implements LanguageBlock {
     public static final LanguageString PLUGIN_UNDEFINED_PROPERTY = new LanguageString("插件 {} 中有未定义的必需属性 {}");
     public static final LanguageString PLUGIN_MAIN_CLASS_EXTEND_ERROR = new LanguageString("插件 {} 的主类 {} 没有继承 cn.gdrfgdrf.core.api.base.Plugin");
     public static final LanguageString PLUGIN_NAME_CONFLICT = new LanguageString("无法注册插件 {}，因为先前已注册了同名插件 {}");
+    public static final LanguageString PLUGIN_ILLEGAL_STATE_CHANGE = new LanguageString("无法改变插件 {} 的状态，从状态 {} 变化到状态 {}");
 }

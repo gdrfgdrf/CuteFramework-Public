@@ -69,9 +69,14 @@ public class ConfigManager {
         File file = new File(configFileName);
         if (!file.exists()) {
             file.createNewFile();
-        }
 
-        this.config = JacksonUtils.readFile(file, Config.class);
+            this.config = new Config();
+            this.config.reset();
+
+            save(configFileName);
+        } else {
+            this.config = JacksonUtils.readFile(file, Config.class);
+        }
 
         EventManager.getInstance().post(new ConfigEvent.Load.Post(this.config, file));
     }

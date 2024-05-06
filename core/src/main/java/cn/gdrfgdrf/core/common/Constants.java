@@ -23,8 +23,8 @@ package cn.gdrfgdrf.core.common;
  * @Date 2024/4/8
  */
 public class Constants {
-    public static final String LOCALE_COLLECT_PACKAGE = "cn.gdrfgdrf.smartuploader.locale.collect";
-    public static final String LOCALE_LANGUAGE_PACKAGE = "cn.gdrfgdrf.smartuploader.locale.language";
+    public static final String LOCALE_COLLECT_PACKAGE = "cn.gdrfgdrf.core.locale.collect";
+    public static final String LOCALE_LANGUAGE_PACKAGE = "cn.gdrfgdrf.core.locale.language";
     public static final String LOCALE_LANGUAGE_FOLDER = "language/";
 
     public static final String PLUGIN_FOLDER = "plugin/";

@@ -39,7 +39,7 @@ public class OperableLanguageString {
      * @Description 字符串格式化，和 slf4j 的格式化相同，使用 "{}" 作为占位符，提供的参数将会按照顺序设置到占位符上
      * @param obj
 	 *        需要设置到占位符上的实例
-     * @return cn.gdrfgdrf.smartuploader.locale.OperableLanguageString
+     * @return cn.gdrfgdrf.core.locale.OperableLanguageString
      *         同一个 {@link OperableLanguageString} 实例
      * @Author gdrfgdrf
      * @Date 2024/4/18

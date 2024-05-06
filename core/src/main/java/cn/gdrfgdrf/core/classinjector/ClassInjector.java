@@ -49,7 +49,7 @@ public class ClassInjector {
 
     /**
      * @Description 单例模式，获取 {@link ClassInjector} 实例
-     * @return cn.gdrfgdrf.smartuploader.classinjector.ClassInjector
+     * @return cn.gdrfgdrf.core.classinjector.ClassInjector
      *         {@link ClassInjector} 实例
      * @Author gdrfgdrf
      * @Date 2024/4/7

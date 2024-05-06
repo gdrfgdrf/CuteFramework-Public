@@ -21,21 +21,27 @@ import cn.gdrfgdrf.core.bean.annotation.Component;
 import cn.gdrfgdrf.core.bean.event.BeanEvent;
 import cn.gdrfgdrf.core.bean.exception.BeanNameConflictException;
 import cn.gdrfgdrf.core.bean.resolver.BeanMethodResolverManager;
-import cn.gdrfgdrf.core.bean.resolver.annotation.BeanMethodResolverAnnotation;
-import cn.gdrfgdrf.core.bean.resolver.base.BeanMethodResolver;
-import cn.gdrfgdrf.core.bean.resolver.exception.BeanMethodResolverException;
+import cn.gdrfgdrf.core.bean.resolver.clazz.BeanClassResolverManager;
+import cn.gdrfgdrf.core.bean.resolver.clazz.annotation.BeanClassResolverAnnotation;
+import cn.gdrfgdrf.core.bean.resolver.clazz.base.BeanClassResolver;
+import cn.gdrfgdrf.core.bean.resolver.clazz.exception.BeanClassResolverException;
+import cn.gdrfgdrf.core.bean.resolver.method.annotation.BeanMethodResolverAnnotation;
+import cn.gdrfgdrf.core.bean.resolver.method.base.BeanMethodResolver;
+import cn.gdrfgdrf.core.bean.resolver.method.exception.BeanMethodResolverException;
 import cn.gdrfgdrf.core.classinjector.ClassInjector;
 import cn.gdrfgdrf.core.event.EventManager;
+import cn.gdrfgdrf.core.utils.ClassUtils;
 import cn.gdrfgdrf.core.utils.StringUtils;
 import cn.gdrfgdrf.core.utils.asserts.AssertUtils;
 import cn.gdrfgdrf.core.utils.asserts.exception.AssertNotNullException;
 import cn.gdrfgdrf.core.utils.stack.StackUtils;
 import cn.gdrfgdrf.core.utils.stack.exception.StackIllegalArgumentException;
 import cn.gdrfgdrf.core.utils.stack.exception.StackIllegalOperationException;
-import org.reflections.Reflections;
 
-import java.lang.annotation.Annotation;
+import javax.annotation.processing.Generated;
+import java.lang.annotation.*;
 import java.lang.reflect.InvocationTargetException;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -75,6 +81,7 @@ public class BeanManager {
      * 最先创建核心 Bean，之后再创建 cn.gdrfgdrf.smartuploader 下的 Bean，
      * 最后再由 cn.gdrfgdrf.smartuploader.SmartUploader 的 run 方法调用 {@link BeanManager#startCreatingPluginBeans()}
      * 以创建插件的 Bean
+     *
      * @throws cn.gdrfgdrf.core.utils.stack.exception.StackIllegalOperationException
      *         当不被允许的类或方法调用该方法时抛出
      * @Author gdrfgdrf
@@ -89,6 +96,7 @@ public class BeanManager {
             InvocationTargetException,
             InstantiationException,
             IllegalAccessException,
+            BeanClassResolverException,
             BeanMethodResolverException
     {
         StackUtils.onlyMethod("cn.gdrfgdrf.smartuploader.SmartUploader", "run");
@@ -126,13 +134,17 @@ public class BeanManager {
             InvocationTargetException,
             InstantiationException,
             IllegalAccessException,
+            BeanClassResolverException,
             BeanMethodResolverException
     {
         StackUtils.onlyMethod("cn.gdrfgdrf.core.bean.BeanManager", "startCreating");
 
-        Reflections reflections = new Reflections("cn.gdrfgdrf.core");
-        Set<Class<?>> components = reflections.getTypesAnnotatedWith(Component.class);
-
+        Set<Class<?>> components = new HashSet<>();
+        ClassUtils.searchJar(
+                "cn.gdrfgdrf.core",
+                clazz -> !clazz.isAnnotation() && hasAnnotation(clazz, Component.class),
+                components
+        );
 
         for (Class<?> component : components) {
             create(component);
@@ -156,12 +168,18 @@ public class BeanManager {
             InvocationTargetException,
             InstantiationException,
             IllegalAccessException,
+            BeanClassResolverException,
             BeanMethodResolverException
     {
         StackUtils.onlyMethod("cn.gdrfgdrf.core.bean.BeanManager", "startCreating");
 
-        Reflections reflections = new Reflections("cn.gdrfgdrf.smartuploader");
-        Set<Class<?>> components = reflections.getTypesAnnotatedWith(Component.class);
+        Set<Class<?>> components = new HashSet<>();
+        ClassUtils.searchJar(
+                "cn.gdrfgdrf.smartuploader",
+                clazz -> !clazz.isAnnotation() && hasAnnotation(clazz, Component.class),
+                components
+        );
+
         for (Class<?> component : components) {
             create(component);
         }
@@ -186,6 +204,8 @@ public class BeanManager {
      *         Bean 类的构造函数有异常抛出
      * @throws IllegalAccessException
      *         因为访问权限而无法调用 Bean 类的构造函数
+     * @throws BeanClassResolverException
+     *         当 Bean 类解析器发生错误时抛出
      * @throws BeanMethodResolverException
      *         当 Bean 方法解析器发生错误时抛出
      * @Author gdrfgdrf
@@ -198,6 +218,7 @@ public class BeanManager {
             InvocationTargetException,
             InstantiationException,
             IllegalAccessException,
+            BeanClassResolverException,
             BeanMethodResolverException
     {
         AssertUtils.notNull("bean class", beanClass);
@@ -218,13 +239,36 @@ public class BeanManager {
         Object obj = ClassInjector.getInstance().createInstance(beanClass);
         BEAN_MAP.put(name, obj);
 
-        if (!(obj instanceof BeanMethodResolver resolver)) {
+        if (!(obj instanceof BeanMethodResolver) && !(obj instanceof BeanClassResolver)) {
+            BeanClassResolverManager.getInstance().resolve(obj);
             BeanMethodResolverManager.getInstance().resolve(obj);
         } else {
-            registerBeanMethodResolver(resolver);
+            if (obj instanceof BeanMethodResolver resolver) {
+                registerBeanMethodResolver(resolver);
+            }
+            if (obj instanceof BeanClassResolver resolver) {
+                registerBeanClassResolver(resolver);
+            }
         }
 
-        EventManager.getInstance().post(new BeanEvent.Load.Pre(obj, name));
+        EventManager.getInstance().post(new BeanEvent.Load.Post(obj, name));
+    }
+
+    /**
+     * @Description 注册 Bean 类解析器到 {@link BeanClassResolverManager}
+     * @param resolver
+     *        Bean 方法解析器实例
+     * @throws AssertNotNullException
+     *         当 Bean 类解析器没有 {@link BeanClassResolverAnnotation} 注解时抛出
+     * @Author gdrfgdrf
+     * @Date 2024/5/6
+     */
+    private void registerBeanClassResolver(BeanClassResolver resolver) throws AssertNotNullException {
+        BeanClassResolverAnnotation annotation = resolver.getClass().getAnnotation(BeanClassResolverAnnotation.class);
+        AssertUtils.notNull("bean class resolver annotation", annotation);
+
+        Class<? extends Annotation> targetClassAnnotation = annotation.targetClassAnnotation();
+        BeanClassResolverManager.getInstance().registerBeanClassResolver(targetClassAnnotation, resolver);
     }
 
     /**
@@ -241,6 +285,29 @@ public class BeanManager {
         AssertUtils.notNull("bean method resolver annotation", annotation);
 
         Class<? extends Annotation> targetMethodAnnotation = annotation.targetMethodAnnotation();
-        BeanMethodResolverManager.getInstance().registerBeanResolver(targetMethodAnnotation, resolver);
+        BeanMethodResolverManager.getInstance().registerBeanMethodResolver(targetMethodAnnotation, resolver);
+    }
+
+    private static boolean hasAnnotation(Class<?> clazz, Class<? extends Annotation> targetAnnotation) {
+        Annotation[] annotations = clazz.getAnnotations();
+
+        for (Annotation annotation : annotations) {
+            if (annotation.annotationType() != Deprecated.class &&
+                    annotation.annotationType() != SuppressWarnings.class &&
+                    annotation.annotationType() != Override.class &&
+                    annotation.annotationType() != Generated.class &&
+                    annotation.annotationType() != Target.class &&
+                    annotation.annotationType() != Retention.class &&
+                    annotation.annotationType() != Documented.class &&
+                    annotation.annotationType() != Inherited.class
+            ) {
+                if (annotation.annotationType() == targetAnnotation) {
+                    return true;
+                }
+                return hasAnnotation(annotation.annotationType(), targetAnnotation);
+            }
+        }
+
+        return false;
     }
 }

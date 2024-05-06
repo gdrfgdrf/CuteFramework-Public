@@ -21,7 +21,6 @@ import cn.gdrfgdrf.core.api.PluginManager;
 import cn.gdrfgdrf.core.api.base.Plugin;
 import cn.gdrfgdrf.core.api.common.PluginDescription;
 import cn.gdrfgdrf.core.api.exception.*;
-import cn.gdrfgdrf.core.bean.event.BeanEvent;
 import cn.gdrfgdrf.core.common.Constants;
 import cn.gdrfgdrf.core.common.VersionEnum;
 import cn.gdrfgdrf.core.event.EventManager;
@@ -34,7 +33,6 @@ import cn.gdrfgdrf.core.utils.jackson.JacksonUtils;
 import cn.gdrfgdrf.core.utils.stack.StackUtils;
 import cn.gdrfgdrf.core.utils.stack.exception.StackIllegalArgumentException;
 import cn.gdrfgdrf.core.utils.stack.exception.StackIllegalOperationException;
-import com.google.common.eventbus.Subscribe;
 import lombok.Cleanup;
 
 import java.io.File;
@@ -69,7 +67,7 @@ public class PluginLoader {
     private PluginLoader() throws AssertNotNullException, StackIllegalOperationException, StackIllegalArgumentException {
         StackUtils.onlyMethod("cn.gdrfgdrf.core.api.loader.PluginLoader", "getInstance");
 
-        EventManager.getInstance().register(this);
+//        EventManager.getInstance().register(this);
     }
 
     /**
@@ -89,10 +87,7 @@ public class PluginLoader {
             StackIllegalOperationException,
             StackIllegalArgumentException
     {
-        StackUtils.onlyMethod(
-                new String[]{"cn.gdrfgdrf.smartuploader.SmartUploader", "cn.gdrfgdrf.core.api.loader.PluginLoader"},
-                new String[]{"run", "onBeanEventLoadAllPost"}
-        );
+        StackUtils.onlyMethod("cn.gdrfgdrf.smartuploader.SmartUploader", "run");
         if (INSTANCE == null) {
             INSTANCE = new PluginLoader();
         }
@@ -100,20 +95,24 @@ public class PluginLoader {
     }
 
     /**
-     * @Description 监听 Bean 全部加载完成事件，该方法被触发时将会开始加载插件
-     * 当插件加载发生错误时将抛出 {@link PluginLoadException}，错误实例将包含在其中，
+     * @Description 开始加载插件，当插件加载发生错误时将抛出 {@link PluginLoadException}，错误实例将包含在其中，
      * 该错误不会直接抛出，而且会直接发送至 {@link cn.gdrfgdrf.core.exceptionhandler.GlobalUncaughtExceptionHandler}
      *
-     * @param loadAllPost
-	 *        Bean 全部加载完成事件
+     * @throws cn.gdrfgdrf.core.utils.stack.exception.StackIllegalOperationException
+     *         当不被允许的类或方法调用该方法时抛出
      * @Author gdrfgdrf
      * @Date 2024/5/4
      */
-    @Subscribe
-    public static void onBeanEventLoadAllPost(BeanEvent.LoadAll.Post loadAllPost) {
+    public void startLoading() throws
+            AssertNotNullException,
+            StackIllegalOperationException,
+            StackIllegalArgumentException
+    {
+        StackUtils.onlyMethod("cn.gdrfgdrf.smartuploader.SmartUploader", "run");
+
         File pluginFolder = new File(Constants.PLUGIN_FOLDER);
         File[] pluginJars = FileUtils.getFiles(pluginFolder, file ->
-                Objects.equals(FileUtils.getExtension(file), "jar"));
+                !Objects.equals(FileUtils.getExtension(file), "jar"));
         if (pluginJars == null) {
             return;
         }
@@ -195,6 +194,8 @@ public class PluginLoader {
      *         可以调用 main-class 的无参构造函数，但是其中抛出了异常
      * @throws InstantiationException
      *         可以调用 main-class 的无参构造函数，但是其中抛出了异常
+     * @throws IOException
+     *         类加载器 {@link URLClassLoader} 错误
      * @Author gdrfgdrf
      * @Date 2024/5/5
      */
@@ -205,7 +206,8 @@ public class PluginLoader {
             NoSuchMethodException,
             IllegalAccessException,
             InvocationTargetException,
-            InstantiationException
+            InstantiationException,
+            IOException
     {
         File pluginFile = pluginDescription.getPluginFile();
         String mainClassPath = pluginDescription.getMainClass();

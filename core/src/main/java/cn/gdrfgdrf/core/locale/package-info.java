@@ -23,8 +23,8 @@
  * 该包为语言模块，语言模块过于复杂，特此该文件注释，<p>
  * 为了适配同一语言不同地区方言的情况，比如汉语下有简体中文和繁体中文，<p>
  * 该模块的采取了多个语言实现，一个语言汇总的方式来实现语言支持，<p>
- * 包 cn.gdrfgdrf.smartuploader.locale.language 下为多个语言翻译，<p>
- * 包 cn.gdrfgdrf.smartuploader.locale.language 下除语言大类的包的命名外必须全部遵守 ISO 639-3 标准，<p>
+ * 包 cn.gdrfgdrf.core.locale.language 下为多个语言翻译，<p>
+ * 包 cn.gdrfgdrf.core.locale.language 下除语言大类的包的命名外必须全部遵守 ISO 639-3 标准，<p>
  * 若有 ISO 639-3 标准没有收录的语言，则必须翻译为英语作为包名，<p>
  * <p>
  * 比如汉语有二简字这种 ISO 639-3 标准没有的东西 <p>
@@ -37,7 +37,7 @@
  * chinese.simplified 下必须为简体中文的翻译，<p>
  * 不能在 chinese.traditional 下进行简体中文的翻译。<p>
  * <p>
- * cn.gdrfgdrf.smartuploader.locale.language 包下的第一层包必须为语言大类包，<p>
+ * cn.gdrfgdrf.core.locale.language 包下的第一层包必须为语言大类包，<p>
  * 汉语为 chinese 包，英语为 english 包，法语为 french 包，<p>
  * 为了方便开发者定位语言大类包，语言大类无需遵守 ISO 639-3 标准，<p>
  * 但必须是语言名在英语下的翻译，比如 <p>
@@ -60,7 +60,7 @@
  * 那么最多只能进行到 ccc 的翻译，不能再继续往下，<p>
  * 也就是说包最大只能到 chinese.simplified.yue.aaa.bbb.ccc。<p>
  * <p>
- * cn.gdrfgdrf.smartuploader.locale.language 下的所有包的命名、类命名、翻译内容都不能有任何的违法词汇，包括但不限于：<p>
+ * cn.gdrfgdrf.core.locale.language 下的所有包的命名、类命名、翻译内容都不能有任何的违法词汇，包括但不限于：<p>
  * 侮辱性词汇，<p>
  * 性骚扰词汇，<p>
  * 性暗示词汇，<p>
@@ -86,7 +86,7 @@
  *      public class ExampleLanguage {} <p>
  * <p>
  * 翻译问题由翻译提供者承担责任，任何人不得在未经翻译提供者的允许下擅自修改翻译内容。<p>
- * 包 cn.gdrfgdrf.smartuploader.locale.language 下都会成为官方翻译，开发者有权添加或删除语言，但无权修改语言内容。<p>
+ * 包 cn.gdrfgdrf.core.locale.language 下都会成为官方翻译，开发者有权添加或删除语言，但无权修改语言内容。<p>
  * 开发者添加或删除语言必须和其他开发者进行讨论，知道添加（删除）语言会有什么影响。<p>
  *
  * ===================================================================================================================== <p>
@@ -114,7 +114,7 @@
  *      有以下两种情况：<p>
  *          文件存在，<p>
  *                  从中读取出语言，假设读取到的 语言汇总类名 是 "SystemLanguage"，<p>
- *                  那么程序将会获取 cn.gdrfgdrf.smartuploader.locale.collect 下，<p>
+ *                  那么程序将会获取 cn.gdrfgdrf.core.locale.collect 下，<p>
  *                  实现了 {@link cn.gdrfgdrf.core.locale.base.LanguageCollect} 的 "SystemLanguage" 类，<p>
  *                  之后获取其中所有类型为 {@link cn.gdrfgdrf.core.locale.LanguageString} 的字段并进行循环，<p>
  *                  获取到字段名，并到文件读取 语言汇总类名 "SystemLanguage" 节点下的和字段名相同的值，<p>
@@ -126,13 +126,13 @@
  *                  如此往复，语言文件读取完成。<p>
  *          文件不存在，<p>
  *                  将 chinese_simplified 的 "_" 全部替换为 "." 得到 chinese.simplified <p>
- *                  并添加到 cn.gdrfgdrf.smartuploader.locale.language 之后得到 <p>
- *                  cn.gdrfgdrf.smartuploader.locale.language.chinese.simplified，<p>
- *                  如果 cn.gdrfgdrf.smartuploader.locale.language.chinese.simplified 这个包不存在，<p>
+ *                  并添加到 cn.gdrfgdrf.core.locale.language 之后得到 <p>
+ *                  cn.gdrfgdrf.core.locale.language.chinese.simplified，<p>
+ *                  如果 cn.gdrfgdrf.core.locale.language.chinese.simplified 这个包不存在，<p>
  *                  则抛出 {@link cn.gdrfgdrf.core.locale.exception.NotFoundLanguagePackageException}，<p>
  *                  若存在，则获取该包下所有实现了 {@link cn.gdrfgdrf.core.locale.base.LanguageBlock} 的类，<p>
  *                  假设获取到实现了 {@link cn.gdrfgdrf.core.locale.base.LanguageBlock} 的 "SystemLanguage" 类，<p>
- *                  那么也将会去 cn.gdrfgdrf.smartuploader.locale.collect 下获取 <p>
+ *                  那么也将会去 cn.gdrfgdrf.core.locale.collect 下获取 <p>
  *                  实现了 {@link cn.gdrfgdrf.core.locale.base.LanguageCollect} 的 "SystemLanguage" 类，<p>
  *                  之后通过反射 {@link java.lang.Class#getDeclaredFields()} <p>
  *                  获取到 {@link cn.gdrfgdrf.core.locale.base.LanguageCollect} 的 "SystemLanguage" 类 的所有字段，<p>

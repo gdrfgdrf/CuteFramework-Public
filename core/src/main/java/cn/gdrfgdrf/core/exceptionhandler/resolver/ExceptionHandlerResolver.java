@@ -17,8 +17,8 @@
 
 package cn.gdrfgdrf.core.exceptionhandler.resolver;
 
-import cn.gdrfgdrf.core.bean.resolver.annotation.BeanMethodResolverAnnotation;
-import cn.gdrfgdrf.core.bean.resolver.base.BeanMethodResolver;
+import cn.gdrfgdrf.core.bean.resolver.method.annotation.BeanMethodResolverAnnotation;
+import cn.gdrfgdrf.core.bean.resolver.method.base.BeanMethodResolver;
 import cn.gdrfgdrf.core.exceptionhandler.ExceptionDispatcher;
 import cn.gdrfgdrf.core.exceptionhandler.annotation.ExceptionHandler;
 import cn.gdrfgdrf.core.exceptionhandler.exception.ExceptionHandleMethodIsNotStaticException;

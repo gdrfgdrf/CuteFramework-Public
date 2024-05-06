@@ -15,24 +15,38 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.gdrfgdrf.core.bean.annotation;
+package cn.gdrfgdrf.plugintest;
 
-import java.lang.annotation.*;
+import cn.gdrfgdrf.core.api.base.Plugin;
 
 /**
- * @Description 被注解的类将会被 {@link cn.gdrfgdrf.core.bean.BeanManager} 扫描到并作为 Bean 加载
+ * @Description
  * @Author gdrfgdrf
- * @Date 2024/4/20
+ * @Date 2024/5/5
  */
-@Target(value = ElementType.TYPE)
-@Retention(value = RetentionPolicy.RUNTIME)
-public @interface Component {
-    /**
-     * @Description 定义 Bean 名称，为空则默认为类名
-     * @return java.lang.String
-     *         Bean 名称
-     * @Author gdrfgdrf
-     * @Date 2024/5/2
-     */
-    String name() default "";
+public class TestPlugin extends Plugin {
+    public TestPlugin() {
+        System.out.println("TestPlugin initialize");
+    }
+
+    @Override
+    public void onEnable() {
+        System.out.println(getPluginDescription());
+        System.out.println("onEnable");
+    }
+
+    @Override
+    public void onLoad() {
+        System.out.println("onLoad");
+    }
+
+    @Override
+    public void onStop() {
+        System.out.println("onStop");
+    }
+
+    @Override
+    public void onDisable() {
+        System.out.println("onDisable");
+    }
 }

@@ -17,7 +17,9 @@
 
 package cn.gdrfgdrf.core.exceptionhandler;
 
+import cn.gdrfgdrf.core.event.EventManager;
 import cn.gdrfgdrf.core.exceptionhandler.annotation.Undispatchable;
+import cn.gdrfgdrf.core.exceptionhandler.event.ExceptionEvent;
 import cn.gdrfgdrf.core.exceptionhandler.exception.NotFoundExceptionHandlerException;
 import cn.gdrfgdrf.core.utils.ClassUtils;
 import cn.gdrfgdrf.core.utils.asserts.AssertUtils;
@@ -47,7 +49,7 @@ public class ExceptionDispatcher {
 
     /**
      * @Description 单例模式，获取 {@link ExceptionDispatcher} 实例
-     * @return cn.gdrfgdrf.smartuploader.exceptionhandler.ExceptionDispatcher
+     * @return cn.gdrfgdrf.core.exceptionhandler.ExceptionDispatcher
      *         {@link ExceptionDispatcher} 实例
      * @Author gdrfgdrf
      * @Date 2024/4/7
@@ -168,6 +170,7 @@ public class ExceptionDispatcher {
         AssertUtils.notNull("throwable instance", throwable);
 
         if (throwable.getClass().isAnnotationPresent(Undispatchable.class)) {
+            EventManager.getInstance().post(new ExceptionEvent.UndispatchableExceptionThrownEvent(thread, throwable));
             return;
         }
 
@@ -178,6 +181,7 @@ public class ExceptionDispatcher {
                 throw new NotFoundExceptionHandlerException(throwable);
             }
         }
+        System.out.println("Dispatch exception " + throwable.getClass().getName());
 
         for (Method exceptionHandleMethod : exceptionHandlers) {
             ClassUtils.safetyInvoke(null, exceptionHandleMethod, thread, throwable);

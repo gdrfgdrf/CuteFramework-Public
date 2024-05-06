@@ -17,17 +17,27 @@
 
 package cn.gdrfgdrf.smartuploader;
 
+import cn.gdrfgdrf.core.api.PluginManager;
+import cn.gdrfgdrf.core.api.base.Plugin;
+import cn.gdrfgdrf.core.api.event.PluginEvent;
 import cn.gdrfgdrf.core.api.loader.PluginLoader;
+import cn.gdrfgdrf.core.bean.BeanManager;
 import cn.gdrfgdrf.core.common.Constants;
 import cn.gdrfgdrf.core.config.ConfigManager;
 import cn.gdrfgdrf.core.config.common.Config;
+import cn.gdrfgdrf.core.event.EventManager;
 import cn.gdrfgdrf.core.locale.LanguageLoader;
+import com.google.common.eventbus.Subscribe;
+import lombok.extern.slf4j.Slf4j;
+
+import java.util.Map;
 
 /**
  * @Description 程序主类
  * @Author gdrfgdrf
  * @Date 2024/5/1
  */
+@Slf4j
 public class SmartUploader {
     private static SmartUploader INSTANCE;
 
@@ -59,13 +69,31 @@ public class SmartUploader {
      * @Date 2024/5/4
      */
     public void run() throws Exception {
+        EventManager.getInstance().register(this);
+
         ConfigManager.getInstance().load(Constants.CONFIG_FILE_NAME);
         Config config = ConfigManager.getInstance().getConfig();
 
         LanguageLoader.getInstance().load(config.getLanguage());
 
         PluginLoader pluginLoader = PluginLoader.getInstance();
+        pluginLoader.startLoading();
 
+        BeanManager.getInstance().startCreating();
+
+        Map<String, Plugin> plugins = PluginManager.getInstance().getPlugins();
+        for (String name : plugins.keySet()) {
+            Plugin plugin = plugins.get(name);
+
+            PluginManager.getInstance().enablePlugin(name);
+            PluginManager.getInstance().loadPlugin(name);
+            PluginManager.getInstance().disablePlugin(name);
+        }
+    }
+
+    @Subscribe
+    public static void onPluginStateChange(PluginEvent.StateChange.Pre post) {
+        System.out.println("Plugin " + post.getPlugin().getPluginDescription().getName() + " state change from " + post.getPreviousPluginState() + " to " + post.getTargetPluginState());
     }
 
 }

@@ -15,20 +15,19 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.gdrfgdrf.core.bean.resolver.annotation;
+package cn.gdrfgdrf.core.event.annotation;
 
-import cn.gdrfgdrf.core.bean.annotation.Component;
-
-import java.lang.annotation.*;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
- * @Description 标记一个类是 Bean 方法解析器，作为 Bean 方法解析器将会被 {@link cn.gdrfgdrf.core.bean.BeanManager} 最先创建
+ * @Description 标记一个类是异常监听类，被标记的类将会被作为 Bean 创建并自动注册到 {@link cn.gdrfgdrf.core.event.EventManager}
  * @Author gdrfgdrf
- * @Date 2024/5/4
+ * @Date 2024/5/6
  */
-@Component
 @Target(value = ElementType.TYPE)
 @Retention(value = RetentionPolicy.RUNTIME)
-public @interface BeanMethodResolverAnnotation {
-    Class<? extends Annotation> targetMethodAnnotation();
+public @interface EventListener {
 }
