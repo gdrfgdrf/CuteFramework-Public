@@ -40,27 +40,77 @@ import lombok.Getter;
  * <p>
  * 版本大小的对比为版本在该类中的位置决定。
  * 版本在该类中作为枚举则全部应该把全部的 "." 替换为 "_"，
- * 但构造函数的 version 无需替换
  *
  * @Author gdrfgdrf
  * @Date 2024/5/2
  */
 @Getter
 public enum VersionEnum {
-    v1_0_0("v1.0.0"),
-    UNDEFINED("undefined");
+    v1_0_0_UNDEFINED_RELEASE(
+            "1",
+            "0",
+            "0",
+            "undefined",
+            PublishChannel.UNDEFINED
+    ),
+    UNDEFINED(
+            "unavailable",
+            "unavailable",
+            "unavailable",
+            "unavailable",
+            PublishChannel.UNDEFINED
+    );
 
     /**
      * 当前的核心版本
      */
-    public static final VersionEnum CURRENT = VersionEnum.v1_0_0;
+    public static final VersionEnum CURRENT = VersionEnum.v1_0_0_UNDEFINED_RELEASE;
     /**
-     * 版本字符串
+     * 完整的版本字符串
      */
     private final String version;
+    /**
+     * 主版本号
+     */
+    private final String majorVersion;
+    /**
+     * 副版本号
+     */
+    private final String minorVersion;
+    /**
+     * 修订版本号
+     */
+    private final String patchVersion;
+    /**
+     * 发布日期
+     */
+    private final String publishDate;
+    /**
+     * 发布渠道
+     */
+    private final PublishChannel channel;
 
-    VersionEnum(String version) {
-        this.version = version;
+    VersionEnum(
+            String majorVersion,
+            String minorVersion,
+            String patchVersion,
+            String publishDate,
+            PublishChannel channel
+    ) {
+        this.majorVersion = majorVersion;
+        this.minorVersion = minorVersion;
+        this.patchVersion = patchVersion;
+        this.publishDate = publishDate;
+        this.channel = channel;
+
+        this.version = String.format(
+                "v%s.%s.%s.%s_%s",
+                majorVersion,
+                minorVersion,
+                patchVersion,
+                publishDate,
+                channel.getChannel()
+        );
     }
 
     public int compare(VersionEnum version2) {
@@ -104,5 +154,28 @@ public enum VersionEnum {
         }
 
         return VersionEnum.UNDEFINED;
+    }
+
+    /**
+     * @Description 发布渠道
+     * @Author gdrfgdrf
+     * @Date 2024/5/8
+     */
+    @Getter
+    public enum PublishChannel {
+        ALPHA("Alpha"),
+        BETA("Beta"),
+        RC("RC"),
+        RELEASE("Release"),
+        UNDEFINED("Undefined");
+
+        /**
+         * 渠道名
+         */
+        private final String channel;
+
+        PublishChannel(String channel) {
+            this.channel = channel;
+        }
     }
 }
