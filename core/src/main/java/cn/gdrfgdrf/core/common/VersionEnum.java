@@ -26,14 +26,14 @@ import lombok.Getter;
  * v 为 固定符号，所有版本前都必须带有该符号，该符号必须小写
  * major_version 为 主版本号，程序有重大更新或重大变更时 +1，
  * minor_version 为 副版本号，程序功能有了一定地增加或修改时 +1，
- * revision_version 为 修订版本号，bug 修复或一些小的改动时 +1，
+ * patch_version 为 修订版本号，bug 修复或一些小的改动时 +1，
  * publish_date 为 发布日期，
  * 日期必须为纯数字，年份、月份、日期之间无需用任何符号分隔，比如 20231231，当月份、日期不够两位数时补零处理，比如 20240502
  * _ 为 分隔符号，仅用作分割处理
  * publish_channel 为 发布渠道，必须为希腊字母表的 Alpha、Beta、RC、Release，它们之间的大小关系为左小右大
  * <p>
  * 遵守这样的排列顺序
- * V + major_version + minor_version + revision_version + publish_date + _ + publish_channel
+ * V + major_version + minor_version + patch_version + publish_date + _ + publish_channel
  * 例子：
  * v1.1.1.20231231_Beta
  * v1.0.0.20240502_Release
