@@ -33,7 +33,7 @@ public class GlobalUncaughtExceptionHandler implements Thread.UncaughtExceptionH
     }
 
     /**
-     * @Description 发送给 {@link ExceptionDispatcher} 以分发异常到异常处理分发
+     * @Description 发送给 {@link ExceptionDispatcher} 以分发异常到异常处理方法
      * @param t
 	 *        异常所在线程
 	 * @param e
