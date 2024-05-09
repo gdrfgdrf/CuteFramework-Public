@@ -45,7 +45,7 @@ public class PluginDescription {
      * 插件开发所使用的核心版本，
      * 即 {@link cn.gdrfgdrf.core.common.VersionEnum#CURRENT}，
      * 在文件中表示为 api-version，代码中表示为 apiVersion，
-     * 当文件中定义的 api-version 在 {@link VersionEnum} 中找不到时将会默认定义为 {@link VersionEnum#UNDEFINED}
+     * 当文件中定义的 api-version 在 {@link VersionEnum} 中找不到时将会默认定义为 {@link VersionEnum#UNAVAILABLE}
      */
     private final VersionEnum apiVersion;
     /**

@@ -53,7 +53,7 @@ public enum VersionEnum {
             "undefined",
             PublishChannel.UNDEFINED
     ),
-    UNDEFINED(
+    UNAVAILABLE(
             "unavailable",
             "unavailable",
             "unavailable",
@@ -122,7 +122,7 @@ public enum VersionEnum {
      * 返回 -1 说明 version1 < version2，
      * 返回 0 说明 version1 = version2，
      * 返回 1 说明 version1 > version2，
-     * 两个版本中有一个或全部为 {@link VersionEnum#UNDEFINED} 时返回 -2
+     * 两个版本中有一个或全部为 {@link VersionEnum#UNAVAILABLE} 时返回 -2
      *
      * @param version1
 	 *        用来对比的第一个版本
@@ -134,7 +134,7 @@ public enum VersionEnum {
      * @Date 2024/5/2
      */
     public static int compare(VersionEnum version1, VersionEnum version2) {
-        if (version1 == VersionEnum.UNDEFINED || version2 == VersionEnum.UNDEFINED) {
+        if (version1 == VersionEnum.UNAVAILABLE || version2 == VersionEnum.UNAVAILABLE) {
             return -2;
         }
 
@@ -153,7 +153,7 @@ public enum VersionEnum {
             }
         }
 
-        return VersionEnum.UNDEFINED;
+        return VersionEnum.UNAVAILABLE;
     }
 
     /**

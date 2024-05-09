@@ -229,7 +229,7 @@ public class PluginLoader {
      * @param pluginDescription
 	 *        插件描述
      * @throws UnsupportedPluginException
-     *         插件开发所使用的 api-version 在当前版本的 {@link VersionEnum} 中被解析为 {@link VersionEnum#UNDEFINED} 时抛出
+     *         插件开发所使用的 api-version 在当前版本的 {@link VersionEnum} 中被解析为 {@link VersionEnum#UNAVAILABLE} 时抛出
      * @Author gdrfgdrf
      * @Date 2024/5/5
      */
