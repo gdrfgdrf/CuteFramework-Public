@@ -104,6 +104,7 @@ public class ClassInjector {
     }
 
     public Object createInstance(Class<?> clazz) throws
+            AssertNotNullException,
             InvocationTargetException,
             NoSuchMethodException,
             InstantiationException,
@@ -126,6 +127,8 @@ public class ClassInjector {
      *        构造函数需要的参数类型
      * @param arguments
      *        构造函数需要的参数实例
+     * @throws AssertNotNullException
+     *         当 clazz 为 null 时抛出
      * @throws NoSuchMethodException
      *         无法找到指定的动态代理创建对象的方法，尝试使用无参构造函数，但无法获取到无参构造函数时抛出
      * @throws InvocationTargetException
@@ -136,11 +139,14 @@ public class ClassInjector {
      * @Date 2024/4/7
      */
     public Object createInstance(Class<?> clazz, Class<?>[] argumentTypes, Object... arguments) throws
+            AssertNotNullException,
             NoSuchMethodException,
             InvocationTargetException,
             InstantiationException,
             IllegalAccessException
     {
+        AssertUtils.notNull("class", clazz);
+
         Method method = CREATE_INSTANCE_METHOD_MAP.get(clazz);
         if (method == null) {
             if (argumentTypes == null || arguments == null || arguments.length == 0) {
