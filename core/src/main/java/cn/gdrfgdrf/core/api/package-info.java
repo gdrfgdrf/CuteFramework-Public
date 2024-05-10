@@ -31,7 +31,7 @@
  * main-class 为插件主类的全限定名，插件主类即继承了 {@link cn.gdrfgdrf.core.api.base.Plugin} 的那个类，
  * 该类必须包含一个公开的无参构造函数，
  * api-version 为插件开发所使用的核心版本，即 {@link cn.gdrfgdrf.core.common.VersionEnum#CURRENT}，
- * 该值必须为其中的 {@link cn.gdrfgdrf.core.common.VersionEnum#getVersion()}
+ * 该值必须为其中的 {@link cn.gdrfgdrf.core.common.VersionEnum#name()}
  * 当以上内容有一个为空时将抛出 {@link cn.gdrfgdrf.core.api.exception.PluginUndefinedPropertyException}
  *
  * @Author gdrfgdrf

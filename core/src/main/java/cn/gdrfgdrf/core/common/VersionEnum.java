@@ -19,6 +19,9 @@ package cn.gdrfgdrf.core.common;
 
 import lombok.Getter;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @Description 核心版本列表，枚举名必须遵守以下规则
  * 版本排列为升序，越底下的版本越大，
@@ -40,6 +43,7 @@ import lombok.Getter;
  * <p>
  * 版本大小的对比为版本在该类中的位置决定。
  * 版本在该类中作为枚举则全部应该把全部的 "." 替换为 "_"，
+ * 版本在该类中作为枚举时，除开头的 v 符号外，其他全部字符都应该大写
  *
  * @Author gdrfgdrf
  * @Date 2024/5/2
@@ -53,6 +57,9 @@ public enum VersionEnum {
             "undefined",
             PublishChannel.UNAVAILABLE
     ),
+    /**
+     * 不可用的版本，当插件所定义的核心版本在该枚举类中找不到时将返回该类
+     */
     UNAVAILABLE(
             "unavailable",
             "unavailable",
@@ -61,6 +68,10 @@ public enum VersionEnum {
             PublishChannel.UNAVAILABLE
     );
 
+    /**
+     * {@link VersionEnum#version} 字段到具体 {@link VersionEnum} 的映射
+     */
+    private static final Map<String, VersionEnum> VERSION_MAP = new HashMap<>();
     /**
      * 当前的核心版本
      */
@@ -89,6 +100,13 @@ public enum VersionEnum {
      * 发布渠道
      */
     private final PublishChannel channel;
+
+    static {
+        for (VersionEnum value : VersionEnum.values()) {
+            VERSION_MAP.put(value.name(), value);
+        }
+        VERSION_MAP.remove(VersionEnum.UNAVAILABLE.name());
+    }
 
     VersionEnum(
             String majorVersion,
@@ -145,15 +163,11 @@ public enum VersionEnum {
     }
 
     public static VersionEnum get(String versionStr) {
-        Object[] versions = VersionEnum.class.getEnumConstants();
-        for (Object version : versions) {
-            VersionEnum versionEnum = (VersionEnum) version;
-            if (versionEnum.getVersion().equals(versionStr)) {
-                return versionEnum;
-            }
+        VersionEnum versionEnum = VERSION_MAP.get(versionStr);
+        if (versionEnum == null) {
+            return VersionEnum.UNAVAILABLE;
         }
-
-        return VersionEnum.UNAVAILABLE;
+        return versionEnum;
     }
 
     /**
