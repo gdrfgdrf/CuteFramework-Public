@@ -77,6 +77,22 @@ public class BeanManager {
     }
 
     /**
+     * @Description 获取 Bean 实例
+     * @param name
+	 *        Bean 名称
+     * @return java.lang.Object
+     *         Bean 实例
+     * @throws AssertNotNullException
+     *         当 name 为 null 时抛出
+     * @Author gdrfgdrf
+     * @Date 2024/5/10
+     */
+    public Object getBean(String name) throws AssertNotNullException {
+        AssertUtils.notNull("bean name", name);
+        return BEAN_MAP.get(name);
+    }
+
+    /**
      * @Description 开始 Bean 的创建流程，该方法仅允许 cn.gdrfgdrf.smartuploader.SmartUploader 的 run 方法调用
      * 插件会被最先加载，但不最先加载插件的 Bean，
      * 最先创建核心 Bean，之后再创建 cn.gdrfgdrf.smartuploader 下的 Bean，
