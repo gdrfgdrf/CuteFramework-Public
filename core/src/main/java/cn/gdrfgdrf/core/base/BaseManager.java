@@ -19,6 +19,7 @@ package cn.gdrfgdrf.core.base;
 
 import cn.gdrfgdrf.core.classinjector.ClassInjector;
 import cn.gdrfgdrf.core.utils.TypeParameterMatcher;
+import cn.gdrfgdrf.core.utils.asserts.exception.AssertNotNullException;
 import lombok.extern.slf4j.Slf4j;
 
 import java.lang.annotation.Annotation;
@@ -93,7 +94,8 @@ public abstract class BaseManager<T, A extends Annotation> {
             InvocationTargetException,
             NoSuchMethodException,
             InstantiationException,
-            IllegalAccessException
+            IllegalAccessException,
+            AssertNotNullException
     {
         if (T_INSTANCE_MAP.containsKey(clazz)) {
             return T_INSTANCE_MAP.get(clazz);
