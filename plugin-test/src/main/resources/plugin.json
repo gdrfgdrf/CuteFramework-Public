@@ -1,6 +1,6 @@
 {
-  "name": "TestPlugin",
-  "main-class": "cn.gdrfgdrf.plugintest.TestPlugin",
-  "api-version": "v1.0.0",
+  "name": "TestPluginCopy",
+  "main-class": "cn.gdrfgdrf.plugintestcopy.TestPlugin",
+  "api-version": "v1_0_0_UNDEFINED_RELEASE",
   "author": "gdrfgdrf"
 }

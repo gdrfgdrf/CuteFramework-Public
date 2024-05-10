@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.gdrfgdrf.plugintest;
+package cn.gdrfgdrf.plugintestcopy;
 
 import cn.gdrfgdrf.core.bean.annotation.Component;
 import cn.gdrfgdrf.core.exceptionhandler.annotation.ExceptionHandler;
@@ -25,7 +25,7 @@ import cn.gdrfgdrf.core.exceptionhandler.annotation.ExceptionHandler;
  * @Author gdrfgdrf
  * @Date 2024/5/6
  */
-@Component
+@Component(name = "ComponentTestCopy")
 public class ComponentTest {
 
     @ExceptionHandler(support = Throwable.class)
