@@ -26,6 +26,7 @@ import cn.gdrfgdrf.core.common.Constants;
 import cn.gdrfgdrf.core.config.ConfigManager;
 import cn.gdrfgdrf.core.config.common.Config;
 import cn.gdrfgdrf.core.event.EventManager;
+import cn.gdrfgdrf.core.exceptionhandler.GlobalUncaughtExceptionHandler;
 import cn.gdrfgdrf.core.locale.LanguageLoader;
 import com.google.common.eventbus.Subscribe;
 import lombok.extern.slf4j.Slf4j;
@@ -69,6 +70,7 @@ public class SmartUploader {
      * @Date 2024/5/4
      */
     public void run() throws Exception {
+        GlobalUncaughtExceptionHandler.getInstance().initialize();
         EventManager.getInstance().register(this);
 
         ConfigManager.getInstance().load(Constants.CONFIG_FILE_NAME);

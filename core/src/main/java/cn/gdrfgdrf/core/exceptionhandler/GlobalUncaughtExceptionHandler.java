@@ -17,7 +17,6 @@
 
 package cn.gdrfgdrf.core.exceptionhandler;
 
-import cn.gdrfgdrf.core.bean.annotation.Component;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -26,9 +25,31 @@ import lombok.extern.slf4j.Slf4j;
  * @Date 2024/4/7
  */
 @Slf4j
-@Component
 public class GlobalUncaughtExceptionHandler implements Thread.UncaughtExceptionHandler {
-    public GlobalUncaughtExceptionHandler() {
+    private static GlobalUncaughtExceptionHandler INSTANCE;
+
+    private GlobalUncaughtExceptionHandler() {}
+
+    /**
+     * @Description 单例模式，获取 {@link GlobalUncaughtExceptionHandler} 实例
+     * @return cn.gdrfgdrf.core.exceptionhandler.GlobalUncaughtExceptionHandler
+     *         {@link GlobalUncaughtExceptionHandler} 实例
+     * @Author gdrfgdrf
+     * @Date 2024/5/10
+     */
+    public static GlobalUncaughtExceptionHandler getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new GlobalUncaughtExceptionHandler();
+        }
+        return INSTANCE;
+    }
+
+    /**
+     * @Description 初始化该类，将该类注册为全局异常捕获器
+     * @Author gdrfgdrf
+     * @Date 2024/5/10
+     */
+    public void initialize() {
         Thread.setDefaultUncaughtExceptionHandler(this);
     }
 
