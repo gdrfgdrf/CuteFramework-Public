@@ -51,14 +51,14 @@ public enum VersionEnum {
             "0",
             "0",
             "undefined",
-            PublishChannel.UNDEFINED
+            PublishChannel.UNAVAILABLE
     ),
     UNAVAILABLE(
             "unavailable",
             "unavailable",
             "unavailable",
             "unavailable",
-            PublishChannel.UNDEFINED
+            PublishChannel.UNAVAILABLE
     );
 
     /**
@@ -167,7 +167,7 @@ public enum VersionEnum {
         BETA("Beta"),
         RC("RC"),
         RELEASE("Release"),
-        UNDEFINED("Undefined");
+        UNAVAILABLE("Unavailable");
 
         /**
          * 渠道名
