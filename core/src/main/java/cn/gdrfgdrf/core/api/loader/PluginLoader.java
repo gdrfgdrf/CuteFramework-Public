@@ -64,8 +64,6 @@ public class PluginLoader {
      */
     private PluginLoader() throws AssertNotNullException, StackIllegalOperationException, StackIllegalArgumentException {
         StackUtils.onlyMethod("cn.gdrfgdrf.core.api.loader.PluginLoader", "getInstance");
-
-//        EventManager.getInstance().register(this);
     }
 
     /**
