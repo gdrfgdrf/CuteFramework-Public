@@ -3,6 +3,28 @@ CuteFramework
 __[English](https://github.com/gdrfgdrf/CuteFramework/blob/Computer/README.md)__ | [简体中文](https://github.com/gdrfgdrf/CuteFramework/blob/Computer/README_ChineseSimplified.md)
 - It's a development framework.
 
+<!-- TOC -->
+* [CuteFramework](#cuteframework-)
+  * [Modules](#modules)
+  * [Features](#features)
+    * [BeanManager](#beanmanager)
+      * [BeanResolver](#beanresolver)
+    * [Config](#config)
+    * [ExceptionHandler](#exceptionhandler)
+    * [Event](#event)
+    * [Locale](#locale)
+    * [Plugin](#plugin)
+    * [Utils](#utils)
+      * [Asserts](#asserts)
+      * [Jackson](#jackson)
+      * [Stack](#stack)
+    * [Thread](#thread)
+    * [Class](#class)
+  * [Dependencies](#dependencies)
+    * [Copied code](#copied-code)
+  * [License](#license)
+<!-- TOC -->
+
 Modules
 ------------------------
 - BeanManager
