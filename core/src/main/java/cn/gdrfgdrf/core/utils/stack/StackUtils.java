@@ -397,6 +397,30 @@ public class StackUtils {
     }
 
     /**
+     * @Description 获取方法的调用方
+     * @return cn.gdrfgdrf.core.utils.stack.common.MethodInformation
+     *         调用方
+     * @Author gdrfgdrf
+     * @Date 2024/5/18
+     */
+    public static MethodInformation getCaller() {
+        return getCaller(0);
+    }
+
+    /**
+     * @Description 获取方法的调用方
+     * @param offset
+     *        获取调用方在堆栈中的位置的偏移量
+     * @return cn.gdrfgdrf.core.utils.stack.common.MethodInformation
+     *         调用方
+     * @Author gdrfgdrf
+     * @Date 2024/5/18
+     */
+    public static MethodInformation getCaller(int offset) {
+        return parseStack(RELATIVE_STACK_DEPTH + offset);
+    }
+
+    /**
      * @Description 解析堆栈，获取指定深度的方法信息，深度包括该方法
      * @return cn.gdrfgdrf.core.utils.stack.common.CallerInformation
      *         调用方信息集合

@@ -17,21 +17,11 @@
 
 package cn.gdrfgdrf.smartcoreimpl;
 
-import cn.gdrfgdrf.core.api.PluginManager;
-import cn.gdrfgdrf.core.api.base.Plugin;
+import cn.gdrfgdrf.core.SmartCore;
 import cn.gdrfgdrf.core.api.event.PluginEvent;
-import cn.gdrfgdrf.core.api.loader.PluginLoader;
-import cn.gdrfgdrf.core.bean.BeanManager;
-import cn.gdrfgdrf.core.common.Constants;
-import cn.gdrfgdrf.core.config.ConfigManager;
-import cn.gdrfgdrf.core.config.common.Config;
 import cn.gdrfgdrf.core.event.EventManager;
-import cn.gdrfgdrf.core.exceptionhandler.GlobalUncaughtExceptionHandler;
-import cn.gdrfgdrf.core.locale.LanguageLoader;
 import com.google.common.eventbus.Subscribe;
 import lombok.extern.slf4j.Slf4j;
-
-import java.util.Map;
 
 /**
  * @Description 程序主类
@@ -70,30 +60,19 @@ public class SmartCoreImpl {
      * @Date 2024/5/4
      */
     public void run() throws Exception {
-        GlobalUncaughtExceptionHandler.getInstance().initialize();
-        EventManager.getInstance().register(this);
-
-        ConfigManager.getInstance().load(Constants.CONFIG_FILE_NAME);
-        Config config = ConfigManager.getInstance().getConfig();
-
-        LanguageLoader.getInstance().load(config.getLanguage());
-
-        PluginLoader pluginLoader = PluginLoader.getInstance();
-        pluginLoader.startLoading();
-
-        BeanManager.getInstance().startCreating();
-
-        Map<String, Plugin> plugins = PluginManager.getInstance().getPlugins();
-        for (String name : plugins.keySet()) {
-            Plugin plugin = plugins.get(name);
-
-            PluginManager.getInstance().enablePlugin(name);
-            PluginManager.getInstance().loadPlugin(name);
+        EventManager.getInstance().registerAsynchronous(this);
+        try {
+            SmartCore.run();
+        } catch (Exception e) {
+            log.error("Error when initialize smart core", e);
         }
 
-        BeanManager.getInstance().startCreatingPluginBeans();
-
         throw new NullPointerException("test");
+    }
+
+    @Subscribe
+    public static void onPluginLoadExceptionEvent(PluginEvent.LoadError loadError) {
+        System.out.println("4、插件 " + loadError.getException().getPluginFile() + " 加载错误：" + loadError.getException().getMessage());
     }
 
     @Subscribe

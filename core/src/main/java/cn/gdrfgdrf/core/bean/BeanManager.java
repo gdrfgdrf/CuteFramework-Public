@@ -40,6 +40,7 @@ import cn.gdrfgdrf.core.utils.asserts.exception.AssertNotNullException;
 import cn.gdrfgdrf.core.utils.stack.StackUtils;
 import cn.gdrfgdrf.core.utils.stack.exception.StackIllegalArgumentException;
 import cn.gdrfgdrf.core.utils.stack.exception.StackIllegalOperationException;
+import lombok.Getter;
 
 import java.lang.annotation.*;
 import java.lang.reflect.InvocationTargetException;
@@ -56,23 +57,52 @@ public class BeanManager {
     private static BeanManager INSTANCE;
 
     /**
+     * 使用该框架的主类，该类所在的包下所有的 Bean 类将会在核心 Bean 类加载完成后加载
+     */
+    @Getter
+    private final Class<?> mainApplicationClass;
+    /**
      * Bean 名称到 Bean 实例的映射
      */
     private final Map<String, Object> BEAN_MAP = new ConcurrentHashMap<>();
 
-    private BeanManager() {}
+    private BeanManager(Class<?> mainApplicationClass) throws StackIllegalOperationException, AssertNotNullException, StackIllegalArgumentException {
+        StackUtils.onlyMethod(BeanManager.class, "initialize");
+        this.mainApplicationClass = mainApplicationClass;
+    }
 
     /**
-     * @Description 单例模式，获取 {@link BeanManager} 实例
+     * @Description 进行 Bean 管理器的实例化，
+     * 提供的 mainApplicationClass 将会设置到 {@link BeanManager#mainApplicationClass}，
+     * 当 Bean 创建流程开始时，将会在核心 Bean 加载完成后加载 mainApplicationClass 所在包下的所有 Bean 类，加载将会进行迭代加载
+     *
+     * @param mainApplicationClass
+	 *        使用该框架的主类
+     * @throws StackIllegalOperationException
+     *         当不被允许的类或方法调用该方法时抛出
+     * @Author gdrfgdrf
+     * @Date 2024/5/18
+     */
+    public static void initialize(Class<?> mainApplicationClass) throws StackIllegalOperationException, AssertNotNullException, StackIllegalArgumentException {
+        StackUtils.onlyMethod("cn.gdrfgdrf.core.SmartCore", "run");
+
+        if (INSTANCE != null) {
+            return;
+        }
+        INSTANCE = new BeanManager(mainApplicationClass);
+    }
+
+    /**
+     * @Description 单例模式，获取 {@link BeanManager} 实例，
+     * 当 {@link BeanManager#initialize(Class)} 还未被 {@link cn.gdrfgdrf.core.SmartCore} 调用时，
+     * 该方法返回的值将会为 null
+     *
      * @return cn.gdrfgdrf.core.bean.BeanManager
      *         {@link BeanManager} 实例
      * @Author gdrfgdrf
      * @Date 2024/4/20
      */
     public static BeanManager getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new BeanManager();
-        }
         return INSTANCE;
     }
 
@@ -93,10 +123,10 @@ public class BeanManager {
     }
 
     /**
-     * @Description 开始 Bean 的创建流程，该方法仅允许 cn.gdrfgdrf.smartcoreimpl.SmartCoreImpl 的 run 方法调用
+     * @Description 开始 Bean 的创建流程，该方法仅允许 cn.gdrfgdrf.core.SmartCore 的 run 方法调用
      * 插件会被最先加载，但不最先加载插件的 Bean，
-     * 最先创建核心 Bean，之后再创建 cn.gdrfgdrf.smartcoreimpl 下的 Bean，
-     * 最后再由 cn.gdrfgdrf.smartcoreimpl.SmartCoreImpl 的 run 方法调用 {@link BeanManager#startCreatingPluginBeans()}
+     * 最先创建核心 Bean，之后再创建 {@link BeanManager#mainApplicationClass} 下的 Bean，
+     * 最后再由 {@link cn.gdrfgdrf.core.SmartCore} 的 run 方法调用 {@link BeanManager#startCreatingPluginBeans()}
      * 以创建插件的 Bean
      *
      * @throws cn.gdrfgdrf.core.utils.stack.exception.StackIllegalOperationException
@@ -116,7 +146,7 @@ public class BeanManager {
             BeanClassResolverException,
             BeanMethodResolverException
     {
-        StackUtils.onlyMethod("cn.gdrfgdrf.smartcoreimpl.SmartCoreImpl", "run");
+        StackUtils.onlyMethod("cn.gdrfgdrf.core.SmartCore", "run");
 
         EventManager.getInstance().post(new BeanEvent.LoadAll.Pre());
 
@@ -132,7 +162,7 @@ public class BeanManager {
      * @Date 2024/5/4
      */
     public void startCreatingPluginBeans() throws StackIllegalOperationException, AssertNotNullException, StackIllegalArgumentException, BeanClassResolverException, BeanNameConflictException, BeanMethodResolverException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        StackUtils.onlyMethod("cn.gdrfgdrf.smartcoreimpl.SmartCoreImpl", "run");
+        StackUtils.onlyMethod("cn.gdrfgdrf.core.SmartCore", "run");
 
         for (Map.Entry<String, Plugin> pluginEntry : PluginManager.getInstance().getPlugins().entrySet()) {
             String name = pluginEntry.getKey();
@@ -182,7 +212,7 @@ public class BeanManager {
 
         Set<Class<?>> components = new LinkedHashSet<>();
         ClassUtils.searchJar(
-                Thread.currentThread().getContextClassLoader(),
+                BeanManager.class.getClassLoader(),
                 "cn.gdrfgdrf.core",
                 clazz -> !clazz.isAnnotation() && ClassUtils.hasAnnotation(clazz, Component.class),
                 components
@@ -197,7 +227,7 @@ public class BeanManager {
     }
 
     /**
-     * @Description 创建 cn.gdrfgdrf.smartcoreimpl 下的 Bean，
+     * @Description 创建 {@link BeanManager#mainApplicationClass} 下的 Bean，
      * 该方法仅允许 cn.gdrfgdrf.core.bean.BeanManager 的 startCreating 方法调用
      * @throws cn.gdrfgdrf.core.utils.stack.exception.StackIllegalOperationException
      *         当不被允许的类或方法调用该方法时抛出
@@ -220,8 +250,8 @@ public class BeanManager {
 
         Set<Class<?>> components = new LinkedHashSet<>();
         ClassUtils.searchJar(
-                Thread.currentThread().getContextClassLoader(),
-                "cn.gdrfgdrf.smartcoreimpl",
+                BeanManager.class.getClassLoader(),
+                mainApplicationClass.getPackageName(),
                 clazz -> !clazz.isAnnotation() && ClassUtils.hasAnnotation(clazz, Component.class),
                 components
         );
