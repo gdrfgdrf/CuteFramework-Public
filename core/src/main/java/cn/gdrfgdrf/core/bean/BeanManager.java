@@ -64,7 +64,7 @@ public class BeanManager {
 
     /**
      * @Description 单例模式，获取 {@link BeanManager} 实例
-     * @return cn.gdrfgdrf.smartuploader.bean.BeanManager
+     * @return cn.gdrfgdrf.core.bean.BeanManager
      *         {@link BeanManager} 实例
      * @Author gdrfgdrf
      * @Date 2024/4/20
@@ -93,10 +93,10 @@ public class BeanManager {
     }
 
     /**
-     * @Description 开始 Bean 的创建流程，该方法仅允许 cn.gdrfgdrf.smartuploader.SmartUploader 的 run 方法调用
+     * @Description 开始 Bean 的创建流程，该方法仅允许 cn.gdrfgdrf.smartcoreimpl.SmartCoreImpl 的 run 方法调用
      * 插件会被最先加载，但不最先加载插件的 Bean，
-     * 最先创建核心 Bean，之后再创建 cn.gdrfgdrf.smartuploader 下的 Bean，
-     * 最后再由 cn.gdrfgdrf.smartuploader.SmartUploader 的 run 方法调用 {@link BeanManager#startCreatingPluginBeans()}
+     * 最先创建核心 Bean，之后再创建 cn.gdrfgdrf.smartcoreimpl 下的 Bean，
+     * 最后再由 cn.gdrfgdrf.smartcoreimpl.SmartCoreImpl 的 run 方法调用 {@link BeanManager#startCreatingPluginBeans()}
      * 以创建插件的 Bean
      *
      * @throws cn.gdrfgdrf.core.utils.stack.exception.StackIllegalOperationException
@@ -116,7 +116,7 @@ public class BeanManager {
             BeanClassResolverException,
             BeanMethodResolverException
     {
-        StackUtils.onlyMethod("cn.gdrfgdrf.smartuploader.SmartUploader", "run");
+        StackUtils.onlyMethod("cn.gdrfgdrf.smartcoreimpl.SmartCoreImpl", "run");
 
         EventManager.getInstance().post(new BeanEvent.LoadAll.Pre());
 
@@ -132,7 +132,7 @@ public class BeanManager {
      * @Date 2024/5/4
      */
     public void startCreatingPluginBeans() throws StackIllegalOperationException, AssertNotNullException, StackIllegalArgumentException, BeanClassResolverException, BeanNameConflictException, BeanMethodResolverException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        StackUtils.onlyMethod("cn.gdrfgdrf.smartuploader.SmartUploader", "run");
+        StackUtils.onlyMethod("cn.gdrfgdrf.smartcoreimpl.SmartCoreImpl", "run");
 
         for (Map.Entry<String, Plugin> pluginEntry : PluginManager.getInstance().getPlugins().entrySet()) {
             String name = pluginEntry.getKey();
@@ -197,7 +197,7 @@ public class BeanManager {
     }
 
     /**
-     * @Description 创建 cn.gdrfgdrf.smartuploader 下的 Bean，
+     * @Description 创建 cn.gdrfgdrf.smartcoreimpl 下的 Bean，
      * 该方法仅允许 cn.gdrfgdrf.core.bean.BeanManager 的 startCreating 方法调用
      * @throws cn.gdrfgdrf.core.utils.stack.exception.StackIllegalOperationException
      *         当不被允许的类或方法调用该方法时抛出
@@ -221,7 +221,7 @@ public class BeanManager {
         Set<Class<?>> components = new LinkedHashSet<>();
         ClassUtils.searchJar(
                 Thread.currentThread().getContextClassLoader(),
-                "cn.gdrfgdrf.smartuploader",
+                "cn.gdrfgdrf.smartcoreimpl",
                 clazz -> !clazz.isAnnotation() && ClassUtils.hasAnnotation(clazz, Component.class),
                 components
         );

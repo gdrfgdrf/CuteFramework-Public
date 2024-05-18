@@ -40,3 +40,4 @@ build/
 /language/
 /.idea/
 /config.json
+/qodana.yaml

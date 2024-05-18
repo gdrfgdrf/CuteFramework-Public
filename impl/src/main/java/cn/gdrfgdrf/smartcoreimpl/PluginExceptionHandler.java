@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.gdrfgdrf.smartuploader;
+package cn.gdrfgdrf.smartcoreimpl;
 
 import cn.gdrfgdrf.core.api.exception.PluginIllegalStateChangeException;
 import cn.gdrfgdrf.core.event.annotation.EventListener;

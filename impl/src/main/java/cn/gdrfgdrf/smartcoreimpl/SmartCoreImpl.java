@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.gdrfgdrf.smartuploader;
+package cn.gdrfgdrf.smartcoreimpl;
 
 import cn.gdrfgdrf.core.api.PluginManager;
 import cn.gdrfgdrf.core.api.base.Plugin;
@@ -39,27 +39,27 @@ import java.util.Map;
  * @Date 2024/5/1
  */
 @Slf4j
-public class SmartUploader {
-    private static SmartUploader INSTANCE;
+public class SmartCoreImpl {
+    private static SmartCoreImpl INSTANCE;
 
-    private SmartUploader() {}
+    private SmartCoreImpl() {}
 
     /**
-     * @Description 单例模式，获取 {@link SmartUploader} 实例
+     * @Description 单例模式，获取 {@link SmartCoreImpl} 实例
      * @return cn.gdrfgdrf.smartuploader.SmartUploader
-     *         {@link SmartUploader} 实例
+     *         {@link SmartCoreImpl} 实例
      * @Author gdrfgdrf
      * @Date 2024/5/1
      */
-    public static SmartUploader getInstance() {
+    public static SmartCoreImpl getInstance() {
         if (INSTANCE == null) {
-            INSTANCE = new SmartUploader();
+            INSTANCE = new SmartCoreImpl();
         }
         return INSTANCE;
     }
 
     public static void main(String[] args) throws Exception {
-        SmartUploader.getInstance().run();
+        SmartCoreImpl.getInstance().run();
     }
 
     /**
