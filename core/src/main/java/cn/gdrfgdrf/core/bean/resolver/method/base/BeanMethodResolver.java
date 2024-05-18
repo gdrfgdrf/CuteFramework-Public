@@ -21,7 +21,6 @@ import cn.gdrfgdrf.core.bean.resolver.BeanMethodResolverManager;
 import cn.gdrfgdrf.core.bean.resolver.method.exception.BeanMethodArgumentTypeMismatchException;
 
 import java.lang.reflect.Method;
-import java.util.Arrays;
 
 /**
  * @Description Bean 方法解析器，Bean 由 {@link cn.gdrfgdrf.core.bean.BeanManager} 实例化完成后，
@@ -53,15 +52,30 @@ public abstract class BeanMethodResolver {
      * @Description 检查某个方法的参数是否是指定参数
      * @param method
 	 *        需要检查的方法
-	 * @param arguments
+	 * @param expectParameterTypes
 	 *        指定参数
      * @Author gdrfgdrf
      * @Date 2024/5/4
      */
-    public void checkMethodArgument(Method method, Class<?>... arguments) throws BeanMethodArgumentTypeMismatchException {
+    public void checkMethodArgument(Method method, Class<?>... expectParameterTypes)
+            throws BeanMethodArgumentTypeMismatchException
+    {
         Class<?>[] parameterTypes = method.getParameterTypes();
-        if (!Arrays.equals(parameterTypes, arguments)) {
-            throw new BeanMethodArgumentTypeMismatchException(method, arguments, method.getDeclaringClass());
+        if (parameterTypes.length != expectParameterTypes.length) {
+            throw new BeanMethodArgumentTypeMismatchException(method, expectParameterTypes, method.getDeclaringClass());
+        }
+
+        for (int i = 0; i < parameterTypes.length; i++) {
+            Class<?> parameterType = parameterTypes[i];
+            Class<?> expectedParameterType = expectParameterTypes[i];
+
+            if (!expectedParameterType.isAssignableFrom(parameterType)) {
+                throw new BeanMethodArgumentTypeMismatchException(
+                        method,
+                        expectParameterTypes,
+                        method.getDeclaringClass()
+                );
+            }
         }
     }
 }

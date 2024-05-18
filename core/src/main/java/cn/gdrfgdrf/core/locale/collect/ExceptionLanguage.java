@@ -39,6 +39,7 @@ public class ExceptionLanguage implements LanguageCollect {
     public static LanguageString STACK_ILLEGAL_ARGUMENT;
 
     public static LanguageString PLUGIN_LOAD_FAILED;
+    public static LanguageString PLUGIN_MAIN_CLASS_LOAD_ERROR;
     public static LanguageString UNSUPPORTED_PLUGIN;
     public static LanguageString PLUGIN_UNDEFINED_PROPERTY;
     public static LanguageString PLUGIN_MAIN_CLASS_EXTEND_ERROR;
