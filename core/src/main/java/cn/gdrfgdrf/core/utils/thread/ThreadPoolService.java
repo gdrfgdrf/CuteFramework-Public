@@ -27,18 +27,31 @@ import java.util.concurrent.*;
 public class ThreadPoolService {
     private ThreadPoolService() {}
 
-    private static final ThreadFactory THREAD_FACTORY = new NamedThreadFactory();
     private static final ExecutorService EXECUTOR_SERVICE = new ThreadPoolExecutor(
             4,
             40,
             0L,
             TimeUnit.MILLISECONDS,
             new LinkedBlockingQueue<>(1024),
-            THREAD_FACTORY,
+            new NamedThreadFactory(),
             new ThreadPoolExecutor.AbortPolicy()
+    );
+
+    private static final ExecutorService EVENT_EXECUTOR_SERVICE = new ThreadPoolExecutor(
+            0,
+            1024,
+            0L,
+            TimeUnit.MILLISECONDS,
+            new LinkedBlockingQueue<>(1024),
+            new NamedThreadFactory(),
+            new ThreadPoolExecutor.CallerRunsPolicy()
     );
 
     public static void newTask(Runnable runnable) {
         EXECUTOR_SERVICE.execute(runnable);
+    }
+
+    public static ExecutorService getEventExecutorService() {
+        return EVENT_EXECUTOR_SERVICE;
     }
 }

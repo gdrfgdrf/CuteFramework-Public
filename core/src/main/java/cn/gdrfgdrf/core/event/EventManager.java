@@ -17,12 +17,15 @@
 
 package cn.gdrfgdrf.core.event;
 
+import cn.gdrfgdrf.core.event.exceptionhandler.EventExceptionHandler;
 import cn.gdrfgdrf.core.utils.asserts.AssertUtils;
 import cn.gdrfgdrf.core.utils.asserts.exception.AssertNotNullException;
+import cn.gdrfgdrf.core.utils.thread.ThreadPoolService;
+import com.google.common.eventbus.AsyncEventBus;
 import com.google.common.eventbus.EventBus;
 
 /**
- * @Description 事件管理器，进行发送，订阅事件等操作，使用了 Guava 的事件模块
+ * @Description 事件管理器，进行发送，订阅事件等操作，使用了 Guava 的事件模块，若不作说明，则默认为同步
  * @Author gdrfgdrf
  * @Date 2024/4/24
  */
@@ -32,7 +35,14 @@ public class EventManager {
     /**
      * 事件总线，事件处理时的异常将由 {@link EventExceptionHandler} 捕获
      */
-    private final EventBus EVENT_BUS = new EventBus(new EventExceptionHandler());
+    private final EventBus EVENT_BUS = new EventBus(EventExceptionHandler.getInstance());
+    /**
+     * 异步事件总线，事件处理时的异常将由 {@link EventExceptionHandler} 捕获
+     */
+    private final EventBus ASYNC_EVENT_BUS = new AsyncEventBus(
+            ThreadPoolService.getEventExecutorService(),
+            EventExceptionHandler.getInstance()
+    );
 
     private EventManager() {}
 
@@ -51,7 +61,7 @@ public class EventManager {
     }
 
     /**
-     * @Description 发布一个事件
+     * @Description 发布一个事件，这会同时调用同步和异步的 EventBus，异步的 EventBus 会先被调用
      * @param event
 	 *        事件
      * @throws cn.gdrfgdrf.core.utils.asserts.exception.AssertNotNullException
@@ -60,6 +70,35 @@ public class EventManager {
      * @Date 2024/4/24
      */
     public void post(Object event) throws AssertNotNullException {
+        AssertUtils.notNull("event", event);
+        ASYNC_EVENT_BUS.post(event);
+        EVENT_BUS.post(event);
+    }
+
+    /**
+     * @Description 发布一个异步事件，该方法仅会发布到异步的 EventBus 的订阅者
+     * @param event
+	 *        事件
+     * @throws AssertNotNullException
+     *         当 event 为 null 时抛出
+     * @Author gdrfgdrf
+     * @Date 2024/5/18
+     */
+    public void postAsynchronously(Object event) throws AssertNotNullException {
+        AssertUtils.notNull("event", event);
+        ASYNC_EVENT_BUS.post(event);
+    }
+
+    /**
+     * @Description 发布一个事件，该方法仅会发布到同步的 EventBus 的订阅者
+     * @param event
+	 *        事件
+     * @throws AssertNotNullException
+     *         当 event 为 null 时抛出
+     * @Author gdrfgdrf
+     * @Date 2024/5/18
+     */
+    public void postSynchronously(Object event) throws AssertNotNullException {
         AssertUtils.notNull("event", event);
         EVENT_BUS.post(event);
     }
@@ -79,6 +118,20 @@ public class EventManager {
     }
 
     /**
+     * @Description 注册一个异步的事件订阅者
+     * @param eventSubscriber
+	 *        事件订阅者实例
+     * @throws AssertNotNullException
+     *         当 eventSubscriber 为 null 时抛出
+     * @Author gdrfgdrf
+     * @Date 2024/5/18
+     */
+    public void registerAsynchronous(Object eventSubscriber) throws AssertNotNullException {
+        AssertUtils.notNull("event subscriber", eventSubscriber);
+        ASYNC_EVENT_BUS.register(eventSubscriber);
+    }
+
+    /**
      * @Description 移除一个事件订阅者
      * @param eventSubscriber
 	 *        事件订阅者实例
@@ -90,6 +143,20 @@ public class EventManager {
     public void unregister(Object eventSubscriber) throws AssertNotNullException {
         AssertUtils.notNull("event subscriber", eventSubscriber);
         EVENT_BUS.unregister(eventSubscriber);
+    }
+
+    /**
+     * @Description 移除一个异步的事件订阅者
+     * @param eventSubscriber
+     *        事件订阅者实例
+     * @throws cn.gdrfgdrf.core.utils.asserts.exception.AssertNotNullException
+     *         当 eventSubscriber 为 null 时抛出
+     * @Author gdrfgdrf
+     * @Date 2024/4/24
+     */
+    public void unregisterAsynchronous(Object eventSubscriber) throws AssertNotNullException {
+        AssertUtils.notNull("event subscriber", eventSubscriber);
+        ASYNC_EVENT_BUS.unregister(eventSubscriber);
     }
 
     /**

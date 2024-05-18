@@ -18,6 +18,7 @@
 package cn.gdrfgdrf.core.event.annotation;
 
 import cn.gdrfgdrf.core.bean.annotation.Component;
+import cn.gdrfgdrf.core.event.enums.SubscriberType;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -33,4 +34,12 @@ import java.lang.annotation.Target;
 @Target(value = ElementType.TYPE)
 @Retention(value = RetentionPolicy.RUNTIME)
 public @interface EventListener {
+    /**
+     * @Description 注册类型，不同的注册类型会注册到不同的 EventBus，默认为同步类型
+     * @return cn.gdrfgdrf.core.event.enums.SubscriberType
+     *         注册类型
+     * @Author gdrfgdrf
+     * @Date 2024/5/18
+     */
+    SubscriberType type() default SubscriberType.SYNC;
 }

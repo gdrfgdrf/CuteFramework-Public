@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.gdrfgdrf.core.exceptionhandler.handler;
+package cn.gdrfgdrf.core.event.exceptionhandler;
 
 import cn.gdrfgdrf.core.bean.annotation.Component;
 import cn.gdrfgdrf.core.event.exception.EventException;
@@ -32,18 +32,17 @@ import lombok.extern.slf4j.Slf4j;
 public class DefaultEventExceptionHandler {
     /**
      * @Description 异常处理方法，当事件处理出现异常时，
-     * 会被 {@link cn.gdrfgdrf.core.event.EventExceptionHandler} 捕获并分发到该方法
+     * 会被 {@link EventExceptionHandler} 捕获并分发到该方法
      *
      * @param thread
 	 *        异常所在线程
-	 * @param throwable
+	 * @param eventException
 	 *        异常实例
      * @Author gdrfgdrf
      * @Date 2024/5/4
      */
     @ExceptionHandler(support = EventException.class)
-    public static void handle(Thread thread, Throwable throwable) {
-        EventException eventException = (EventException) throwable;
+    public static void handle(Thread thread, EventException eventException) {
         log.error(eventException.getMessage(), eventException.getThrowable());
     }
 }

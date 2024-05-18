@@ -15,9 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.gdrfgdrf.core.event;
+package cn.gdrfgdrf.core.event.exceptionhandler;
 
-import cn.gdrfgdrf.core.bean.annotation.Component;
 import cn.gdrfgdrf.core.event.exception.EventException;
 import cn.gdrfgdrf.core.exceptionhandler.ExceptionDispatcher;
 import com.google.common.eventbus.SubscriberExceptionContext;
@@ -31,8 +30,25 @@ import org.jetbrains.annotations.NotNull;
  * @Date 2024/4/24
  */
 @Slf4j
-@Component
 public class EventExceptionHandler implements SubscriberExceptionHandler {
+    private static EventExceptionHandler INSTANCE;
+
+    private EventExceptionHandler() {}
+
+    /**
+     * @Description 单例模式，获取 {@link EventExceptionHandler} 实例
+     * @return cn.gdrfgdrf.core.event.exceptionhandler.EventExceptionHandler
+     *         {@link EventExceptionHandler} 实例
+     * @Author gdrfgdrf
+     * @Date 2024/5/18
+     */
+    public static EventExceptionHandler getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new EventExceptionHandler();
+        }
+        return INSTANCE;
+    }
+
     @Override
     public void handleException(@NotNull Throwable exception, @NotNull SubscriberExceptionContext context) {
         EventException eventException = new EventException(exception, context);

@@ -21,6 +21,7 @@ import cn.gdrfgdrf.core.bean.resolver.clazz.annotation.BeanClassResolverAnnotati
 import cn.gdrfgdrf.core.bean.resolver.clazz.base.BeanClassResolver;
 import cn.gdrfgdrf.core.event.EventManager;
 import cn.gdrfgdrf.core.event.annotation.EventListener;
+import cn.gdrfgdrf.core.event.enums.SubscriberType;
 
 /**
  * @Description 接收所有拥有 {@link cn.gdrfgdrf.core.exceptionhandler.annotation.ExceptionHandler} 的类
@@ -31,6 +32,14 @@ import cn.gdrfgdrf.core.event.annotation.EventListener;
 public class EventListenerResolver implements BeanClassResolver {
     @Override
     public void resolve(Object bean) throws Exception {
-        EventManager.getInstance().register(bean);
+        EventListener eventListener = bean.getClass().getAnnotation(EventListener.class);
+        SubscriberType subscriberType = eventListener.type();
+
+        if (subscriberType == SubscriberType.SYNC || subscriberType == SubscriberType.ALL) {
+            EventManager.getInstance().register(bean);
+        }
+        if (subscriberType == SubscriberType.ASYNC  || subscriberType == SubscriberType.ALL) {
+            EventManager.getInstance().registerAsynchronous(bean);
+        }
     }
 }

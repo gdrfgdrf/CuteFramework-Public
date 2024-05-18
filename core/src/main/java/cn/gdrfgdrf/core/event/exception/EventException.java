@@ -17,13 +17,14 @@
 
 package cn.gdrfgdrf.core.event.exception;
 
+import cn.gdrfgdrf.core.event.exceptionhandler.EventExceptionHandler;
 import cn.gdrfgdrf.core.exceptionhandler.base.CustomException;
 import cn.gdrfgdrf.core.locale.collect.ExceptionLanguage;
 import com.google.common.eventbus.SubscriberExceptionContext;
 import lombok.Getter;
 
 /**
- * @Description 当事件处理时发生异常，将由 {@link cn.gdrfgdrf.core.event.EventExceptionHandler} 捕获
+ * @Description 当事件处理时发生异常，将由 {@link EventExceptionHandler} 捕获
  * 并使用该类对异常实例进行包装提供给 {@link cn.gdrfgdrf.core.exceptionhandler.ExceptionDispatcher} 进行分发
  * @Author gdrfgdrf
  * @Date 2024/4/24
