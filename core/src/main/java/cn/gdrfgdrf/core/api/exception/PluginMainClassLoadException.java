@@ -17,42 +17,50 @@
 
 package cn.gdrfgdrf.core.api.exception;
 
+import cn.gdrfgdrf.core.api.common.PluginDescription;
 import cn.gdrfgdrf.core.exceptionhandler.base.CustomException;
 import cn.gdrfgdrf.core.locale.collect.ExceptionLanguage;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import java.io.File;
-
 /**
- * @Description 插件加载错误，当 {@link cn.gdrfgdrf.core.api.loader.PluginLoader} 加载插件错误时将抛出此类，
- * 错误实例将会包含在该类中并以 {@link cn.gdrfgdrf.core.api.event.PluginEvent.LoadError} 的形式发布
+ * @Description 插件主类无法被类加载器 {@link cn.gdrfgdrf.core.api.loader.JarClassLoader} 加载，
+ * 这时插件主类还没有被实例化，该异常类会包括具体地无法加载异常实例
  *
  * @Author gdrfgdrf
- * @Date 2024/5/5
+ * @Date 2024/5/18
  */
 @Getter
 @AllArgsConstructor
-public class PluginLoadException extends CustomException {
+public class PluginMainClassLoadException extends CustomException {
     /**
-     * 插件文件
+     * 插件的描述文件
      */
-    private final File pluginFile;
+    private final PluginDescription pluginDescription;
     /**
-     * 加载插件时的错误实例
+     * 插件的 main-class 所定义的值，该值无法被 {@link cn.gdrfgdrf.core.api.loader.JarClassLoader} 加载为类
+     */
+    private final String mainClass;
+    /**
+     * 加载 main-class 时发生的异常实例
      */
     private final Throwable throwable;
 
     @Override
     public String getI18NMessage() {
-        return ExceptionLanguage.PLUGIN_LOAD_FAILED
+        return ExceptionLanguage.PLUGIN_MAIN_CLASS_LOAD_ERROR
                 .get()
-                .format(pluginFile.getName(), throwable.getMessage())
+                .format(pluginDescription.getName(), throwable.getMessage(), throwable.getClass())
                 .getString();
     }
 
     @Override
     public String getDefaultMessage() {
-        return "An error occurred while loading plugin " + pluginFile.getName() + ": " + throwable.getMessage();
+        return "Plugin " +
+                pluginDescription.getName() +
+                " main class loading error, exception message: " +
+                throwable.getMessage() +
+                ", exception class: " +
+                throwable.getClass();
     }
 }

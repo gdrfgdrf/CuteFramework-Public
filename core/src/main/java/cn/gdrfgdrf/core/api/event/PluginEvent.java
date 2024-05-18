@@ -19,6 +19,7 @@ package cn.gdrfgdrf.core.api.event;
 
 import cn.gdrfgdrf.core.api.base.Plugin;
 import cn.gdrfgdrf.core.api.common.PluginState;
+import cn.gdrfgdrf.core.api.exception.PluginLoadException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -34,6 +35,32 @@ public abstract class PluginEvent {
      * 插件主类实例
      */
     private final Plugin plugin;
+
+    /**
+     * @Description 插件主类加载错误事件，此时 {@link PluginEvent#plugin} 为 null，
+     * 若已经成功加载的插件想要接收该事件
+     * 则需要手动的去调用 {@link cn.gdrfgdrf.core.event.EventManager#registerAsynchronous(Object)}，
+     * 不建议对已经拥有 {@link cn.gdrfgdrf.core.event.annotation.EventListener} 注解的类
+     * 去调用 {@link cn.gdrfgdrf.core.event.EventManager#registerAsynchronous(Object)}，
+     * 这会导致发布一个事件但订阅者被调用两次，
+     * 建议是新建一个没有 {@link cn.gdrfgdrf.core.event.annotation.EventListener} 注解的类
+     * 去调用 {@link cn.gdrfgdrf.core.event.EventManager#registerAsynchronous(Object)}
+     *
+     * @Author gdrfgdrf
+     * @Date 2024/5/18
+     */
+    @Getter
+    public static class LoadError extends PluginEvent {
+        /**
+         * 插件主类加载异常实例
+         */
+        private final PluginLoadException exception;
+
+        public LoadError(PluginLoadException exception) {
+            super(null);
+            this.exception = exception;
+        }
+    }
 
     /**
      * @Description 插件被注册事件

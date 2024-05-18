@@ -20,6 +20,7 @@ package cn.gdrfgdrf.core.api.loader;
 import cn.gdrfgdrf.core.api.PluginManager;
 import cn.gdrfgdrf.core.api.base.Plugin;
 import cn.gdrfgdrf.core.api.common.PluginDescription;
+import cn.gdrfgdrf.core.api.event.PluginEvent;
 import cn.gdrfgdrf.core.api.exception.*;
 import cn.gdrfgdrf.core.common.Constants;
 import cn.gdrfgdrf.core.common.VersionEnum;
@@ -68,7 +69,7 @@ public class PluginLoader {
 
     /**
      * @Description 单例模式，获取 {@link PluginLoader} 实例，
-     * 该方法仅允许 cn.gdrfgdrf.smartuploader.SmartUploader 的 run 方法 和 该类的 onBeanEventLoadAllPost 方法调用
+     * 该方法仅允许 cn.gdrfgdrf.core.SmartCore 的 run 方法
      *
      * @return cn.gdrfgdrf.core.api.loader.PluginLoader
      *         {@link PluginLoader} 实例
@@ -83,7 +84,7 @@ public class PluginLoader {
             StackIllegalOperationException,
             StackIllegalArgumentException
     {
-        StackUtils.onlyMethod("cn.gdrfgdrf.smartuploader.SmartUploader", "run");
+        StackUtils.onlyMethod("cn.gdrfgdrf.core.SmartCore", "run");
         if (INSTANCE == null) {
             INSTANCE = new PluginLoader();
         }
@@ -92,7 +93,8 @@ public class PluginLoader {
 
     /**
      * @Description 开始加载插件，当插件加载发生错误时将抛出 {@link PluginLoadException}，错误实例将包含在其中，
-     * 该错误不会直接抛出，而且会直接发送至 {@link cn.gdrfgdrf.core.exceptionhandler.GlobalUncaughtExceptionHandler}
+     * 该错误不会直接抛出，而且会发布一个 {@link cn.gdrfgdrf.core.api.event.PluginEvent.LoadError} 事件，
+     * 该事件将会异步发出
      *
      * @throws cn.gdrfgdrf.core.utils.stack.exception.StackIllegalOperationException
      *         当不被允许的类或方法调用该方法时抛出
@@ -104,7 +106,7 @@ public class PluginLoader {
             StackIllegalOperationException,
             StackIllegalArgumentException
     {
-        StackUtils.onlyMethod("cn.gdrfgdrf.smartuploader.SmartUploader", "run");
+        StackUtils.onlyMethod("cn.gdrfgdrf.core.SmartCore", "run");
 
         File pluginFolder = new File(Constants.PLUGIN_FOLDER);
         File[] pluginJars = FileUtils.getFiles(pluginFolder, file ->
@@ -118,10 +120,7 @@ public class PluginLoader {
                 PluginLoader.INSTANCE.load(pluginJar);
             } catch (Exception e) {
                 PluginLoadException pluginLoadException = new PluginLoadException(pluginJar, e);
-                Thread.getDefaultUncaughtExceptionHandler().uncaughtException(
-                        Thread.currentThread(),
-                        pluginLoadException
-                );
+                EventManager.getInstance().postAsynchronously(new PluginEvent.LoadError(pluginLoadException));
             }
         }
     }
@@ -145,7 +144,7 @@ public class PluginLoader {
             PluginUndefinedPropertyException,
             UnsupportedPluginException,
             PluginMainClassExtendException,
-            ClassNotFoundException,
+            PluginMainClassLoadException,
             InvocationTargetException,
             NoSuchMethodException,
             InstantiationException,
@@ -176,8 +175,8 @@ public class PluginLoader {
 	 *        插件描述文件
      * @return cn.gdrfgdrf.core.api.base.Plugin
      *         正常加载的插件主类
-     * @throws ClassNotFoundException
-     *         无法在插件文件中找到所定义的 main-class
+     * @throws PluginMainClassLoadException
+     *         {@link JarClassLoader} 无法加载 main-class 所定义的类
      * @throws PluginMainClassExtendException
      *         可以获取到所定义的 main-class，但是该类不是继承的 {@link Plugin}
      * @throws NoSuchMethodException
@@ -194,14 +193,13 @@ public class PluginLoader {
      * @Date 2024/5/5
      */
     private Plugin loadPluginClass(PluginDescription pluginDescription) throws
-            ClassNotFoundException,
+            PluginMainClassLoadException,
             PluginMainClassExtendException,
             NoSuchMethodException,
             IllegalAccessException,
             InvocationTargetException,
             InstantiationException,
-            IOException
-    {
+            IOException {
         File pluginFile = pluginDescription.getPluginFile();
         String mainClassPath = pluginDescription.getMainClass();
 
@@ -209,7 +207,13 @@ public class PluginLoader {
         ClassLoader jarClassLoader =  new JarClassLoader(pluginFile);
         Thread.currentThread().setContextClassLoader(jarClassLoader);
 
-        Class<?> mainClass = jarClassLoader.loadClass(mainClassPath);
+        Class<?> mainClass;
+        try {
+            mainClass = jarClassLoader.loadClass(mainClassPath);
+        } catch (Exception e) {
+            Thread.currentThread().setContextClassLoader(originClassLoader);
+            throw new PluginMainClassLoadException(pluginDescription, mainClassPath, e);
+        }
 
         Thread.currentThread().setContextClassLoader(originClassLoader);
 

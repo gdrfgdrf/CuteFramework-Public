@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.gdrfgdrf.plugintestcopy;
+package cn.gdrfgdrf.plugintest;
 
 import cn.gdrfgdrf.core.api.base.Plugin;
 
@@ -26,8 +26,7 @@ import cn.gdrfgdrf.core.api.base.Plugin;
  */
 public class TestPlugin extends Plugin {
     public TestPlugin() {
-        System.out.println("TestPlugin Copy initialize");
-        throw new NullPointerException();
+        System.out.println("TestPlugin initialize");
     }
 
     @Override

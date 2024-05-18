@@ -29,7 +29,7 @@ import com.google.common.eventbus.Subscribe;
  * @Date 2024/5/6
  */
 @EventListener
-public class PluginExceptionHandler {
+public class TestExceptionHandler {
 
     @ExceptionHandler(support = {Throwable.class})
     public static void onException(Thread thread, Throwable throwable) {
@@ -37,7 +37,7 @@ public class PluginExceptionHandler {
     }
 
     @ExceptionHandler(support = {PluginIllegalStateChangeException.class})
-    public static void onPluginIllegalStateChangeException(Thread thread, Throwable throwable) {
+    public static void onPluginIllegalStateChangeException(Thread thread, PluginIllegalStateChangeException throwable) {
         System.out.println("2、捕获到线程 " + thread.getName() + " 的异常 " + throwable.getMessage());
     }
 
@@ -45,5 +45,4 @@ public class PluginExceptionHandler {
     public static void onUndispatchableExceptionThrown(ExceptionEvent.UndispatchableExceptionThrownEvent event) {
         System.out.println("3、捕获到线程 " + event.getThread().getName() + " 的异常 " + event.getThrowable().getMessage());
     }
-
 }
