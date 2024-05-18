@@ -8,6 +8,12 @@
     <artifactId>root</artifactId>
     <version>1.0.0</version>
     <packaging>pom</packaging>
+    <organization>
+        <name>CuteFramework</name>
+        <url>https://github.com/gdrfgdrf/CuteFramework-Public</url>
+    </organization>
+    <inceptionYear>2024</inceptionYear>
+
     <modules>
         <module>cute-framework</module>
         <module>impl</module>
