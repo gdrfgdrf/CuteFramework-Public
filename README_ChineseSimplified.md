@@ -1,6 +1,6 @@
 CuteFramework
 ===
-__[English](https://github.com/gdrfgdrf/CuteFramework/blob/master/README.md)__ | [简体中文](https://github.com/gdrfgdrf/CuteFramework/blob/master/README_ChineseSimplified.md)
+__[English](https://github.com/gdrfgdrf/CuteFramework-Public/blob/master/README.md)__ | [简体中文](https://github.com/gdrfgdrf/CuteFramework-Public/blob/master/README_ChineseSimplified.md)
 - 一个开发框架.
 
 <!-- TOC -->
