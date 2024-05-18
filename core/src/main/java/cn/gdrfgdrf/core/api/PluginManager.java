@@ -171,8 +171,6 @@ public class PluginManager {
      * @Description 启用插件
      * @param name
 	 *        插件名
-     * @throws AssertNotNullException
-     *         当 name 为 null 时抛出
      * @Author gdrfgdrf
      * @Date 2024/5/5
      */
@@ -181,11 +179,18 @@ public class PluginManager {
     }
 
     /**
+     * @Description 将所有能更新到 {@link PluginState#ENABLED} 的插件更新到 {@link PluginState#ENABLED} 状态
+     * @Author gdrfgdrf
+     * @Date 2024/5/18
+     */
+    public void enableAllPlugin() throws AssertNotNullException {
+        updateAllPluginState(PluginState.ENABLED, Plugin::onEnable);
+    }
+
+    /**
      * @Description 加载插件
      * @param name
 	 *        插件名
-     * @throws AssertNotNullException
-     *         当 name 为 null 时抛出
      * @Author gdrfgdrf
      * @Date 2024/5/5
      */
@@ -194,16 +199,32 @@ public class PluginManager {
     }
 
     /**
+     * @Description 将所有能更新到 {@link PluginState#LOADED} 的插件更新到 {@link PluginState#LOADED} 状态
+     * @Author gdrfgdrf
+     * @Date 2024/5/18
+     */
+    public void loadAllPlugin() throws AssertNotNullException {
+        updateAllPluginState(PluginState.LOADED, Plugin::onLoad);
+    }
+
+    /**
      * @Description 停止插件
      * @param name
 	 *        插件名
-     * @throws AssertNotNullException
-     *         当 name 为 null 时抛出
      * @Author gdrfgdrf
      * @Date 2024/5/5
      */
     public void stopPlugin(String name) throws AssertNotNullException, PluginIllegalStateChangeException {
         updatePluginState(name, PluginState.STOPPED, Plugin::onStop);
+    }
+
+    /**
+     * @Description 将所有能更新到 {@link PluginState#STOPPED} 的插件更新到 {@link PluginState#STOPPED} 状态
+     * @Author gdrfgdrf
+     * @Date 2024/5/18
+     */
+    public void stopAllPlugin() throws AssertNotNullException {
+        updateAllPluginState(PluginState.STOPPED, Plugin::onStop);
     }
 
     /**
@@ -217,6 +238,15 @@ public class PluginManager {
      */
     public void disablePlugin(String name) throws AssertNotNullException, PluginIllegalStateChangeException {
         updatePluginState(name, PluginState.DISABLED, Plugin::onDisable);
+    }
+
+    /**
+     * @Description 将所有能更新到 {@link PluginState#DISABLED} 的插件更新到 {@link PluginState#DISABLED} 状态
+     * @Author gdrfgdrf
+     * @Date 2024/5/18
+     */
+    public void disableAllPlugin() throws AssertNotNullException {
+        updateAllPluginState(PluginState.DISABLED, Plugin::onDisable);
     }
 
     /**
@@ -265,6 +295,33 @@ public class PluginManager {
                 targetState,
                 currentPluginState
         ));
+    }
+
+    /**
+     * @Description 更新全部能够更新状态的插件到指定状态，将会过滤出能过滤到指定状态的插件，并改变其状态
+     * @param targetState
+	 *        需要更新到的插件状态
+	 * @param consumer
+	 *        需要调用的插件主类的方法
+     * @throws AssertNotNullException
+     *         当 targetState 或 consumer 为 null 时抛出
+     * @Author gdrfgdrf
+     * @Date 2024/5/18
+     */
+    private void updateAllPluginState(
+            PluginState targetState,
+            Consumer<Plugin> consumer
+    ) throws AssertNotNullException {
+        AssertUtils.notNull("target plugin state", targetState);
+        AssertUtils.notNull("plugin main class method", consumer);
+
+        PLUGIN_MAP.forEach((name, plugin) -> {
+            try {
+                updatePluginState(name, targetState, consumer);
+            } catch (Exception ignored) {
+
+            }
+        });
     }
 
     /**
