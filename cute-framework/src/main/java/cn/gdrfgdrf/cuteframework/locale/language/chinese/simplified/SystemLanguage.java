@@ -15,25 +15,15 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.gdrfgdrf.plugintest;
+package cn.gdrfgdrf.cuteframework.locale.language.chinese.simplified;
 
-import cn.gdrfgdrf.cuteframework.bean.annotation.Component;
-import cn.gdrfgdrf.cuteframework.exceptionhandler.annotation.ExceptionHandler;
+import cn.gdrfgdrf.cuteframework.locale.LanguageString;
+import cn.gdrfgdrf.cuteframework.locale.base.LanguageBlock;
 
 /**
- * @Description
- * @Author gdrfgdrf
- * @Date 2024/5/6
+ * Basic:
+ * gdrfgdrf | 2024-04-16
  */
-@Component
-public class ComponentTest {
-    public ComponentTest() {
-        System.out.println("ComponentTest initialize");
-    }
-
-    @ExceptionHandler(support = Throwable.class)
-    public static void onException(Thread thread, Throwable throwable) {
-        System.out.println("ComponentTest received a exception which is from the thread " + thread.getName() + ": " + throwable.getMessage());
-    }
-
+class SystemLanguage implements LanguageBlock {
+    public static final LanguageString LOADING = new LanguageString("加载中...");
 }

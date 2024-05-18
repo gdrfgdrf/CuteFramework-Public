@@ -15,25 +15,17 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.gdrfgdrf.plugintest;
+package cn.gdrfgdrf.cuteframework.locale.collect;
 
-import cn.gdrfgdrf.cuteframework.bean.annotation.Component;
-import cn.gdrfgdrf.cuteframework.exceptionhandler.annotation.ExceptionHandler;
+import cn.gdrfgdrf.cuteframework.locale.LanguageString;
+import cn.gdrfgdrf.cuteframework.locale.base.LanguageCollect;
 
 /**
- * @Description
+ * @Description 断言信息语言汇总类
  * @Author gdrfgdrf
- * @Date 2024/5/6
+ * @Date 2024/4/17
  */
-@Component
-public class ComponentTest {
-    public ComponentTest() {
-        System.out.println("ComponentTest initialize");
-    }
-
-    @ExceptionHandler(support = Throwable.class)
-    public static void onException(Thread thread, Throwable throwable) {
-        System.out.println("ComponentTest received a exception which is from the thread " + thread.getName() + ": " + throwable.getMessage());
-    }
-
+public class AssertLanguage implements LanguageCollect {
+    public static LanguageString NOT_NULL;
+    public static LanguageString ARRAY_MIN;
 }

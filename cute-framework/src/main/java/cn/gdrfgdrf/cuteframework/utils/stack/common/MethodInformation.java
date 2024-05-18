@@ -15,25 +15,28 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.gdrfgdrf.plugintest;
+package cn.gdrfgdrf.cuteframework.utils.stack.common;
 
-import cn.gdrfgdrf.cuteframework.bean.annotation.Component;
-import cn.gdrfgdrf.cuteframework.exceptionhandler.annotation.ExceptionHandler;
+import lombok.Getter;
 
 /**
- * @Description
+ * @Description 方法信息
  * @Author gdrfgdrf
- * @Date 2024/5/6
+ * @Date 2024/4/30
  */
-@Component
-public class ComponentTest {
-    public ComponentTest() {
-        System.out.println("ComponentTest initialize");
-    }
+@Getter
+public class MethodInformation {
+    /**
+     * 方法所在的全限定类名
+     */
+    private final String className;
+    /**
+     * 方法的方法名
+     */
+    private final String methodName;
 
-    @ExceptionHandler(support = Throwable.class)
-    public static void onException(Thread thread, Throwable throwable) {
-        System.out.println("ComponentTest received a exception which is from the thread " + thread.getName() + ": " + throwable.getMessage());
+    public MethodInformation(String className, String methodName) {
+        this.className = className;
+        this.methodName = methodName;
     }
-
 }

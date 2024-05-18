@@ -15,25 +15,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.gdrfgdrf.plugintest;
-
-import cn.gdrfgdrf.cuteframework.bean.annotation.Component;
-import cn.gdrfgdrf.cuteframework.exceptionhandler.annotation.ExceptionHandler;
+package cn.gdrfgdrf.cuteframework.locale.base;
 
 /**
- * @Description
+ * @Description 语言块，仅作标记作用，为了方便开发者使用，所有实现了该类的类的访问级别都必须是 package-private
  * @Author gdrfgdrf
- * @Date 2024/5/6
+ * @Date 2024/4/10
  */
-@Component
-public class ComponentTest {
-    public ComponentTest() {
-        System.out.println("ComponentTest initialize");
-    }
-
-    @ExceptionHandler(support = Throwable.class)
-    public static void onException(Thread thread, Throwable throwable) {
-        System.out.println("ComponentTest received a exception which is from the thread " + thread.getName() + ": " + throwable.getMessage());
-    }
-
+public interface LanguageBlock {
 }

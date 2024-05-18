@@ -15,25 +15,17 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.gdrfgdrf.plugintest;
+package cn.gdrfgdrf.cuteframework.utils.asserts.base;
 
-import cn.gdrfgdrf.cuteframework.bean.annotation.Component;
-import cn.gdrfgdrf.cuteframework.exceptionhandler.annotation.ExceptionHandler;
+import cn.gdrfgdrf.cuteframework.exceptionhandler.base.CustomException;
+import cn.gdrfgdrf.cuteframework.utils.asserts.AssertUtils;
 
 /**
- * @Description
+ * @Description 断言基类，当 {@link AssertUtils} 断言失败时将抛出该类的子类
  * @Author gdrfgdrf
- * @Date 2024/5/6
+ * @Date 2024/4/8
  */
-@Component
-public class ComponentTest {
-    public ComponentTest() {
-        System.out.println("ComponentTest initialize");
+public abstract class AssertErrorException extends CustomException {
+    public AssertErrorException() {
     }
-
-    @ExceptionHandler(support = Throwable.class)
-    public static void onException(Thread thread, Throwable throwable) {
-        System.out.println("ComponentTest received a exception which is from the thread " + thread.getName() + ": " + throwable.getMessage());
-    }
-
 }

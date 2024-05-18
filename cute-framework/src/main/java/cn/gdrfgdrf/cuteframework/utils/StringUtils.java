@@ -15,25 +15,30 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.gdrfgdrf.plugintest;
-
-import cn.gdrfgdrf.cuteframework.bean.annotation.Component;
-import cn.gdrfgdrf.cuteframework.exceptionhandler.annotation.ExceptionHandler;
+package cn.gdrfgdrf.cuteframework.utils;
 
 /**
- * @Description
+ * @Description 字符串工具类
  * @Author gdrfgdrf
- * @Date 2024/5/6
+ * @Date 2024/4/12
  */
-@Component
-public class ComponentTest {
-    public ComponentTest() {
-        System.out.println("ComponentTest initialize");
+public class StringUtils {
+    private StringUtils() {}
+
+    public static int length(final CharSequence cs) {
+        return cs == null ? 0 : cs.length();
     }
 
-    @ExceptionHandler(support = Throwable.class)
-    public static void onException(Thread thread, Throwable throwable) {
-        System.out.println("ComponentTest received a exception which is from the thread " + thread.getName() + ": " + throwable.getMessage());
+    public static boolean isBlank(CharSequence cs) {
+        final int strLen = length(cs);
+        if (strLen == 0) {
+            return true;
+        }
+        for (int i = 0; i < strLen; i++) {
+            if (!Character.isWhitespace(cs.charAt(i))) {
+                return false;
+            }
+        }
+        return true;
     }
-
 }

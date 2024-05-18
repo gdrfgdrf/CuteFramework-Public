@@ -15,25 +15,24 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.gdrfgdrf.plugintest;
+package cn.gdrfgdrf.cuteframework.bean.annotation;
 
-import cn.gdrfgdrf.cuteframework.bean.annotation.Component;
-import cn.gdrfgdrf.cuteframework.exceptionhandler.annotation.ExceptionHandler;
+import java.lang.annotation.*;
 
 /**
- * @Description
+ * @Description 被注解的类将会被 {@link cn.gdrfgdrf.cuteframework.bean.BeanManager} 扫描到并作为 Bean 加载
  * @Author gdrfgdrf
- * @Date 2024/5/6
+ * @Date 2024/4/20
  */
-@Component
-public class ComponentTest {
-    public ComponentTest() {
-        System.out.println("ComponentTest initialize");
-    }
-
-    @ExceptionHandler(support = Throwable.class)
-    public static void onException(Thread thread, Throwable throwable) {
-        System.out.println("ComponentTest received a exception which is from the thread " + thread.getName() + ": " + throwable.getMessage());
-    }
-
+@Target(value = ElementType.TYPE)
+@Retention(value = RetentionPolicy.RUNTIME)
+public @interface Component {
+    /**
+     * @Description 定义 Bean 名称，为空则默认为类名
+     * @return java.lang.String
+     *         Bean 名称
+     * @Author gdrfgdrf
+     * @Date 2024/5/2
+     */
+    String name() default "";
 }

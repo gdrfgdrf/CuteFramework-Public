@@ -15,25 +15,32 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.gdrfgdrf.plugintest;
-
-import cn.gdrfgdrf.cuteframework.bean.annotation.Component;
-import cn.gdrfgdrf.cuteframework.exceptionhandler.annotation.ExceptionHandler;
+package cn.gdrfgdrf.cuteframework.locale;
 
 /**
- * @Description
+ * @Description 语言字符串，
+ * 所有 {@link cn.gdrfgdrf.cuteframework.locale.base.LanguageBlock} 中的语言字符串必须使用该类型
+ * 才能被 {@link LanguageLoader} 识别到
+ *
  * @Author gdrfgdrf
- * @Date 2024/5/6
+ * @Date 2024/4/17
  */
-@Component
-public class ComponentTest {
-    public ComponentTest() {
-        System.out.println("ComponentTest initialize");
+public class LanguageString {
+    private final String text;
+
+    public LanguageString(String text) {
+        this.text = text;
     }
 
-    @ExceptionHandler(support = Throwable.class)
-    public static void onException(Thread thread, Throwable throwable) {
-        System.out.println("ComponentTest received a exception which is from the thread " + thread.getName() + ": " + throwable.getMessage());
+    /**
+     * @Description 获取到可操作的语言字符串
+     * @return cn.gdrfgdrf.smartuploader.locale.AccessibleLanguageString
+     *         可操作的语言字符串
+     * @Author gdrfgdrf
+     * @Date 2024/4/18
+     */
+    public OperableLanguageString get() {
+        return new OperableLanguageString(text);
     }
 
 }

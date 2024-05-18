@@ -15,25 +15,16 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.gdrfgdrf.plugintest;
+package cn.gdrfgdrf.cuteframework.locale.language.chinese.simplified;
 
-import cn.gdrfgdrf.cuteframework.bean.annotation.Component;
-import cn.gdrfgdrf.cuteframework.exceptionhandler.annotation.ExceptionHandler;
+import cn.gdrfgdrf.cuteframework.locale.LanguageString;
+import cn.gdrfgdrf.cuteframework.locale.base.LanguageBlock;
 
 /**
- * @Description
- * @Author gdrfgdrf
- * @Date 2024/5/6
+ * Basic:
+ * gdrfgdrf | 2024-04-17
  */
-@Component
-public class ComponentTest {
-    public ComponentTest() {
-        System.out.println("ComponentTest initialize");
-    }
-
-    @ExceptionHandler(support = Throwable.class)
-    public static void onException(Thread thread, Throwable throwable) {
-        System.out.println("ComponentTest received a exception which is from the thread " + thread.getName() + ": " + throwable.getMessage());
-    }
-
+class AssertLanguage implements LanguageBlock {
+    public static final LanguageString NOT_NULL = new LanguageString("{} 不能为 null");
+    public static final LanguageString ARRAY_MIN = new LanguageString("数组 {} 的长度必须大于等于 {}");
 }

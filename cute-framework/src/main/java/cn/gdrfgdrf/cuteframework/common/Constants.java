@@ -15,25 +15,21 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.gdrfgdrf.plugintest;
-
-import cn.gdrfgdrf.cuteframework.bean.annotation.Component;
-import cn.gdrfgdrf.cuteframework.exceptionhandler.annotation.ExceptionHandler;
+package cn.gdrfgdrf.cuteframework.common;
 
 /**
- * @Description
+ * @Description 常量类
  * @Author gdrfgdrf
- * @Date 2024/5/6
+ * @Date 2024/4/8
  */
-@Component
-public class ComponentTest {
-    public ComponentTest() {
-        System.out.println("ComponentTest initialize");
-    }
+public class Constants {
+    public static final String LOCALE_COLLECT_PACKAGE = "cn.gdrfgdrf.cuteframework.locale.collect";
+    public static final String LOCALE_LANGUAGE_PACKAGE = "cn.gdrfgdrf.cuteframework.locale.language";
+    public static final String LOCALE_LANGUAGE_FOLDER = "language/";
 
-    @ExceptionHandler(support = Throwable.class)
-    public static void onException(Thread thread, Throwable throwable) {
-        System.out.println("ComponentTest received a exception which is from the thread " + thread.getName() + ": " + throwable.getMessage());
-    }
+    public static final String PLUGIN_FOLDER = "plugin/";
+    public static final String PLUGIN_DESCRIPTION_FILE_NAME = "plugin.json";
+
+    public static final String CONFIG_FILE_NAME = "config.json";
 
 }

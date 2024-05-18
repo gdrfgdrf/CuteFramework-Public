@@ -15,25 +15,34 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.gdrfgdrf.plugintest;
+package cn.gdrfgdrf.cuteframework.event.exceptionhandler;
 
 import cn.gdrfgdrf.cuteframework.bean.annotation.Component;
+import cn.gdrfgdrf.cuteframework.event.exception.EventException;
 import cn.gdrfgdrf.cuteframework.exceptionhandler.annotation.ExceptionHandler;
+import lombok.extern.slf4j.Slf4j;
 
 /**
- * @Description
+ * @Description 事件异常处理器
  * @Author gdrfgdrf
- * @Date 2024/5/6
+ * @Date 2024/4/24
  */
+@Slf4j
 @Component
-public class ComponentTest {
-    public ComponentTest() {
-        System.out.println("ComponentTest initialize");
+public class DefaultEventExceptionHandler {
+    /**
+     * @Description 异常处理方法，当事件处理出现异常时，
+     * 会被 {@link EventExceptionHandler} 捕获并分发到该方法
+     *
+     * @param thread
+	 *        异常所在线程
+	 * @param eventException
+	 *        异常实例
+     * @Author gdrfgdrf
+     * @Date 2024/5/4
+     */
+    @ExceptionHandler(support = EventException.class)
+    public static void handle(Thread thread, EventException eventException) {
+        log.error(eventException.getMessage(), eventException.getThrowable());
     }
-
-    @ExceptionHandler(support = Throwable.class)
-    public static void onException(Thread thread, Throwable throwable) {
-        System.out.println("ComponentTest received a exception which is from the thread " + thread.getName() + ": " + throwable.getMessage());
-    }
-
 }

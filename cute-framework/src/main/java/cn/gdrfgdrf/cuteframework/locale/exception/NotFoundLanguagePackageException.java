@@ -15,25 +15,14 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.gdrfgdrf.plugintest;
-
-import cn.gdrfgdrf.cuteframework.bean.annotation.Component;
-import cn.gdrfgdrf.cuteframework.exceptionhandler.annotation.ExceptionHandler;
+package cn.gdrfgdrf.cuteframework.locale.exception;
 
 /**
- * @Description
+ * @Description 当 {@link cn.gdrfgdrf.cuteframework.locale.LanguageLoader} 无法找到语言包时抛出
  * @Author gdrfgdrf
- * @Date 2024/5/6
+ * @Date 2024/4/13
  */
-@Component
-public class ComponentTest {
-    public ComponentTest() {
-        System.out.println("ComponentTest initialize");
+public class NotFoundLanguagePackageException extends Exception {
+    public NotFoundLanguagePackageException() {
     }
-
-    @ExceptionHandler(support = Throwable.class)
-    public static void onException(Thread thread, Throwable throwable) {
-        System.out.println("ComponentTest received a exception which is from the thread " + thread.getName() + ": " + throwable.getMessage());
-    }
-
 }

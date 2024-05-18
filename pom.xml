@@ -4,12 +4,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>cn.gdrfgdrf.smartcore</groupId>
-    <artifactId>smart-core</artifactId>
+    <groupId>cn.gdrfgdrf.cuteframework</groupId>
+    <artifactId>root</artifactId>
     <version>1.0.0</version>
     <packaging>pom</packaging>
     <modules>
-        <module>core</module>
+        <module>cute-framework</module>
         <module>impl</module>
         <module>packer</module>
         <module>plugin-test</module>
@@ -20,8 +20,8 @@
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <packer.finalName>SmartCore-${parent.version}</packer.finalName>
-        <packer.mainClass>cn.gdrfgdrf.smartcoreimpl.SmartCoreImpl</packer.mainClass>
+        <packer.finalName>CuteFramework-${parent.version}</packer.finalName>
+        <packer.implMainClass>cn.gdrfgdrf.cuteframeworkimpl.CuteFrameworkImpl</packer.implMainClass>
     </properties>
 
     <build>

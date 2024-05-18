@@ -15,25 +15,22 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.gdrfgdrf.plugintest;
+package cn.gdrfgdrf.cuteframework.bean.resolver.method.annotation;
 
 import cn.gdrfgdrf.cuteframework.bean.annotation.Component;
-import cn.gdrfgdrf.cuteframework.exceptionhandler.annotation.ExceptionHandler;
+import cn.gdrfgdrf.cuteframework.bean.annotation.Order;
+
+import java.lang.annotation.*;
 
 /**
- * @Description
+ * @Description 标记一个类是 Bean 方法解析器，作为 Bean 方法解析器将会被 {@link cn.gdrfgdrf.cuteframework.bean.BeanManager} 最先创建
  * @Author gdrfgdrf
- * @Date 2024/5/6
+ * @Date 2024/5/4
  */
+@Order(1)
 @Component
-public class ComponentTest {
-    public ComponentTest() {
-        System.out.println("ComponentTest initialize");
-    }
-
-    @ExceptionHandler(support = Throwable.class)
-    public static void onException(Thread thread, Throwable throwable) {
-        System.out.println("ComponentTest received a exception which is from the thread " + thread.getName() + ": " + throwable.getMessage());
-    }
-
+@Target(value = ElementType.TYPE)
+@Retention(value = RetentionPolicy.RUNTIME)
+public @interface BeanMethodResolverAnnotation {
+    Class<? extends Annotation> targetMethodAnnotation();
 }

@@ -15,38 +15,33 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.gdrfgdrf.plugintest;
+package cn.gdrfgdrf.cuteframework.utils.asserts.exception;
 
-import cn.gdrfgdrf.cuteframework.api.base.Plugin;
+import cn.gdrfgdrf.cuteframework.locale.collect.AssertLanguage;
+import cn.gdrfgdrf.cuteframework.utils.asserts.base.AssertErrorException;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 /**
- * @Description
+ * @Description 当实例为 null 时抛出
  * @Author gdrfgdrf
- * @Date 2024/5/5
+ * @Date 2024/4/8
  */
-public class TestPlugin extends Plugin {
-    public TestPlugin() {
-        System.out.println("TestPlugin initialize");
+@Getter
+@AllArgsConstructor
+public class AssertNotNullException extends AssertErrorException {
+    private final String parameterName;
+
+    @Override
+    public String getI18NMessage() {
+        return AssertLanguage.NOT_NULL
+                .get()
+                .format(parameterName)
+                .getString();
     }
 
     @Override
-    public void onEnable() {
-        System.out.println(getPluginDescription());
-        System.out.println("onEnable");
-    }
-
-    @Override
-    public void onLoad() {
-        System.out.println("onLoad");
-    }
-
-    @Override
-    public void onStop() {
-        System.out.println("onStop");
-    }
-
-    @Override
-    public void onDisable() {
-        System.out.println("onDisable");
+    public String getDefaultMessage() {
+        return "Parameter " + parameterName + " cannot be null";
     }
 }

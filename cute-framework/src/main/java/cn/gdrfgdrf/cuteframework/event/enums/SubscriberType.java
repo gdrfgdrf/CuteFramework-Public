@@ -15,25 +15,28 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.gdrfgdrf.plugintest;
-
-import cn.gdrfgdrf.cuteframework.bean.annotation.Component;
-import cn.gdrfgdrf.cuteframework.exceptionhandler.annotation.ExceptionHandler;
+package cn.gdrfgdrf.cuteframework.event.enums;
 
 /**
- * @Description
+ * @Description 事件订阅者类型，
+ * Guava 的 EventBus 支持同步和异步，但是需要两个 EventBus 实例去支持同步和异步
+ * 在同步的 EventBus 注册的订阅者不能接收异步的事件，
+ * 同理，在异步的 EventBus 注册的订阅者不能接收同步的事件
+ *
  * @Author gdrfgdrf
- * @Date 2024/5/6
+ * @Date 2024/5/18
  */
-@Component
-public class ComponentTest {
-    public ComponentTest() {
-        System.out.println("ComponentTest initialize");
-    }
-
-    @ExceptionHandler(support = Throwable.class)
-    public static void onException(Thread thread, Throwable throwable) {
-        System.out.println("ComponentTest received a exception which is from the thread " + thread.getName() + ": " + throwable.getMessage());
-    }
-
+public enum SubscriberType {
+    /**
+     * 同步执行的事件订阅者
+     */
+    SYNC,
+    /**
+     * 异步执行的事件订阅者
+     */
+    ASYNC,
+    /**
+     * 可同步可异步的事件订阅者
+     */
+    ALL
 }
