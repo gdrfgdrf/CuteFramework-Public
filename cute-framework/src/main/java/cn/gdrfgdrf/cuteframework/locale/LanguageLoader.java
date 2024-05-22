@@ -247,15 +247,15 @@ public class LanguageLoader {
         ClassUtils.formatPackageName(collectPackage);
         ClassUtils.formatPackageName(languagePackage);
 
-        String targetLanguagePackageString = language.replace("_", ".");
-        String fullTargetLanguagePackage = languagePackage + "." + targetLanguagePackageString;
+        String languagePackageString = language.replace("_", ".");
+        String fullLanguagePackage = languagePackage + "." + languagePackageString;
 
-        if (!ClassUtils.isPackageExists(classLoader, fullTargetLanguagePackage)) {
+        if (!ClassUtils.isPackageExists(classLoader, fullLanguagePackage)) {
             throw new NotFoundLanguagePackageException();
         }
 
         Reflections reflections = new Reflections(new ConfigurationBuilder()
-                .forPackage(fullTargetLanguagePackage)
+                .forPackage(fullLanguagePackage)
                 .addClassLoaders(classLoader));
         Set<Class<? extends LanguageBlock>> allLanguageBlockClasses = reflections.getSubTypesOf(LanguageBlock.class);
 
