@@ -24,8 +24,12 @@ import cn.gdrfgdrf.cuteframework.config.ConfigManager;
 import cn.gdrfgdrf.cuteframework.config.common.Config;
 import cn.gdrfgdrf.cuteframework.exceptionhandler.GlobalUncaughtExceptionHandler;
 import cn.gdrfgdrf.cuteframework.locale.LanguageLoader;
+import cn.gdrfgdrf.cuteframework.locale.exception.NotFoundLanguagePackageException;
+import cn.gdrfgdrf.cuteframework.utils.asserts.exception.AssertNotNullException;
 import cn.gdrfgdrf.cuteframework.utils.stack.StackUtils;
 import cn.gdrfgdrf.cuteframework.utils.stack.common.MethodInformation;
+
+import java.io.IOException;
 
 /**
  * @Description 核心主程序，该程序可以直接初始化类，同时部分方法也只允许该类调用
@@ -48,7 +52,7 @@ public class CuteFramework {
         ConfigManager.getInstance().load(Constants.CONFIG_FILE_NAME);
         Config config = ConfigManager.getInstance().getConfig();
 
-        LanguageLoader.getInstance().load(config.getLanguage());
+        loadCuteframeworkLanguage(config.getLanguage());
 
         PluginLoader pluginLoader = PluginLoader.getInstance();
         pluginLoader.startLoading();
@@ -61,6 +65,28 @@ public class CuteFramework {
         PluginManager.getInstance().loadAllPlugin();
 
         BeanManager.getInstance().startCreatingPluginBeans();
+    }
+
+    /**
+     * @Description 加载框架语言
+     * @param language
+	 *        语言
+     * @Author gdrfgdrf
+     * @Date 2024/5/22
+     */
+    private static void loadCuteframeworkLanguage(String language) throws
+            AssertNotNullException,
+            NotFoundLanguagePackageException,
+            IOException,
+            IllegalAccessException
+    {
+        LanguageLoader.getInstance().load(
+                CuteFramework.class.getClassLoader(),
+                "cn.gdrfgdrf.cuteframework.locale.collect.",
+                "cn.gdrfgdrf.cuteframework.locale.language",
+                "cute-framework",
+                language
+        );
     }
 
     /**

@@ -107,6 +107,15 @@
  *          "键3": "值3" <p>
  *      } <p>
  * <p>
+ * 引入一个新概念：owner，<p>
+ * 该值指定某个程序，比如说当加载框架语言时，该值是 cute-framework，<p>
+ * 加载使用了该框架的程序时，该值可以是程序名，<p>
+ * 当出现重名时，如果提供的类加载器能获取语言类，那么后来的将会覆盖先来的，<p>
+ * 同时，<p>
+ * 保存语言将会保存在 {@link cn.gdrfgdrf.cuteframework.common.Constants#LOCALE_LANGUAGE_FOLDER} 下的 owner 的值的文件夹， <p>
+ * 比如说框架的 owner 为 cute-framework，<p>
+ * 那么保存的语言文件则在 {@link cn.gdrfgdrf.cuteframework.common.Constants#LOCALE_LANGUAGE_FOLDER}/cute-framework <p>
+ * <p>
  * 例子：<p>
  *      假设当前配置文件中设置的语言为 chinese_simplified，<p>
  *      那么程序将检查 chinese_simplified.json 文件是否存在，<p>

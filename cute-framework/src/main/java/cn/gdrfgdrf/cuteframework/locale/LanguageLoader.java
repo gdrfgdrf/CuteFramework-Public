@@ -30,13 +30,13 @@ import cn.gdrfgdrf.cuteframework.utils.jackson.SuperJsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.extern.slf4j.Slf4j;
 import org.reflections.Reflections;
+import org.reflections.util.ConfigurationBuilder;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
 import java.lang.reflect.Field;
-import java.util.Arrays;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @Description 语言加载器，翻译提供者请仔细查看该包的 package-info
@@ -46,6 +46,8 @@ import java.util.Set;
 @Slf4j
 public class LanguageLoader {
     private static LanguageLoader INSTANCE;
+
+    private final List<String> OWNER_LIST = new ArrayList<>();
 
     private LanguageLoader() {}
 
@@ -63,40 +65,75 @@ public class LanguageLoader {
         return INSTANCE;
     }
 
-    /**
-     * @Description 加载语言，若语言文件不存在则从类加载语言，具体说明请查阅 package-info
-     * @param language
-	 *        语言
-     * @throws cn.gdrfgdrf.cuteframework.utils.asserts.exception.AssertNotNullException
-     *         language 为 null 时抛出
-     * @Author gdrfgdrf
-     * @Date 2024/4/12
-     */
-    public void load(String language) throws
-            IOException,
-            NotFoundLanguagePackageException,
-            IllegalAccessException,
-            AssertNotNullException
-    {
-        AssertUtils.notNull("language", language);
-
-        File languageFolder = new File(Constants.LOCALE_LANGUAGE_FOLDER);
-        if (!languageFolder.exists()) {
-            languageFolder.mkdirs();
-        }
-
-        File languageFile = new File(Constants.LOCALE_LANGUAGE_FOLDER + language + ".json");
-        if (languageFile.exists()) {
-            loadFromFile(language);
+    public void registerOwner(String owner) {
+        if (OWNER_LIST.contains(owner)) {
             return;
         }
-        loadFromClass(language);
+        OWNER_LIST.add(owner);
+    }
 
-        saveCollectClass(languageFile);
+    /**
+     * @Description 加载指定 owner 的指定语言，
+     * 若语言文件不存在则从类加载语言，具体说明请查阅 package-info
+     *
+     * @param classLoader
+	 *        能够加载语言类的类加载器
+	 * @param collectPackage
+	 *        语言集合所在的包名
+	 * @param languagePackage
+	 *        语言块所在的包名
+	 * @param owner
+	 *        owner
+	 * @param language
+	 *        语言
+     * @throws AssertNotNullException
+     *         当以上任何的参数为 null 时抛出
+     * @Author gdrfgdrf
+     * @Date 2024/5/22
+     */
+    public void load(
+            ClassLoader classLoader,
+            String collectPackage,
+            String languagePackage,
+            String owner,
+            String language
+    ) throws
+            AssertNotNullException,
+            IOException,
+            NotFoundLanguagePackageException,
+            IllegalAccessException
+    {
+        AssertUtils.notNull("class loader", classLoader);
+        AssertUtils.notNull("collect package", collectPackage);
+        AssertUtils.notNull("language package", languagePackage);
+        AssertUtils.notNull("language owner", owner);
+        AssertUtils.notNull("language", language);
+
+        File implLanguageFolder = new File(Constants.LOCALE_LANGUAGE_FOLDER + owner);
+        if (!implLanguageFolder.exists()) {
+            implLanguageFolder.mkdirs();
+        }
+
+        File languageFile = new File(Constants.LOCALE_LANGUAGE_FOLDER + owner + "/" + language + ".json");
+        if (languageFile.exists()) {
+            loadFromFile(classLoader, collectPackage, languagePackage, owner, language);
+            return;
+        }
+        loadFromClass(classLoader, collectPackage, languagePackage, language);
+
+        saveCollectClass(classLoader, collectPackage, languageFile);
     }
 
     /**
      * @Description 从语言文件加载语言
+     * @param classLoader
+     *        能够加载语言类的类加载器
+     * @param owner
+     *        owner
+     * @param collectPackage
+     *        语言集合类所在的包名
+     * @param languagePackage
+     *        语言块所在的包名
      * @param language
 	 *        语言
      * @throws cn.gdrfgdrf.cuteframework.utils.asserts.exception.AssertNotNullException
@@ -107,21 +144,35 @@ public class LanguageLoader {
      * @Date 2024/4/12
      */
     @SuppressWarnings("unchecked")
-    private void loadFromFile(String language) throws IOException, AssertNotNullException {
+    private void loadFromFile(
+            ClassLoader classLoader,
+            String collectPackage,
+            String languagePackage,
+            String owner,
+            String language
+    ) throws AssertNotNullException, IOException {
+        AssertUtils.notNull("class loader", classLoader);
+        AssertUtils.notNull("collect package", collectPackage);
+        AssertUtils.notNull("language package", languagePackage);
+        AssertUtils.notNull("language owner", owner);
         AssertUtils.notNull("language", language);
+        collectPackage = ClassUtils.formatPackageName(collectPackage);
+        languagePackage = ClassUtils.formatPackageName(languagePackage);
 
-        File languageFile = new File(Constants.LOCALE_LANGUAGE_FOLDER + language + ".json");
+        File languageFile = new File(Constants.LOCALE_LANGUAGE_FOLDER + owner + "/" + language + ".json");
         if (!languageFile.exists()) {
             return;
         }
 
-        String targetLanguagePackageString = language.replace("_", ".");
-        String fullTargetLanguagePackage = Constants.LOCALE_LANGUAGE_PACKAGE + "." + targetLanguagePackageString;
-        boolean languagePackageExists = ClassUtils.isPackageExists(fullTargetLanguagePackage);
+        String languagePackageString = language.replace("_", ".");
+        String fullLanguagePackage = languagePackage + "." + languagePackageString;
+        boolean languagePackageExists = ClassUtils.isPackageExists(classLoader, fullLanguagePackage);
 
-        Reflections reflections = new Reflections(Constants.LOCALE_COLLECT_PACKAGE);
+        Reflections reflections = new Reflections(new ConfigurationBuilder()
+                .forPackage(collectPackage)
+                .forPackage(fullLanguagePackage)
+                .addClassLoaders(classLoader));
         Set<Class<? extends LanguageCollect>> allLanguageCollectClasses = reflections.getSubTypesOf(LanguageCollect.class);
-
         SuperJsonNode superJsonNode = JacksonUtils.readFileTree(languageFile);
         allLanguageCollectClasses.forEach(collectClass -> {
             try {
@@ -153,10 +204,8 @@ public class LanguageLoader {
                     }
 
                     try {
-                        Class<? extends LanguageBlock> languageBlockClass =
-                                (Class<? extends LanguageBlock>) Class.forName(
-                                        fullTargetLanguagePackage + "." + collectClassName
-                                );
+                        Class<? extends LanguageBlock> languageBlockClass = (Class<? extends LanguageBlock>)
+                                classLoader.loadClass(fullLanguagePackage + "." + collectClassName);
                         setFromBlock(collectField, languageBlockClass.getDeclaredField(fieldName), fieldName);
                     } catch (Exception e) {
                         log.error("Load language error from class", e);
@@ -170,28 +219,50 @@ public class LanguageLoader {
 
     /**
      * @Description 从类加载语言
-     * @param targetLanguage
+     * @param classLoader
+     *        能够加载语言块类的类加载器
+     * @param collectPackage
+     *        语言集合所在的包名
+     * @param languagePackage
+     *        语言块所在的包名
+     * @param language
 	 *        需要加载的语言
+     * @throws AssertNotNullException
+     *         当任何一个参数为 null 时抛出
      * @throws NotFoundLanguagePackageException
      *         没有找到语言包时抛出
      * @Author gdrfgdrf
      * @Date 2024/4/12
      */
-    private void loadFromClass(String targetLanguage) throws NotFoundLanguagePackageException {
-        String targetLanguagePackageString = targetLanguage.replace("_", ".");
-        String fullTargetLanguagePackage = Constants.LOCALE_LANGUAGE_PACKAGE + "." + targetLanguagePackageString;
+    private void loadFromClass(
+            ClassLoader classLoader,
+            String collectPackage,
+            String languagePackage,
+            String language
+    ) throws AssertNotNullException, NotFoundLanguagePackageException {
+        AssertUtils.notNull("class loader", classLoader);
+        AssertUtils.notNull("collect package", collectPackage);
+        AssertUtils.notNull("language package", languagePackage);
+        AssertUtils.notNull("language", language);
+        ClassUtils.formatPackageName(collectPackage);
+        ClassUtils.formatPackageName(languagePackage);
 
-        if (!ClassUtils.isPackageExists(fullTargetLanguagePackage)) {
+        String targetLanguagePackageString = language.replace("_", ".");
+        String fullTargetLanguagePackage = languagePackage + "." + targetLanguagePackageString;
+
+        if (!ClassUtils.isPackageExists(classLoader, fullTargetLanguagePackage)) {
             throw new NotFoundLanguagePackageException();
         }
 
-        Reflections reflections = new Reflections(fullTargetLanguagePackage);
+        Reflections reflections = new Reflections(new ConfigurationBuilder()
+                .forPackage(fullTargetLanguagePackage)
+                .addClassLoaders(classLoader));
         Set<Class<? extends LanguageBlock>> allLanguageBlockClasses = reflections.getSubTypesOf(LanguageBlock.class);
 
         allLanguageBlockClasses.forEach(languageBlockClass -> {
             String className = languageBlockClass.getSimpleName();
             try {
-                Class<?> collectClass = Class.forName(Constants.LOCALE_COLLECT_PACKAGE + "." + className);
+                Class<?> collectClass = classLoader.loadClass(collectPackage + "." + className);
                 Field[] collectFields = Arrays.stream(collectClass.getDeclaredFields())
                         .filter(field -> field.getType() == LanguageString.class)
                         .toArray(Field[]::new);
@@ -212,15 +283,34 @@ public class LanguageLoader {
 
     /**
      * @Description 序列化所有 {@link LanguageCollect} 类并保存到语言文件
+     * @param classLoader
+     *        能够加载语言集合类的类加载器
+     * @param collectPackage
+     *        语言集合类所在的包名
      * @param file
 	 *        语言文件
+     * @throws AssertNotNullException
+     *         当任何一个参数为 null 时抛出
      * @throws IOException
      *         语言文件 IO 错误
+     * @throws IllegalAccessException
+     *         无法从语言自核类中获取语言字段
      * @Author gdrfgdrf
      * @Date 2024/4/16
      */
-    private void saveCollectClass(File file) throws IOException, IllegalAccessException {
-        Reflections reflections = new Reflections(Constants.LOCALE_COLLECT_PACKAGE);
+    private void saveCollectClass(ClassLoader classLoader, String collectPackage, File file) throws
+            AssertNotNullException,
+            IOException,
+            IllegalAccessException
+    {
+        AssertUtils.notNull("class loader", classLoader);
+        AssertUtils.notNull("collect package", collectPackage);
+        AssertUtils.notNull("file", file);
+        ClassUtils.formatPackageName(collectPackage);
+
+        Reflections reflections = new Reflections(new ConfigurationBuilder()
+                .forPackage(collectPackage)
+                .addClassLoaders(classLoader));
         Set<Class<? extends LanguageCollect>> allCollectClasses = reflections.getSubTypesOf(LanguageCollect.class);
 
         ObjectNode root = JacksonUtils.newTree();

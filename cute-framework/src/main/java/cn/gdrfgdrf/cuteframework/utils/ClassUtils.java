@@ -44,6 +44,13 @@ import java.util.jar.JarFile;
 public class ClassUtils {
     private ClassUtils() {}
 
+    public static String formatPackageName(String packageName) {
+        if (!packageName.endsWith(".")) {
+            return packageName;
+        }
+        return packageName.substring(0, packageName.lastIndexOf("."));
+    }
+
     public static boolean hasAnnotation(Class<?> clazz, Class<? extends Annotation> targetAnnotation) {
         Annotation annotation = getAnnotation(clazz, targetAnnotation);
         return annotation != null;
@@ -100,8 +107,7 @@ public class ClassUtils {
         }
     }
 
-    public static boolean isPackageExists(String packageName) {
-        ClassLoader classLoader = ClassUtils.class.getClassLoader();
+    public static boolean isPackageExists(ClassLoader classLoader, String packageName) {
         String packagePath = packageName.replace(".", "/");
         URL packageUrl = classLoader.getResource(packagePath);
         return packageUrl != null;

@@ -96,4 +96,18 @@ public class FileUtils {
         return new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8));
     }
 
+    /**
+     * @Description 填充路径，保证一个路径的结尾一定是斜杠
+     * @param path
+	 *        路径
+     * @Author gdrfgdrf
+     * @Date 2024/5/22
+     */
+    public static String formatPath(String path) {
+        if (path.endsWith("/") || path.endsWith("\\")) {
+            return path;
+        }
+        return path + "/";
+    }
+
 }

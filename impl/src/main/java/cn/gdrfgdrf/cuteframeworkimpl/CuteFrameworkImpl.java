@@ -19,6 +19,8 @@ package cn.gdrfgdrf.cuteframeworkimpl;
 import cn.gdrfgdrf.cuteframework.CuteFramework;
 import cn.gdrfgdrf.cuteframework.api.event.PluginEvent;
 import cn.gdrfgdrf.cuteframework.event.EventManager;
+import cn.gdrfgdrf.cuteframework.locale.LanguageLoader;
+import cn.gdrfgdrf.cuteframeworkimpl.locale.collect.TestLanguage;
 import com.google.common.eventbus.Subscribe;
 import lombok.extern.slf4j.Slf4j;
 
@@ -63,8 +65,22 @@ public class CuteFrameworkImpl {
         try {
             CuteFramework.run();
         } catch (Exception e) {
-            log.error("Error when initialize smart core", e);
+            log.error("Error when initialize cute framework core", e);
         }
+
+        try {
+            LanguageLoader.getInstance().load(
+                    CuteFrameworkImpl.class.getClassLoader(),
+                    "cn.gdrfgdrf.cuteframeworkimpl.locale.collect",
+                    "cn.gdrfgdrf.cuteframeworkimpl.locale.language",
+                    "cute-framework-impl",
+                    "chinese"
+            );
+        } catch (Exception e) {
+            log.error("Error when initialize language", e);
+        }
+
+        System.out.println(TestLanguage.TEST_LANGUAGE.get());
 
         throw new NullPointerException("test");
     }
