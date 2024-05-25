@@ -24,8 +24,33 @@
         <artifactId>cute-framework-root</artifactId>
         <version>1.0.0</version>
     </parent>
-
     <artifactId>cute-framework-packer</artifactId>
+    <description>Packaging only</description>
+
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <id>gdrfgdrf</id>
+            <name>gdrfgdrf</name>
+            <email>gdrfgdrfgdrfgtdrfgdrfgdrf@hotmail.com</email>
+            <roles>
+                <role>Project Founder</role>
+            </roles>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>https://github.com/gdrfgdrf/CuteFramework-Public.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com:gdrfgdrf/CuteFramework-Public.git</developerConnection>
+        <url>https://github.com/gdrfgdrf/CuteFramework-Public</url>
+    </scm>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
