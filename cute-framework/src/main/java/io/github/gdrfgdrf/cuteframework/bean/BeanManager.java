@@ -161,7 +161,18 @@ public class BeanManager {
      * @author gdrfgdrf
      * @since 2024/5/4
      */
-    public void startCreatingPluginBeans() throws StackIllegalOperationException, AssertNotNullException, StackIllegalArgumentException, BeanClassResolverException, BeanNameConflictException, BeanMethodResolverException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    public void startCreatingPluginBeans() throws
+            StackIllegalOperationException,
+            AssertNotNullException,
+            StackIllegalArgumentException,
+            BeanClassResolverException,
+            BeanNameConflictException,
+            BeanMethodResolverException,
+            InvocationTargetException,
+            NoSuchMethodException,
+            InstantiationException,
+            IllegalAccessException
+    {
         StackUtils.onlyMethod("io.github.gdrfgdrf.cuteframework.CuteFramework", "run");
 
         for (Map.Entry<String, Plugin> pluginEntry : PluginManager.getInstance().getPlugins().entrySet()) {
