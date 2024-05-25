@@ -104,7 +104,7 @@ Dependencies
 
 ### Copied code
 modified:
-- utils.io.github.gdrfgdrf.cuteframework.TypeParameterMatcher
+- io.github.gdrfgdrf.cuteframework.utils.TypeParameterMatcher
   - io.netty.util.internal.TypeParameterMatcher of Netty
 
 License
