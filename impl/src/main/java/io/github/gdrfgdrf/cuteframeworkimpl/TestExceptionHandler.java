@@ -23,7 +23,6 @@ import io.github.gdrfgdrf.cuteframework.exceptionhandler.event.ExceptionEvent;
 import com.google.common.eventbus.Subscribe;
 
 /**
- * @description
  * @author gdrfgdrf
  * @since v1_0_0_20240525_RELEASE
  */

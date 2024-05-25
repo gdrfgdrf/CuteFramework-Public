@@ -19,7 +19,6 @@ package io.github.gdrfgdrf.plugintest;
 import io.github.gdrfgdrf.cuteframework.api.base.Plugin;
 
 /**
- * @description
  * @author gdrfgdrf
  * @since v1_0_0_20240525_RELEASE
  */

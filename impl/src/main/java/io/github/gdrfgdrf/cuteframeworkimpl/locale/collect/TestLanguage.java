@@ -20,7 +20,6 @@ import io.github.gdrfgdrf.cuteframework.locale.LanguageString;
 import io.github.gdrfgdrf.cuteframework.locale.base.LanguageCollect;
 
 /**
- * @description
  * @author gdrfgdrf
  * @since v1_0_0_20240525_RELEASE
  */

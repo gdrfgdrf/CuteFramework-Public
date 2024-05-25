@@ -20,7 +20,6 @@ import io.github.gdrfgdrf.cuteframework.bean.annotation.Component;
 import io.github.gdrfgdrf.cuteframework.exceptionhandler.annotation.ExceptionHandler;
 
 /**
- * @description
  * @author gdrfgdrf
  * @since v1_0_0_20240525_RELEASE
  */

@@ -15,7 +15,6 @@
  */
 
 /**
- * @description
  * !!! 所有翻译者必须仔细阅读该注释 !!! <p>
  * !!! All translators must read this note carefully !!! <p>
  * <p>
