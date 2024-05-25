@@ -5,6 +5,7 @@ __[English](https://github.com/gdrfgdrf/CuteFramework-Public/blob/master/README.
 
 <!-- TOC -->
 * [CuteFramework](#cuteframework-)
+  * [Getting Started](#getting-started)
   * [Modules](#modules)
   * [Features](#features)
     * [BeanManager](#beanmanager)
@@ -24,6 +25,22 @@ __[English](https://github.com/gdrfgdrf/CuteFramework-Public/blob/master/README.
     * [Copied code](#copied-code)
   * [License](#license)
 <!-- TOC -->
+
+Getting Started
+------------------------
+- Latest Version: [![Maven Central](https://img.shields.io/maven-central/v/io.github.gdrfgdrf/cute-framework.svg)](https://search.maven.org/search?q=g:io.github.gdrfgdrf%20a:cute-framework)
+- Maven
+```xml
+<dependency>
+  <groupId>io.github.gdrfgdrf</groupId>
+  <artifactId>cute-framework</artifactId>
+  <version>Latest Version</version>
+</dependency>
+```
+- Gradle
+```groovy
+implementation group: 'io.github.gdrfgdrf', name: 'cute-framework', version: 'Latest Version'
+```
 
 Modules
 ------------------------

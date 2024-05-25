@@ -5,6 +5,7 @@ __[English](https://github.com/gdrfgdrf/CuteFramework-Public/blob/master/README.
 
 <!-- TOC -->
 * [CuteFramework](#cuteframework)
+  * [在项目中使用](#在项目中使用)
   * [模块](#模块)
   * [特性](#特性)
     * [BeanManager](#beanmanager)
@@ -24,6 +25,22 @@ __[English](https://github.com/gdrfgdrf/CuteFramework-Public/blob/master/README.
     * [复制的代码](#复制的代码)
   * [开源协议](#开源协议)
 <!-- TOC -->
+
+在项目中使用
+------------------------
+- 最新版本: [![Maven Central](https://img.shields.io/maven-central/v/io.github.gdrfgdrf/cute-framework.svg)](https://search.maven.org/search?q=g:io.github.gdrfgdrf%20a:cute-framework)
+- Maven
+```xml
+<dependency>
+  <groupId>io.github.gdrfgdrf</groupId>
+  <artifactId>cute-framework</artifactId>
+  <version>最新版本</version>
+</dependency>
+```
+- Gradle
+```groovy
+implementation group: 'io.github.gdrfgdrf', name: 'cute-framework', version: '最新版本'
+```
 
 模块
 ------------------------
