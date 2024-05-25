@@ -30,9 +30,9 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 /**
- * @Description Jar 包加载器
- * @Author gdrfgdrf
- * @Date 2024/5/6
+ * @description Jar 包加载器
+ * @author gdrfgdrf
+ * @since 2024/5/6
  */
 public class JarClassLoader extends URLClassLoader {
     private final JarFile jarFile;

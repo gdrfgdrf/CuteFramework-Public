@@ -23,9 +23,9 @@ import io.github.gdrfgdrf.cuteframework.exceptionhandler.event.ExceptionEvent;
 import com.google.common.eventbus.Subscribe;
 
 /**
- * @Description
- * @Author gdrfgdrf
- * @Date 2024/5/6
+ * @description
+ * @author gdrfgdrf
+ * @since 2024/5/6
  */
 @EventListener
 public class TestExceptionHandler {

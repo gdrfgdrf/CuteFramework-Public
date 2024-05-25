@@ -19,9 +19,9 @@ package io.github.gdrfgdrf.cuteframework.locale.exception;
 import io.github.gdrfgdrf.cuteframework.locale.LanguageLoader;
 
 /**
- * @Description 当 {@link LanguageLoader} 无法找到语言包时抛出
- * @Author gdrfgdrf
- * @Date 2024/4/13
+ * @description 当 {@link LanguageLoader} 无法找到语言包时抛出
+ * @author gdrfgdrf
+ * @since 2024/4/13
  */
 public class NotFoundLanguagePackageException extends Exception {
     public NotFoundLanguagePackageException() {

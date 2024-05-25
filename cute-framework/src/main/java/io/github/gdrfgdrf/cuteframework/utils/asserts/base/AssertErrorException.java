@@ -20,9 +20,9 @@ import io.github.gdrfgdrf.cuteframework.exceptionhandler.base.CustomException;
 import io.github.gdrfgdrf.cuteframework.utils.asserts.AssertUtils;
 
 /**
- * @Description 断言基类，当 {@link AssertUtils} 断言失败时将抛出该类的子类
- * @Author gdrfgdrf
- * @Date 2024/4/8
+ * @description 断言基类，当 {@link AssertUtils} 断言失败时将抛出该类的子类
+ * @author gdrfgdrf
+ * @since 2024/4/8
  */
 public abstract class AssertErrorException extends CustomException {
     public AssertErrorException() {

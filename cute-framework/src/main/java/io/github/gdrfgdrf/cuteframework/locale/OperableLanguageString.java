@@ -22,9 +22,9 @@ import org.slf4j.helpers.FormattingTuple;
 import org.slf4j.helpers.MessageFormatter;
 
 /**
- * @Description 可操作的语言字符串，为了避免直接修改 {@link LanguageString}，故使用该类
- * @Author gdrfgdrf
- * @Date 2024/4/18
+ * @description 可操作的语言字符串，为了避免直接修改 {@link LanguageString}，故使用该类
+ * @author gdrfgdrf
+ * @since 2024/4/18
  */
 public class OperableLanguageString {
     @Setter(value = AccessLevel.PRIVATE)
@@ -35,13 +35,13 @@ public class OperableLanguageString {
     }
 
     /**
-     * @Description 字符串格式化，和 slf4j 的格式化相同，使用 "{}" 作为占位符，提供的参数将会按照顺序设置到占位符上
+     * @description 字符串格式化，和 slf4j 的格式化相同，使用 "{}" 作为占位符，提供的参数将会按照顺序设置到占位符上
      * @param obj
 	 *        需要设置到占位符上的实例
      * @return io.github.gdrfgdrf.cuteframework.locale.OperableLanguageString
      *         同一个 {@link OperableLanguageString} 实例
-     * @Author gdrfgdrf
-     * @Date 2024/4/18
+     * @author gdrfgdrf
+     * @since 2024/4/18
      */
     public OperableLanguageString format(Object... obj) {
         FormattingTuple formattingTuple = MessageFormatter.arrayFormat(text, obj);
@@ -50,22 +50,22 @@ public class OperableLanguageString {
     }
 
     /**
-     * @Description 转为字符串
+     * @description 转为字符串
      * @return java.lang.String
      *         字符串
-     * @Author gdrfgdrf
-     * @Date 2024/4/18
+     * @author gdrfgdrf
+     * @since 2024/4/18
      */
     public String getString() {
         return text;
     }
 
     /**
-     * @Description 转为字符串，直接调用 {@link OperableLanguageString#getString()}
+     * @description 转为字符串，直接调用 {@link OperableLanguageString#getString()}
      * @return java.lang.String
      *         字符串
-     * @Author gdrfgdrf
-     * @Date 2024/4/19
+     * @author gdrfgdrf
+     * @since 2024/4/19
      */
     @Override
     public String toString() {

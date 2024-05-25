@@ -20,9 +20,9 @@ import io.github.gdrfgdrf.cuteframework.bean.annotation.Component;
 import io.github.gdrfgdrf.cuteframework.exceptionhandler.annotation.ExceptionHandler;
 
 /**
- * @Description
- * @Author gdrfgdrf
- * @Date 2024/5/6
+ * @description
+ * @author gdrfgdrf
+ * @since 2024/5/6
  */
 @Component
 public class ComponentTest {

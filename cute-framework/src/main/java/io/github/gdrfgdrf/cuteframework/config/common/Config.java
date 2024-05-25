@@ -20,9 +20,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 /**
- * @Description 配置类
- * @Author gdrfgdrf
- * @Date 2024/5/4
+ * @description 配置类
+ * @author gdrfgdrf
+ * @since 2024/5/4
  */
 @Data
 public class Config {

@@ -19,9 +19,9 @@ package io.github.gdrfgdrf.cuteframework.utils.stack.common;
 import lombok.Getter;
 
 /**
- * @Description 方法信息
- * @Author gdrfgdrf
- * @Date 2024/4/30
+ * @description 方法信息
+ * @author gdrfgdrf
+ * @since 2024/4/30
  */
 @Getter
 public class MethodInformation {

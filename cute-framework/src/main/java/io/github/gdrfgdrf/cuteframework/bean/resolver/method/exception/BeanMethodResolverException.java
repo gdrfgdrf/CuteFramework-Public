@@ -24,11 +24,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * @Description 当 {@link BeanMethodResolver} 发生错误时
+ * @description 当 {@link BeanMethodResolver} 发生错误时
  * {@link BeanMethodResolverManager} 将会把异常实例包装到该类并抛出
  *
- * @Author gdrfgdrf
- * @Date 2024/5/4
+ * @author gdrfgdrf
+ * @since 2024/5/4
  */
 @Getter
 @AllArgsConstructor

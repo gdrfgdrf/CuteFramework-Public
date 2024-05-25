@@ -21,19 +21,19 @@ import io.github.gdrfgdrf.cuteframework.bean.BeanManager;
 import java.lang.annotation.*;
 
 /**
- * @Description 被注解的类将会被 {@link BeanManager} 扫描到并作为 Bean 加载
- * @Author gdrfgdrf
- * @Date 2024/4/20
+ * @description 被注解的类将会被 {@link BeanManager} 扫描到并作为 Bean 加载
+ * @author gdrfgdrf
+ * @since 2024/4/20
  */
 @Target(value = ElementType.TYPE)
 @Retention(value = RetentionPolicy.RUNTIME)
 public @interface Component {
     /**
-     * @Description 定义 Bean 名称，为空则默认为类名
+     * @description 定义 Bean 名称，为空则默认为类名
      * @return java.lang.String
      *         Bean 名称
-     * @Author gdrfgdrf
-     * @Date 2024/5/2
+     * @author gdrfgdrf
+     * @since 2024/5/2
      */
     String name() default "";
 }

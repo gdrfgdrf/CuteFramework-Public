@@ -26,20 +26,20 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * @Description 标记一个类是异常监听类，被标记的类将会被作为 Bean 创建并自动注册到 {@link EventManager}
- * @Author gdrfgdrf
- * @Date 2024/5/6
+ * @description 标记一个类是异常监听类，被标记的类将会被作为 Bean 创建并自动注册到 {@link EventManager}
+ * @author gdrfgdrf
+ * @since 2024/5/6
  */
 @Component
 @Target(value = ElementType.TYPE)
 @Retention(value = RetentionPolicy.RUNTIME)
 public @interface EventListener {
     /**
-     * @Description 注册类型，不同的注册类型会注册到不同的 EventBus，默认为同步类型
+     * @description 注册类型，不同的注册类型会注册到不同的 EventBus，默认为同步类型
      * @return io.github.gdrfgdrf.cuteframework.event.enums.SubscriberType
      *         注册类型
-     * @Author gdrfgdrf
-     * @Date 2024/5/18
+     * @author gdrfgdrf
+     * @since 2024/5/18
      */
     SubscriberType type() default SubscriberType.SYNC;
 }

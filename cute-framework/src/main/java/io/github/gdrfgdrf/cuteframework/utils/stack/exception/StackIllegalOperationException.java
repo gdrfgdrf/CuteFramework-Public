@@ -22,9 +22,9 @@ import io.github.gdrfgdrf.cuteframework.utils.stack.StackUtils;
 import lombok.Getter;
 
 /**
- * @Description 当 {@link StackUtils} 检测到违规操作时抛出
- * @Author gdrfgdrf
- * @Date 2024/4/30
+ * @description 当 {@link StackUtils} 检测到违规操作时抛出
+ * @author gdrfgdrf
+ * @since 2024/4/30
  */
 @Getter
 public class StackIllegalOperationException extends CustomException {

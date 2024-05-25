@@ -20,9 +20,9 @@ import io.github.gdrfgdrf.cuteframework.locale.LanguageString;
 import io.github.gdrfgdrf.cuteframework.locale.base.LanguageCollect;
 
 /**
- * @Description 系统语言汇总类
- * @Author gdrfgdrf
- * @Date 2024/4/16
+ * @description 系统语言汇总类
+ * @author gdrfgdrf
+ * @since 2024/4/16
  */
 public class SystemLanguage implements LanguageCollect {
     public static LanguageString LOADING;

@@ -22,9 +22,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * @Description 当数组长度与需要的不匹配是抛出
- * @Author gdrfgdrf
- * @Date 2024/5/4
+ * @description 当数组长度与需要的不匹配是抛出
+ * @author gdrfgdrf
+ * @since 2024/5/4
  */
 @Getter
 @AllArgsConstructor

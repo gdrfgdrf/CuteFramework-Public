@@ -22,9 +22,9 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * @Description 线程工厂，创建带有名称的线程，格式为 Pool-{POOL_COUNT} Thread-{COUNT}
- * @Author gdrfgdrf
- * @Date 2024/4/8
+ * @description 线程工厂，创建带有名称的线程，格式为 Pool-{POOL_COUNT} Thread-{COUNT}
+ * @author gdrfgdrf
+ * @since 2024/4/8
  */
 public class NamedThreadFactory implements ThreadFactory {
     private final AtomicInteger poolCount = new AtomicInteger();

@@ -19,9 +19,9 @@ package io.github.gdrfgdrf.plugintest;
 import io.github.gdrfgdrf.cuteframework.api.base.Plugin;
 
 /**
- * @Description
- * @Author gdrfgdrf
- * @Date 2024/5/5
+ * @description
+ * @author gdrfgdrf
+ * @since 2024/5/5
  */
 public class TestPlugin extends Plugin {
     public TestPlugin() {

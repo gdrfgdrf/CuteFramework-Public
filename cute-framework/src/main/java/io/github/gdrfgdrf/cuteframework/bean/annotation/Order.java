@@ -22,9 +22,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * @Description 定义 Bean 加载顺序
- * @Author gdrfgdrf
- * @Date 2024/5/6
+ * @description 定义 Bean 加载顺序
+ * @author gdrfgdrf
+ * @since 2024/5/6
  */
 @Target(value = ElementType.TYPE)
 @Retention(value = RetentionPolicy.RUNTIME)

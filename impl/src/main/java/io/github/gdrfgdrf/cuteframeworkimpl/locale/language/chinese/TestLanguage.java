@@ -20,9 +20,9 @@ import io.github.gdrfgdrf.cuteframework.locale.LanguageString;
 import io.github.gdrfgdrf.cuteframework.locale.base.LanguageBlock;
 
 /**
- * @Description
- * @Author gdrfgdrf
- * @Date 2024/5/22
+ * @description
+ * @author gdrfgdrf
+ * @since 2024/5/22
  */
 class TestLanguage implements LanguageBlock {
     public static final LanguageString TEST_LANGUAGE = new LanguageString("你好世界，这是一条测试语言信息");

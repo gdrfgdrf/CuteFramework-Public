@@ -24,9 +24,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * @Description 当尝试对插件进行异常的状态改变时抛出，例如 disable 之后直接调用 load 而不是先调用 enable 时抛出
- * @Author gdrfgdrf
- * @Date 2024/5/6
+ * @description 当尝试对插件进行异常的状态改变时抛出，例如 disable 之后直接调用 load 而不是先调用 enable 时抛出
+ * @author gdrfgdrf
+ * @since 2024/5/6
  */
 @Getter
 @AllArgsConstructor

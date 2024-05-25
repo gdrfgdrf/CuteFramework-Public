@@ -17,9 +17,9 @@
 package io.github.gdrfgdrf.cuteframework.locale.base;
 
 /**
- * @Description 语言块，仅作标记作用，为了方便开发者使用，所有实现了该类的类的访问级别都必须是 package-private
- * @Author gdrfgdrf
- * @Date 2024/4/10
+ * @description 语言块，仅作标记作用，为了方便开发者使用，所有实现了该类的类的访问级别都必须是 package-private
+ * @author gdrfgdrf
+ * @since 2024/4/10
  */
 public interface LanguageBlock {
 }

@@ -23,9 +23,9 @@ import io.github.gdrfgdrf.cuteframework.bean.BeanManager;
 import java.lang.annotation.*;
 
 /**
- * @Description 标记一个类是 Bean 方法解析器，作为 Bean 方法解析器将会被 {@link BeanManager} 最先创建
- * @Author gdrfgdrf
- * @Date 2024/5/4
+ * @description 标记一个类是 Bean 方法解析器，作为 Bean 方法解析器将会被 {@link BeanManager} 最先创建
+ * @author gdrfgdrf
+ * @since 2024/5/4
  */
 @Order(1)
 @Component

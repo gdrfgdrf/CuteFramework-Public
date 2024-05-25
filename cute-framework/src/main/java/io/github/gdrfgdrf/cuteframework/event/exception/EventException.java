@@ -24,10 +24,10 @@ import io.github.gdrfgdrf.cuteframework.exceptionhandler.ExceptionDispatcher;
 import lombok.Getter;
 
 /**
- * @Description 当事件处理时发生异常，将由 {@link EventExceptionHandler} 捕获
+ * @description 当事件处理时发生异常，将由 {@link EventExceptionHandler} 捕获
  * 并使用该类对异常实例进行包装提供给 {@link ExceptionDispatcher} 进行分发
- * @Author gdrfgdrf
- * @Date 2024/4/24
+ * @author gdrfgdrf
+ * @since 2024/4/24
  */
 @Getter
 public class EventException extends CustomException {

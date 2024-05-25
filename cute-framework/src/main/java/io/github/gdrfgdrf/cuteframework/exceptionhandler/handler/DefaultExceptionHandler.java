@@ -23,15 +23,15 @@ import io.github.gdrfgdrf.cuteframework.exceptionhandler.ExceptionDispatcher;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * @Description 默认异常处理器
- * @Author gdrfgdrf
- * @Date 2024/4/8
+ * @description 默认异常处理器
+ * @author gdrfgdrf
+ * @since 2024/4/8
  */
 @Slf4j
 @Component
 public class DefaultExceptionHandler {
     /**
-     * @Description 默认异常处理方法，
+     * @description 默认异常处理方法，
      * 接受所有类型的异常，
      * 当 {@link ExceptionDispatcher} 找不到定制的异常处理器时将使用该方法
      *
@@ -39,8 +39,8 @@ public class DefaultExceptionHandler {
 	 *        异常所在线程
 	 * @param throwable
 	 *        异常实例
-     * @Author gdrfgdrf
-     * @Date 2024/5/4
+     * @author gdrfgdrf
+     * @since 2024/5/4
      */
     @ExceptionHandler(support = Throwable.class)
     public static void handle(Thread thread, Throwable throwable) {

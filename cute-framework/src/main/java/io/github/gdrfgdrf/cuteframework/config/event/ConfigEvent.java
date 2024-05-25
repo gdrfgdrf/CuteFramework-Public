@@ -22,9 +22,9 @@ import lombok.Getter;
 import java.io.File;
 
 /**
- * @Description 配置文件事件
- * @Author gdrfgdrf
- * @Date 2024/5/4
+ * @description 配置文件事件
+ * @author gdrfgdrf
+ * @since 2024/5/4
  */
 @Getter
 public abstract class ConfigEvent {
@@ -37,9 +37,9 @@ public abstract class ConfigEvent {
     }
 
     /**
-     * @Description 配置文件加载时事件
-     * @Author gdrfgdrf
-     * @Date 2024/5/4
+     * @description 配置文件加载时事件
+     * @author gdrfgdrf
+     * @since 2024/5/4
      */
     public static abstract class Load extends ConfigEvent {
         public Load(Config config, File configFile) {
@@ -47,9 +47,9 @@ public abstract class ConfigEvent {
         }
 
         /**
-         * @Description 配置文件加载前事件，此时 {@link ConfigEvent#config} 和 {@link ConfigEvent#configFile} 均为 null
-         * @Author gdrfgdrf
-         * @Date 2024/5/4
+         * @description 配置文件加载前事件，此时 {@link ConfigEvent#config} 和 {@link ConfigEvent#configFile} 均为 null
+         * @author gdrfgdrf
+         * @since 2024/5/4
          */
         public static class Pre extends Load {
             public Pre() {
@@ -58,9 +58,9 @@ public abstract class ConfigEvent {
         }
 
         /**
-         * @Description 配置文件加载后事件，此时 {@link ConfigEvent#config} 和 {@link ConfigEvent#configFile} 均存在
-         * @Author gdrfgdrf
-         * @Date 2024/5/4
+         * @description 配置文件加载后事件，此时 {@link ConfigEvent#config} 和 {@link ConfigEvent#configFile} 均存在
+         * @author gdrfgdrf
+         * @since 2024/5/4
          */
         public static class Post extends Load {
             public Post(Config config, File configFile) {
@@ -70,9 +70,9 @@ public abstract class ConfigEvent {
     }
 
     /**
-     * @Description 配置文件保存时时事件，此时 {@link ConfigEvent#config} 和 {@link ConfigEvent#configFile} 均存在
-     * @Author gdrfgdrf
-     * @Date 2024/5/4
+     * @description 配置文件保存时时事件，此时 {@link ConfigEvent#config} 和 {@link ConfigEvent#configFile} 均存在
+     * @author gdrfgdrf
+     * @since 2024/5/4
      */
     public static abstract class Save extends ConfigEvent {
         public Save(Config config, File configFile) {

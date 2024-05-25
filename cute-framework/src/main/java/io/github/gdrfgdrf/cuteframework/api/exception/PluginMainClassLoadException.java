@@ -24,11 +24,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * @Description 插件主类无法被类加载器 {@link JarClassLoader} 加载，
+ * @description 插件主类无法被类加载器 {@link JarClassLoader} 加载，
  * 这时插件主类还没有被实例化，该异常类会包括具体地无法加载异常实例
  *
- * @Author gdrfgdrf
- * @Date 2024/5/18
+ * @author gdrfgdrf
+ * @since 2024/5/18
  */
 @Getter
 @AllArgsConstructor

@@ -24,9 +24,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * @Description 事件处理时出现错误会被该类捕获并提供给 {@link ExceptionDispatcher} 进行分发
- * @Author gdrfgdrf
- * @Date 2024/4/24
+ * @description 事件处理时出现错误会被该类捕获并提供给 {@link ExceptionDispatcher} 进行分发
+ * @author gdrfgdrf
+ * @since 2024/4/24
  */
 @Slf4j
 public class EventExceptionHandler implements SubscriberExceptionHandler {
@@ -35,11 +35,11 @@ public class EventExceptionHandler implements SubscriberExceptionHandler {
     private EventExceptionHandler() {}
 
     /**
-     * @Description 单例模式，获取 {@link EventExceptionHandler} 实例
+     * @description 单例模式，获取 {@link EventExceptionHandler} 实例
      * @return io.github.gdrfgdrf.cuteframework.event.exceptionhandler.EventExceptionHandler
      *         {@link EventExceptionHandler} 实例
-     * @Author gdrfgdrf
-     * @Date 2024/5/18
+     * @author gdrfgdrf
+     * @since 2024/5/18
      */
     public static EventExceptionHandler getInstance() {
         if (INSTANCE == null) {

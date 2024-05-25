@@ -15,7 +15,7 @@
  */
 
 /**
- * @Description 该包为插件支持，
+ * @description 该包为插件支持，
  * 如果想要插件被程序识别到，请在插件的资源列表，即 jar 文件的根目录下放入一个名为 plugin.json 的文件
  * 该文件请包括以下内容
  * <p>
@@ -33,7 +33,7 @@
  * 该值必须为其中的 {@link io.github.gdrfgdrf.cuteframework.common.VersionEnum#name()}
  * 当以上内容有一个为空时将抛出 {@link io.github.gdrfgdrf.cuteframework.api.exception.PluginUndefinedPropertyException}
  *
- * @Author gdrfgdrf
- * @Date 2024/5/2
+ * @author gdrfgdrf
+ * @since 2024/5/2
  */
 package io.github.gdrfgdrf.cuteframework.api;

@@ -17,9 +17,9 @@
 package io.github.gdrfgdrf.cuteframework.utils;
 
 /**
- * @Description 字符串工具类
- * @Author gdrfgdrf
- * @Date 2024/4/12
+ * @description 字符串工具类
+ * @author gdrfgdrf
+ * @since 2024/4/12
  */
 public class StringUtils {
     private StringUtils() {}

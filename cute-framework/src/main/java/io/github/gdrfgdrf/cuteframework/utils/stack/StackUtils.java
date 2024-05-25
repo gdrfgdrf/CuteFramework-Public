@@ -28,9 +28,9 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 
 /**
- * @Description 堆栈工具类
- * @Author gdrfgdrf
- * @Date 2024/4/30
+ * @description 堆栈工具类
+ * @author gdrfgdrf
+ * @since 2024/4/30
  */
 public class StackUtils {
     /**
@@ -39,13 +39,13 @@ public class StackUtils {
     public static final int RELATIVE_STACK_DEPTH = 4;
 
     /**
-     * @Description 仅允许某个方法执行某个方法
+     * @description 仅允许某个方法执行某个方法
      * @param allowedMethod
      *        允许执行操作的方法
      * @throws AssertNotNullException
      *         当 allowedMethod 为 null 时抛出
-     * @Author gdrfgdrf
-     * @Date 2024/4/30
+     * @author gdrfgdrf
+     * @since 2024/4/30
      */
     public static void onlyMethod(Method allowedMethod) throws
             AssertNotNullException,
@@ -62,15 +62,15 @@ public class StackUtils {
     }
 
     /**
-     * @Description 仅允许某些方法执行某个方法
+     * @description 仅允许某些方法执行某个方法
      * @param allowedMethodArray
 	 *        允许执行操作的方法数组
      * @throws AssertNotNullException
      *         allowedMethodArray 为 null 时抛出
      * @throws AssertArrayLengthMismatchException
      *         数组 allowedMethodArray 的长度小于 1 时抛出
-     * @Author gdrfgdrf
-     * @Date 2024/5/4
+     * @author gdrfgdrf
+     * @since 2024/5/4
      */
     public static void onlyMethod(Method[] allowedMethodArray) throws
             AssertNotNullException,
@@ -92,15 +92,15 @@ public class StackUtils {
     }
 
     /**
-     * @Description 仅允许某个方法执行某个方法
+     * @description 仅允许某个方法执行某个方法
      * @param allowedClass
 	 *        允许执行操作的方法所在的类
 	 * @param allowedMethodName
 	 *        允许执行操作的方法的方法名
      * @throws AssertNotNullException
      *         当 allowedClass 或 allowedMethodName 为 null 时抛出
-     * @Author gdrfgdrf
-     * @Date 2024/4/30
+     * @author gdrfgdrf
+     * @since 2024/4/30
      */
     public static void onlyMethod(Class<?> allowedClass, String allowedMethodName) throws
             AssertNotNullException,
@@ -113,7 +113,7 @@ public class StackUtils {
     }
 
     /**
-     * @Description 仅允许某些方法执行某个方法
+     * @description 仅允许某些方法执行某个方法
      * @param allowedClassArray
      *        允许执行操作的方法所在的类的数组
      * @param allowedMethodNameArray
@@ -122,8 +122,8 @@ public class StackUtils {
      *         数组 allowedClassArray 或 数组 allowedMethodNameArray 为 null 时抛出
      * @throws AssertArrayLengthMismatchException
      *         数组 allowedClassArray 或 数组 allowedMethodNameArray 的长度小于 1 时抛出
-     * @Author gdrfgdrf
-     * @Date 2024/5/4
+     * @author gdrfgdrf
+     * @since 2024/5/4
      */
     public static void onlyMethod(Class<?>[] allowedClassArray, String[] allowedMethodNameArray) throws
             AssertNotNullException,
@@ -144,15 +144,15 @@ public class StackUtils {
     }
 
     /**
-     * @Description 仅允许某个方法执行某个方法
+     * @description 仅允许某个方法执行某个方法
      * @param allowedClassName
      *        允许执行操作的方法所在的类的类名
      * @param allowedMethodName
      *        允许执行操作的方法的方法名
      * @throws AssertNotNullException
      *         当 allowedClassName 或 allowedMethodName 为 null 时抛出
-     * @Author gdrfgdrf
-     * @Date 2024/4/30
+     * @author gdrfgdrf
+     * @since 2024/4/30
      */
     public static void onlyMethod(String allowedClassName, String allowedMethodName) throws
             AssertNotNullException,
@@ -165,7 +165,7 @@ public class StackUtils {
     }
 
     /**
-     * @Description 仅允许某些方法执行某个方法
+     * @description 仅允许某些方法执行某个方法
      * @param allowedClassNameArray
      *        允许执行操作的方法所在的类的类名的数组
      * @param allowedMethodNameArray
@@ -174,8 +174,8 @@ public class StackUtils {
      *         当 数组 allowedClassNameArray 或 数组 allowedMethodNameArray 为 null 时抛出
      * @throws AssertArrayLengthMismatchException
      *         当 数组 allowedClassNameArray 或 数组 allowedMethodNameArray 的长度小于 1 时抛出
-     * @Author gdrfgdrf
-     * @Date 2024/4/30
+     * @author gdrfgdrf
+     * @since 2024/4/30
      */
     public static void onlyMethod(String[] allowedClassNameArray, String[] allowedMethodNameArray) throws
             AssertNotNullException,
@@ -192,13 +192,13 @@ public class StackUtils {
     }
 
     /**
-     * @Description 仅允许某个类执行某个方法
+     * @description 仅允许某个类执行某个方法
      * @param allowedClass
      *        允许执行操作的类
      * @throws AssertNotNullException
      *         当 allowedClass 为 null 时抛出
-     * @Author gdrfgdrf
-     * @Date 2024/4/30
+     * @author gdrfgdrf
+     * @since 2024/4/30
      */
     public static void onlyClass(Class<?> allowedClass) throws
             AssertNotNullException,
@@ -210,15 +210,15 @@ public class StackUtils {
     }
 
     /**
-     * @Description 仅允许某些类执行某个方法
+     * @description 仅允许某些类执行某个方法
      * @param allowedClassArray
      *        允许执行操作的类的数组
      * @throws AssertNotNullException
      *         当 数组 allowedClassArray 为 null 时抛出
      * @throws AssertArrayLengthMismatchException
      *         当 数组 allowedClassArray 的长度小于 1 时抛出
-     * @Author gdrfgdrf
-     * @Date 2024/5/4
+     * @author gdrfgdrf
+     * @since 2024/5/4
      */
     public static void onlyClass(Class<?>[] allowedClassArray) throws
             AssertNotNullException,
@@ -237,13 +237,13 @@ public class StackUtils {
     }
 
     /**
-     * @Description 仅允许某个类执行某个方法
+     * @description 仅允许某个类执行某个方法
      * @param allowedClassName
 	 *        允许执行操作的类的类名
      * @throws AssertNotNullException
      *         当 allowedClassName 为 null 时抛出
-     * @Author gdrfgdrf
-     * @Date 2024/4/30
+     * @author gdrfgdrf
+     * @since 2024/4/30
      */
     public static void onlyClass(String allowedClassName) throws
             AssertNotNullException,
@@ -255,15 +255,15 @@ public class StackUtils {
     }
 
     /**
-     * @Description 仅允许某些类执行某个方法
+     * @description 仅允许某些类执行某个方法
      * @param allowedClassNameArray
 	 *        允许执行操作的类的类名的数组
      * @throws AssertNotNullException
      *         当 allowedClassNameArray 为 null 时抛出
      * @throws AssertArrayLengthMismatchException
      *         数组 allowedClassNameArray 的长度小于 1 时抛出
-     * @Author gdrfgdrf
-     * @Date 2024/5/4
+     * @author gdrfgdrf
+     * @since 2024/5/4
      */
     public static void onlyClass(String[] allowedClassNameArray) throws
             AssertNotNullException,
@@ -278,7 +278,7 @@ public class StackUtils {
     }
 
     /**
-     * @Description 对数组进行检测，
+     * @description 对数组进行检测，
      * 两个数组一一对应，一一对应的调用 {@link StackUtils#onlyCheckerInternal(String, String, int, int)}，
      * 若有一对数组通过则不直接返回，若全部数组均不通过则抛出异常
      *
@@ -286,8 +286,8 @@ public class StackUtils {
 	 *        允许执行操作的类的类名的数组
 	 * @param allowedMethodNameArray
 	 *        允许执行操作的方法的方法名的数组
-     * @Author gdrfgdrf
-     * @Date 2024/5/4
+     * @author gdrfgdrf
+     * @since 2024/5/4
      */
     private static void onlyCheckerInternal(String[] allowedClassNameArray, String[] allowedMethodNameArray) throws
             StackIllegalOperationException,
@@ -324,7 +324,7 @@ public class StackUtils {
     }
 
     /**
-     * @Description 检测器内部实现，优先对比类名，若类名为空则对比方法名，
+     * @description 检测器内部实现，优先对比类名，若类名为空则对比方法名，
      * 若两者都为空则抛出 {@link StackIllegalArgumentException}，
      * 将会对比以下事物：
      * 调用方所在类的类名 和 被允许的类的类名，
@@ -345,8 +345,8 @@ public class StackUtils {
      *         检测到不被允许的调用方时抛出
      * @throws StackIllegalArgumentException
      *         当 allowedClassName 和 allowedMethodName 同时为空时抛出
-     * @Author gdrfgdrf
-     * @Date 2024/4/30
+     * @author gdrfgdrf
+     * @since 2024/4/30
      */
     private static void onlyCheckerInternal(
             String allowedClassName,
@@ -396,35 +396,35 @@ public class StackUtils {
     }
 
     /**
-     * @Description 获取方法的调用方
+     * @description 获取方法的调用方
      * @return io.github.gdrfgdrf.cuteframework.utils.stack.common.MethodInformation
      *         调用方
-     * @Author gdrfgdrf
-     * @Date 2024/5/18
+     * @author gdrfgdrf
+     * @since 2024/5/18
      */
     public static MethodInformation getCaller() {
         return getCaller(0);
     }
 
     /**
-     * @Description 获取方法的调用方
+     * @description 获取方法的调用方
      * @param offset
      *        获取调用方在堆栈中的位置的偏移量
      * @return io.github.gdrfgdrf.cuteframework.utils.stack.common.MethodInformation
      *         调用方
-     * @Author gdrfgdrf
-     * @Date 2024/5/18
+     * @author gdrfgdrf
+     * @since 2024/5/18
      */
     public static MethodInformation getCaller(int offset) {
         return parseStack(RELATIVE_STACK_DEPTH + offset);
     }
 
     /**
-     * @Description 解析堆栈，获取指定深度的方法信息，深度包括该方法
+     * @description 解析堆栈，获取指定深度的方法信息，深度包括该方法
      * @return io.github.gdrfgdrf.cuteframework.utils.stack.common.CallerInformation
      *         调用方信息集合
-     * @Author gdrfgdrf
-     * @Date 2024/4/30
+     * @author gdrfgdrf
+     * @since 2024/4/30
      */
     public static MethodInformation parseStack(int relativeStackDepth) {
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();

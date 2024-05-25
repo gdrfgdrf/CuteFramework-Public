@@ -49,9 +49,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 /**
- * @Description Bean 管理器，对 Bean 进行创建，移除等操作
- * @Author gdrfgdrf
- * @Date 2024/4/6
+ * @description Bean 管理器，对 Bean 进行创建，移除等操作
+ * @author gdrfgdrf
+ * @since 2024/4/6
  */
 public class BeanManager {
     private static BeanManager INSTANCE;
@@ -72,7 +72,7 @@ public class BeanManager {
     }
 
     /**
-     * @Description 进行 Bean 管理器的实例化，
+     * @description 进行 Bean 管理器的实例化，
      * 提供的 mainApplicationClass 将会设置到 {@link BeanManager#mainApplicationClass}，
      * 当 Bean 创建流程开始时，将会在核心 Bean 加载完成后加载 mainApplicationClass 所在包下的所有 Bean 类，加载将会进行迭代加载
      *
@@ -80,8 +80,8 @@ public class BeanManager {
 	 *        使用该框架的主类
      * @throws StackIllegalOperationException
      *         当不被允许的类或方法调用该方法时抛出
-     * @Author gdrfgdrf
-     * @Date 2024/5/18
+     * @author gdrfgdrf
+     * @since 2024/5/18
      */
     public static void initialize(Class<?> mainApplicationClass) throws StackIllegalOperationException, AssertNotNullException, StackIllegalArgumentException {
         StackUtils.onlyMethod("io.github.gdrfgdrf.cuteframework.CuteFramework", "run");
@@ -93,29 +93,29 @@ public class BeanManager {
     }
 
     /**
-     * @Description 单例模式，获取 {@link BeanManager} 实例，
+     * @description 单例模式，获取 {@link BeanManager} 实例，
      * 当 {@link BeanManager#initialize(Class)} 还未被 {@link CuteFramework} 调用时，
      * 该方法返回的值将会为 null
      *
      * @return io.github.gdrfgdrf.cuteframework.bean.BeanManager
      *         {@link BeanManager} 实例
-     * @Author gdrfgdrf
-     * @Date 2024/4/20
+     * @author gdrfgdrf
+     * @since 2024/4/20
      */
     public static BeanManager getInstance() {
         return INSTANCE;
     }
 
     /**
-     * @Description 获取 Bean 实例
+     * @description 获取 Bean 实例
      * @param name
 	 *        Bean 名称
      * @return java.lang.Object
      *         Bean 实例
      * @throws AssertNotNullException
      *         当 name 为 null 时抛出
-     * @Author gdrfgdrf
-     * @Date 2024/5/10
+     * @author gdrfgdrf
+     * @since 2024/5/10
      */
     public Object getBean(String name) throws AssertNotNullException {
         AssertUtils.notNull("bean name", name);
@@ -123,7 +123,7 @@ public class BeanManager {
     }
 
     /**
-     * @Description 开始 Bean 的创建流程，该方法仅允许 io.github.gdrfgdrf.cuteframework.CuteFramework 的 run 方法调用
+     * @description 开始 Bean 的创建流程，该方法仅允许 io.github.gdrfgdrf.cuteframework.CuteFramework 的 run 方法调用
      * 插件会被最先加载，但不最先加载插件的 Bean，
      * 最先创建核心 Bean，之后再创建 {@link BeanManager#mainApplicationClass} 下的 Bean，
      * 最后再由 {@link CuteFramework} 的 run 方法调用 {@link BeanManager#startCreatingPluginBeans()}
@@ -131,8 +131,8 @@ public class BeanManager {
      *
      * @throws StackIllegalOperationException
      *         当不被允许的类或方法调用该方法时抛出
-     * @Author gdrfgdrf
-     * @Date 2024/5/1
+     * @author gdrfgdrf
+     * @since 2024/5/1
      */
     public void startCreating() throws
             StackIllegalOperationException,
@@ -157,9 +157,9 @@ public class BeanManager {
     }
 
     /**
-     * @Description 创建插件的 Bean
-     * @Author gdrfgdrf
-     * @Date 2024/5/4
+     * @description 创建插件的 Bean
+     * @author gdrfgdrf
+     * @since 2024/5/4
      */
     public void startCreatingPluginBeans() throws StackIllegalOperationException, AssertNotNullException, StackIllegalArgumentException, BeanClassResolverException, BeanNameConflictException, BeanMethodResolverException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         StackUtils.onlyMethod("io.github.gdrfgdrf.cuteframework.CuteFramework", "run");
@@ -190,11 +190,11 @@ public class BeanManager {
     }
 
     /**
-     * @Description 创建核心 Bean，该方法仅允许 io.github.gdrfgdrf.cuteframework.bean.BeanManager 的 startCreating 方法调用
+     * @description 创建核心 Bean，该方法仅允许 io.github.gdrfgdrf.cuteframework.bean.BeanManager 的 startCreating 方法调用
      * @throws StackIllegalOperationException
      *         当不被允许的类或方法调用该方法时抛出
-     * @Author gdrfgdrf
-     * @Date 2024/5/2
+     * @author gdrfgdrf
+     * @since 2024/5/2
      */
     private void createCoreBeans() throws
             StackIllegalOperationException,
@@ -227,12 +227,12 @@ public class BeanManager {
     }
 
     /**
-     * @Description 创建 {@link BeanManager#mainApplicationClass} 下的 Bean，
+     * @description 创建 {@link BeanManager#mainApplicationClass} 下的 Bean，
      * 该方法仅允许 {@link BeanManager#startCreating()} 方法调用
      * @throws StackIllegalOperationException
      *         当不被允许的类或方法调用该方法时抛出
-     * @Author gdrfgdrf
-     * @Date 2024/5/2
+     * @author gdrfgdrf
+     * @since 2024/5/2
      */
     private void createImplBeans() throws
             StackIllegalOperationException,
@@ -265,7 +265,7 @@ public class BeanManager {
     }
 
     /**
-     * @Description 创建 Bean，并调用对应的 {@link BeanMethodResolver}
+     * @description 创建 Bean，并调用对应的 {@link BeanMethodResolver}
      * 若 Bean 名称在 {@link BeanManager#BEAN_MAP} 中存在，则直接抛出 {@link BeanNameConflictException}，
      * 若 Bean 类型为 {@link BeanMethodResolver}，则跳过调用解析器并注册到 {@link BeanMethodResolverManager}
      *
@@ -287,8 +287,8 @@ public class BeanManager {
      *         当 Bean 类解析器发生错误时抛出
      * @throws BeanMethodResolverException
      *         当 Bean 方法解析器发生错误时抛出
-     * @Author gdrfgdrf
-     * @Date 2024/5/2
+     * @author gdrfgdrf
+     * @since 2024/5/2
      */
     public void create(Class<?> beanClass) throws
             AssertNotNullException,
@@ -334,13 +334,13 @@ public class BeanManager {
     }
 
     /**
-     * @Description 注册 Bean 类解析器到 {@link BeanClassResolverManager}
+     * @description 注册 Bean 类解析器到 {@link BeanClassResolverManager}
      * @param resolver
      *        Bean 方法解析器实例
      * @throws AssertNotNullException
      *         当 Bean 类解析器没有 {@link BeanClassResolverAnnotation} 注解时抛出
-     * @Author gdrfgdrf
-     * @Date 2024/5/6
+     * @author gdrfgdrf
+     * @since 2024/5/6
      */
     private void registerBeanClassResolver(BeanClassResolver resolver) throws AssertNotNullException {
         BeanClassResolverAnnotation annotation = resolver.getClass().getAnnotation(BeanClassResolverAnnotation.class);
@@ -351,13 +351,13 @@ public class BeanManager {
     }
 
     /**
-     * @Description 注册 Bean 方法解析器到 {@link BeanMethodResolverManager}
+     * @description 注册 Bean 方法解析器到 {@link BeanMethodResolverManager}
      * @param resolver
 	 *        Bean 方法解析器实例
      * @throws AssertNotNullException
      *         当 Bean 方法解析器没有 {@link BeanMethodResolverAnnotation} 注解时抛出
-     * @Author gdrfgdrf
-     * @Date 2024/5/4
+     * @author gdrfgdrf
+     * @since 2024/5/4
      */
     private void registerBeanMethodResolver(BeanMethodResolver resolver) throws AssertNotNullException {
         BeanMethodResolverAnnotation annotation = resolver.getClass().getAnnotation(BeanMethodResolverAnnotation.class);

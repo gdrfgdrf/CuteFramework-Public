@@ -20,9 +20,9 @@ import io.github.gdrfgdrf.cuteframework.bean.BeanManager;
 import lombok.Getter;
 
 /**
- * @Description Bean 事件
- * @Author gdrfgdrf
- * @Date 2024/5/4
+ * @description Bean 事件
+ * @author gdrfgdrf
+ * @since 2024/5/4
  */
 @Getter
 public abstract class BeanEvent {
@@ -41,9 +41,9 @@ public abstract class BeanEvent {
     }
 
     /**
-     * @Description 单个 Bean 被加载事件
-     * @Author gdrfgdrf
-     * @Date 2024/5/4
+     * @description 单个 Bean 被加载事件
+     * @author gdrfgdrf
+     * @since 2024/5/4
      */
     public static abstract class Load extends BeanEvent {
         public Load(Object bean, String beanName) {
@@ -51,9 +51,9 @@ public abstract class BeanEvent {
         }
 
         /**
-         * @Description Bean 被加载前事件，此时 {@link BeanEvent#bean} 为空，{@link BeanEvent#beanName} 存在
-         * @Author gdrfgdrf
-         * @Date 2024/5/4
+         * @description Bean 被加载前事件，此时 {@link BeanEvent#bean} 为空，{@link BeanEvent#beanName} 存在
+         * @author gdrfgdrf
+         * @since 2024/5/4
          */
         public static class Pre extends Load {
             public Pre(Object bean, String beanName) {
@@ -62,9 +62,9 @@ public abstract class BeanEvent {
         }
 
         /**
-         * @Description Bean 被加载后事件，此时 {@link BeanEvent#bean} 和 {@link BeanEvent#beanName} 均存在
-         * @Author gdrfgdrf
-         * @Date 2024/5/4
+         * @description Bean 被加载后事件，此时 {@link BeanEvent#bean} 和 {@link BeanEvent#beanName} 均存在
+         * @author gdrfgdrf
+         * @since 2024/5/4
          */
         public static class Post extends Load {
             public Post(Object bean, String beanName) {
@@ -74,11 +74,11 @@ public abstract class BeanEvent {
     }
 
     /**
-     * @Description  Bean 全部被加载事件，
+     * @description  Bean 全部被加载事件，
      * 此时 {@link BeanEvent#bean} 和 {@link BeanEvent#beanName} 都为空，该事件仅会被 {@link BeanManager#startCreating()} 发布
      *
-     * @Author gdrfgdrf
-     * @Date 2024/5/4
+     * @author gdrfgdrf
+     * @since 2024/5/4
      */
     public static abstract class LoadAll extends BeanEvent {
         public LoadAll() {
@@ -86,16 +86,16 @@ public abstract class BeanEvent {
         }
 
         /**
-         * @Description  Bean 全部被加载前事件
-         * @Author gdrfgdrf
-         * @Date 2024/5/4
+         * @description  Bean 全部被加载前事件
+         * @author gdrfgdrf
+         * @since 2024/5/4
          */
         public static class Pre extends LoadAll {}
 
         /**
-         * @Description  Bean 全部被加载后事件
-         * @Author gdrfgdrf
-         * @Date 2024/5/4
+         * @description  Bean 全部被加载后事件
+         * @author gdrfgdrf
+         * @since 2024/5/4
          */
         public static class Post extends LoadAll {}
     }

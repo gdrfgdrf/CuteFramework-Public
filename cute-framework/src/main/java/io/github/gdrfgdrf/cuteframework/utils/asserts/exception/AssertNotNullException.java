@@ -22,9 +22,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * @Description 当实例为 null 时抛出
- * @Author gdrfgdrf
- * @Date 2024/4/8
+ * @description 当实例为 null 时抛出
+ * @author gdrfgdrf
+ * @since 2024/4/8
  */
 @Getter
 @AllArgsConstructor

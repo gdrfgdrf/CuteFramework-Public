@@ -24,9 +24,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * @Description 当 main-class 不是继承的 {@link Plugin} 时抛出
- * @Author gdrfgdrf
- * @Date 2024/5/5
+ * @description 当 main-class 不是继承的 {@link Plugin} 时抛出
+ * @author gdrfgdrf
+ * @since 2024/5/5
  */
 @Getter
 @AllArgsConstructor

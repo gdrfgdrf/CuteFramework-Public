@@ -20,20 +20,20 @@ import io.github.gdrfgdrf.cuteframework.bean.resolver.clazz.annotation.BeanClass
 import io.github.gdrfgdrf.cuteframework.bean.BeanManager;
 
 /**
- * @Description Bean 类解析器，该类必须拥有 {@link BeanClassResolverAnnotation}
+ * @description Bean 类解析器，该类必须拥有 {@link BeanClassResolverAnnotation}
  * 才能被 {@link BeanManager} 识别到，
  * 运行时将会传递所有拥有 {@link BeanClassResolverAnnotation#targetClassAnnotation()} 注解的 Bean 实例进来
  *
- * @Author gdrfgdrf
- * @Date 2024/5/6
+ * @author gdrfgdrf
+ * @since 2024/5/6
  */
 public interface BeanClassResolver {
     /**
-     * @Description 所有拥有 {@link BeanClassResolverAnnotation#targetClassAnnotation()} 注解的 Bean 实例将会被传递进来
+     * @description 所有拥有 {@link BeanClassResolverAnnotation#targetClassAnnotation()} 注解的 Bean 实例将会被传递进来
       * @param bean
 	 *         Bean 实例
-     * @Author gdrfgdrf
-     * @Date 2024/5/6
+     * @author gdrfgdrf
+     * @since 2024/5/6
      */
     void resolve(Object bean) throws Exception;
 }

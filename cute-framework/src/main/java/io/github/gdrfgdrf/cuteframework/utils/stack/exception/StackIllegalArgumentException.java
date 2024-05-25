@@ -22,11 +22,11 @@ import io.github.gdrfgdrf.cuteframework.utils.stack.StackUtils;
 import lombok.Getter;
 
 /**
- * @Description 当 {@link StackUtils} 的 onlyCheckerInternal 方法
+ * @description 当 {@link StackUtils} 的 onlyCheckerInternal 方法
  * 接收到的前两者的值都为空时抛出，此时无论任何操作都会被终止
  *
- * @Author gdrfgdrf
- * @Date 2024/4/30
+ * @author gdrfgdrf
+ * @since 2024/4/30
  */
 @Getter
 public class StackIllegalArgumentException extends CustomException {

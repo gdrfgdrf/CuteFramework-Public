@@ -24,21 +24,21 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * @Description 标记某一个方法是异常处理方法，该方法的入参必须为 {@link Thread} 和 具体的异常类，并且必须为静态方法
- * @Author gdrfgdrf
- * @Date 2024/4/24
+ * @description 标记某一个方法是异常处理方法，该方法的入参必须为 {@link Thread} 和 具体的异常类，并且必须为静态方法
+ * @author gdrfgdrf
+ * @since 2024/4/24
  */
 @Target(value = ElementType.METHOD)
 @Retention(value = RetentionPolicy.RUNTIME)
 public @interface ExceptionHandler {
     /**
-     * @Description 支持的异常类型，
+     * @description 支持的异常类型，
      * {@link ExceptionDispatcher} 将根据该值分发到对应的拥有该注解的方法
      *
      * @return java.lang.Class<? extends java.lang.Throwable>[]
      *         支持的异常类型
-     * @Author gdrfgdrf
-     * @Date 2024/4/7
+     * @author gdrfgdrf
+     * @since 2024/4/7
      */
     Class<? extends Throwable>[] support();
 }

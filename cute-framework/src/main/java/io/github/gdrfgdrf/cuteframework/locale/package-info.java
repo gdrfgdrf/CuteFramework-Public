@@ -15,7 +15,7 @@
  */
 
 /**
- * @Description
+ * @description
  * !!! 所有翻译者必须仔细阅读该注释 !!! <p>
  * !!! All translators must read this note carefully !!! <p>
  * <p>
@@ -151,8 +151,8 @@
  *                  如此往复，类文件读取完成，<p>
  *                  完成读取后将会把所有 {@link io.github.gdrfgdrf.cuteframework.locale.base.LanguageCollect} 的类序列化到语言文件。<p>
  *
- * @Author gdrfgdrf
- * @Date 2024/4/9
+ * @author gdrfgdrf
+ * @since 2024/4/9
  */
 package io.github.gdrfgdrf.cuteframework.locale;
 

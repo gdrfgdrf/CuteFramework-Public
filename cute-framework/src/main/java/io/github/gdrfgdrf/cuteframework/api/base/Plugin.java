@@ -22,9 +22,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * @Description 插件主类应该继承该抽象类
- * @Author gdrfgdrf
- * @Date 2024/5/2
+ * @description 插件主类应该继承该抽象类
+ * @author gdrfgdrf
+ * @since 2024/5/2
  */
 @Getter
 @Setter
@@ -36,31 +36,31 @@ public abstract class Plugin {
     private PluginDescription pluginDescription;
 
     /**
-     * @Description 空方法，当插件被启用时调用
+     * @description 空方法，当插件被启用时调用
      *
-     * @Author gdrfgdrf
-     * @Date 2024/5/2
+     * @author gdrfgdrf
+     * @since 2024/5/2
      */
     public void onEnable() {}
 
     /**
-     * @Description 空方法，插件开始被核心加载时调用
-     * @Author gdrfgdrf
-     * @Date 2024/5/2
+     * @description 空方法，插件开始被核心加载时调用
+     * @author gdrfgdrf
+     * @since 2024/5/2
      */
     public void onLoad() {}
 
     /**
-     * @Description 空方法，当插件需要被停止时调用
-     * @Author gdrfgdrf
-     * @Date 2024/5/5
+     * @description 空方法，当插件需要被停止时调用
+     * @author gdrfgdrf
+     * @since 2024/5/5
      */
     public void onStop() {}
 
     /**
-     * @Description 空方法，当插件被禁用时调用
-     * @Author gdrfgdrf
-     * @Date 2024/5/2
+     * @description 空方法，当插件被禁用时调用
+     * @author gdrfgdrf
+     * @since 2024/5/2
      */
     public void onDisable() {}
 }

@@ -36,9 +36,9 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 /**
- * @Description 类对象工具类
- * @Author gdrfgdrf
- * @Date 2024/4/6
+ * @description 类对象工具类
+ * @author gdrfgdrf
+ * @since 2024/4/6
  */
 @Slf4j
 public class ClassUtils {

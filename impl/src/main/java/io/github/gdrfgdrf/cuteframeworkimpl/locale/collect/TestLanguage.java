@@ -20,9 +20,9 @@ import io.github.gdrfgdrf.cuteframework.locale.LanguageString;
 import io.github.gdrfgdrf.cuteframework.locale.base.LanguageCollect;
 
 /**
- * @Description
- * @Author gdrfgdrf
- * @Date 2024/5/22
+ * @description
+ * @author gdrfgdrf
+ * @since 2024/5/22
  */
 public class TestLanguage implements LanguageCollect {
     public static LanguageString TEST_LANGUAGE;
