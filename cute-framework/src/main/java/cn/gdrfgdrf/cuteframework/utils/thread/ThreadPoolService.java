@@ -26,6 +26,9 @@ import java.util.concurrent.*;
 public class ThreadPoolService {
     private ThreadPoolService() {}
 
+    /**
+     * 公共线程池
+     */
     private static final ExecutorService EXECUTOR_SERVICE = new ThreadPoolExecutor(
             4,
             40,
@@ -36,6 +39,9 @@ public class ThreadPoolService {
             new ThreadPoolExecutor.AbortPolicy()
     );
 
+    /**
+     * 异步执行事件订阅者的线程池
+     */
     private static final ExecutorService EVENT_EXECUTOR_SERVICE = new ThreadPoolExecutor(
             0,
             1024,
@@ -46,10 +52,24 @@ public class ThreadPoolService {
             new ThreadPoolExecutor.CallerRunsPolicy()
     );
 
+    /**
+     * @Description 往公共线程池添加任务
+     * @param runnable
+	 *        任务
+     * @Author gdrfgdrf
+     * @Date 2024/5/25
+     */
     public static void newTask(Runnable runnable) {
         EXECUTOR_SERVICE.execute(runnable);
     }
 
+    /**
+     * @Description 获取异步执行事件订阅者的线程池
+     * @return java.util.concurrent.ExecutorService
+     *         异步执行事件订阅者的线程池
+     * @Author gdrfgdrf
+     * @Date 2024/5/25
+     */
     public static ExecutorService getEventExecutorService() {
         return EVENT_EXECUTOR_SERVICE;
     }

@@ -29,6 +29,9 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class AssertNotNullException extends AssertErrorException {
+    /**
+     * 实例名
+     */
     private final String parameterName;
 
     @Override

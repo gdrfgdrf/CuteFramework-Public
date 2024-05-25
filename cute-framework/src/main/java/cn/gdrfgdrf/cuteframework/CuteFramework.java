@@ -82,7 +82,7 @@ public class CuteFramework {
     {
         LanguageLoader.getInstance().load(
                 CuteFramework.class.getClassLoader(),
-                "cn.gdrfgdrf.cuteframework.locale.collect.",
+                "cn.gdrfgdrf.cuteframework.locale.collect",
                 "cn.gdrfgdrf.cuteframework.locale.language",
                 "cute-framework",
                 language

@@ -29,7 +29,13 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class AssertArrayLengthMismatchException extends CustomException {
+    /**
+     * 数组名
+     */
     private final String parameterName;
+    /**
+     * 需要的长度
+     */
     private final int length;
 
 
