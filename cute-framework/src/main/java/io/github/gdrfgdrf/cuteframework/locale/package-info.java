@@ -152,7 +152,7 @@
  *                  完成读取后将会把所有 {@link io.github.gdrfgdrf.cuteframework.locale.base.LanguageCollect} 的类序列化到语言文件。<p>
  *
  * @author gdrfgdrf
- * @since 2024/4/9
+ * @since v1_0_0_20240525_RELEASE
  */
 package io.github.gdrfgdrf.cuteframework.locale;
 

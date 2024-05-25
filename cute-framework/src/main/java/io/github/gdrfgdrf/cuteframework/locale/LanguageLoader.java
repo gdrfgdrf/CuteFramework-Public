@@ -39,9 +39,9 @@ import java.lang.reflect.Field;
 import java.util.*;
 
 /**
- * @description 语言加载器，翻译提供者请仔细查看该包的 package-info
+ * 语言加载器，翻译提供者请仔细查看该包的 package-info
  * @author gdrfgdrf
- * @since 2024/4/11
+ * @since v1_0_0_20240525_RELEASE
  */
 @Slf4j
 public class LanguageLoader {
@@ -52,11 +52,11 @@ public class LanguageLoader {
     private LanguageLoader() {}
 
     /**
-     * @description 单例模式，获取 {@link LanguageLoader} 实例
+     * 单例模式，获取 {@link LanguageLoader} 实例
      * @return io.github.gdrfgdrf.cuteframework.locale.LanguageLoader
      *         {@link LanguageLoader} 实例
      * @author gdrfgdrf
-     * @since 2024/4/11
+     * @since v1_0_0_20240525_RELEASE
      */
     public static LanguageLoader getInstance() {
         if (INSTANCE == null) {
@@ -73,7 +73,7 @@ public class LanguageLoader {
     }
 
     /**
-     * @description 加载指定 owner 的指定语言，
+     * 加载指定 owner 的指定语言，
      * 若语言文件不存在则从类加载语言，具体说明请查阅 package-info
      *
      * @param classLoader
@@ -89,7 +89,7 @@ public class LanguageLoader {
      * @throws AssertNotNullException
      *         当以上任何的参数为 null 时抛出
      * @author gdrfgdrf
-     * @since 2024/5/22
+     * @since v1_0_0_20240525_RELEASE
      */
     public void load(
             ClassLoader classLoader,
@@ -125,7 +125,7 @@ public class LanguageLoader {
     }
 
     /**
-     * @description 从语言文件加载语言
+     * 从语言文件加载语言
      * @param classLoader
      *        能够加载语言类的类加载器
      * @param owner
@@ -141,7 +141,7 @@ public class LanguageLoader {
      * @throws IOException
      *         语言文件 IO 错误
      * @author gdrfgdrf
-     * @since 2024/4/12
+     * @since v1_0_0_20240525_RELEASE
      */
     @SuppressWarnings("unchecked")
     private void loadFromFile(
@@ -218,7 +218,7 @@ public class LanguageLoader {
     }
 
     /**
-     * @description 从类加载语言
+     * 从类加载语言
      * @param classLoader
      *        能够加载语言块类的类加载器
      * @param collectPackage
@@ -232,7 +232,7 @@ public class LanguageLoader {
      * @throws NotFoundLanguagePackageException
      *         没有找到语言包时抛出
      * @author gdrfgdrf
-     * @since 2024/4/12
+     * @since v1_0_0_20240525_RELEASE
      */
     private void loadFromClass(
             ClassLoader classLoader,
@@ -282,7 +282,7 @@ public class LanguageLoader {
     }
 
     /**
-     * @description 序列化所有 {@link LanguageCollect} 类并保存到语言文件
+     * 序列化所有 {@link LanguageCollect} 类并保存到语言文件
      * @param classLoader
      *        能够加载语言集合类的类加载器
      * @param collectPackage
@@ -296,7 +296,7 @@ public class LanguageLoader {
      * @throws IllegalAccessException
      *         无法从语言自核类中获取语言字段
      * @author gdrfgdrf
-     * @since 2024/4/16
+     * @since v1_0_0_20240525_RELEASE
      */
     private void saveCollectClass(ClassLoader classLoader, String collectPackage, File file) throws
             AssertNotNullException,
@@ -339,7 +339,7 @@ public class LanguageLoader {
     }
 
     /**
-     * @description 从 {@link LanguageBlock} 中获取字段并设置到 {@link LanguageCollect}，
+     * 从 {@link LanguageBlock} 中获取字段并设置到 {@link LanguageCollect}，
      * 为了获取内容，
      * 会暂时的把 {@link LanguageBlock} 中的字段设置为可访问，设置完成后再设置回去
      *
@@ -350,7 +350,7 @@ public class LanguageLoader {
      * @param fieldName
      *        字段名
      * @author gdrfgdrf
-     * @since 2024/4/19
+     * @since v1_0_0_20240525_RELEASE
      */
     private void setFromBlock(Field collectField, Field blockField, String fieldName) {
         ClassUtils.accessibleField(null, blockField, accessibleBlockField -> {
@@ -364,7 +364,7 @@ public class LanguageLoader {
     }
 
     /**
-     * @description 将语言内容设置到语言集合中
+     * 将语言内容设置到语言集合中
      * @param languageKey
 	 *        语言键
 	 * @param languageContent
@@ -376,7 +376,7 @@ public class LanguageLoader {
      * @throws RuntimeException
      *         可以找到语言键，但无法为其设置语言内容，该异常的内容为 {@link IllegalAccessException}
      * @author gdrfgdrf
-     * @since 2024/4/12
+     * @since v1_0_0_20240525_RELEASE
      */
     private void setFromString(
             String languageKey,

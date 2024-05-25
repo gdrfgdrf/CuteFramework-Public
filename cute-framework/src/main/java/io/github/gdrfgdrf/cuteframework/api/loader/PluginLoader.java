@@ -47,28 +47,28 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 /**
- * @description 插件加载器，该类不会作为 Bean 被管理，而是由程序主类调用
+ * 插件加载器，该类会被 {@link CuteFramework} 调用
  * @author gdrfgdrf
- * @since 2024/5/4
+ * @since v1_0_0_20240525_RELEASE
  */
 public class PluginLoader {
     private static PluginLoader INSTANCE;
 
     /**
-     * @description 注册该类到 {@link EventManager} 以接收事件，
+     * 注册该类到 {@link EventManager} 以接收事件，
      * 该构造函数仅允许该类的 getInstance 方法调用
      *
      * @throws StackIllegalOperationException
      *         当不被允许的类或方法调用该方法时抛出
      * @author gdrfgdrf
-     * @since 2024/5/4
+     * @since v1_0_0_20240525_RELEASE
      */
     private PluginLoader() throws AssertNotNullException, StackIllegalOperationException, StackIllegalArgumentException {
         StackUtils.onlyMethod("io.github.gdrfgdrf.cuteframework.api.loader.PluginLoader", "getInstance");
     }
 
     /**
-     * @description 单例模式，获取 {@link PluginLoader} 实例，
+     * 单例模式，获取 {@link PluginLoader} 实例，
      * 该方法仅允许 {@link CuteFramework#run()} 调用
      *
      * @return io.github.gdrfgdrf.cuteframework.api.loader.PluginLoader
@@ -76,7 +76,7 @@ public class PluginLoader {
      * @throws StackIllegalOperationException
      *         当不被允许的类或方法调用该方法时抛出
      * @author gdrfgdrf
-     * @since 2024/5/4
+     * @since v1_0_0_20240525_RELEASE
      */
     public static PluginLoader getInstance() throws
             AssertNotNullException,
@@ -92,7 +92,7 @@ public class PluginLoader {
     }
 
     /**
-     * @description 开始加载插件，当插件加载发生错误时将抛出 {@link PluginLoadException}，错误实例将包含在其中，
+     * 开始加载插件，当插件加载发生错误时将抛出 {@link PluginLoadException}，错误实例将包含在其中，
      * 该错误不会直接抛出，而且会发布一个 {@link PluginEvent.LoadError} 事件，
      * 该事件将会异步发出。
      * 该方法仅允许 {@link CuteFramework#run()} 调用
@@ -100,7 +100,7 @@ public class PluginLoader {
      * @throws StackIllegalOperationException
      *         当不被允许的类或方法调用该方法时抛出
      * @author gdrfgdrf
-     * @since 2024/5/4
+     * @since v1_0_0_20240525_RELEASE
      */
     public void startLoading() throws
             AssertNotNullException,
@@ -127,7 +127,7 @@ public class PluginLoader {
     }
 
     /**
-     * @description 加载插件，
+     * 加载插件，
      * 会首先获取插件的 plugin.json 文件并反序列化为 {@link PluginDescription}，
      * 之后会检查其中的 api-version，
      * 完成之后将会加载 main-class，
@@ -138,7 +138,7 @@ public class PluginLoader {
      * @throws IOException
      *         插件文件无法被解析为 {@link JarFile}
      * @author gdrfgdrf
-     * @since 2024/5/5
+     * @since v1_0_0_20240525_RELEASE
      */
     public void load(File pluginFile) throws
             IOException,
@@ -171,7 +171,7 @@ public class PluginLoader {
     }
 
     /**
-     * @description 加载插件的类
+     * 加载插件的类
      * @param pluginDescription
 	 *        插件描述文件
      * @return io.github.gdrfgdrf.cuteframework.api.base.Plugin
@@ -191,7 +191,7 @@ public class PluginLoader {
      * @throws IOException
      *         类加载器 {@link URLClassLoader} 错误
      * @author gdrfgdrf
-     * @since 2024/5/5
+     * @since v1_0_0_20240525_RELEASE
      */
     private Plugin loadPluginClass(PluginDescription pluginDescription) throws
             PluginMainClassLoadException,
@@ -228,13 +228,13 @@ public class PluginLoader {
     }
 
     /**
-     * @description 检查插件描述文件中的开发时所使用的核心版本 api-version
+     * 检查插件描述文件中的开发时所使用的核心版本 api-version
      * @param pluginDescription
 	 *        插件描述
      * @throws UnsupportedPluginException
      *         插件开发所使用的 api-version 在当前版本的 {@link VersionEnum} 中被解析为 {@link VersionEnum#UNAVAILABLE} 时抛出
      * @author gdrfgdrf
-     * @since 2024/5/5
+     * @since v1_0_0_20240525_RELEASE
      */
     private void checkPluginCoreVersion(PluginDescription pluginDescription) throws UnsupportedPluginException {
         int compareResult = VersionEnum.CURRENT.compare(pluginDescription.getApiVersion());
@@ -245,7 +245,7 @@ public class PluginLoader {
     }
 
     /**
-     * @description 检查插件描述文件在代码中的表示是否正确
+     * 检查插件描述文件在代码中的表示是否正确
      * @param pluginFile
 	 *        插件文件
 	 * @param pluginDescription
@@ -253,7 +253,7 @@ public class PluginLoader {
      * @throws PluginUndefinedPropertyException
      *         pluginDescription 中有必需的字段未定义时抛出
      * @author gdrfgdrf
-     * @since 2024/5/5
+     * @since v1_0_0_20240525_RELEASE
      */
     private void checkPluginDescription(File pluginFile, PluginDescription pluginDescription) throws PluginUndefinedPropertyException {
         AssertUtils.expression(
@@ -275,7 +275,7 @@ public class PluginLoader {
     }
 
     /**
-     * @description 解析插件文件并从中反序列出 {@link PluginDescription}
+     * 解析插件文件并从中反序列出 {@link PluginDescription}
      * @param pluginFile
 	 *        插件文件
      * @return io.github.gdrfgdrf.cuteframework.api.common.PluginDescription
@@ -283,7 +283,7 @@ public class PluginLoader {
      * @throws IOException
      *         无法找到 plugin.json 或反序列化 plugin.json 时发送错误
      * @author gdrfgdrf
-     * @since 2024/5/5
+     * @since v1_0_0_20240525_RELEASE
      */
     private PluginDescription getPluginDescription(JarFile pluginFile) throws IOException {
         JarEntry pluginDescriptionFile = pluginFile.getJarEntry(Constants.PLUGIN_DESCRIPTION_FILE_NAME);

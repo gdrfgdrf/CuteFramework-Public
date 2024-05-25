@@ -22,10 +22,10 @@ import io.github.gdrfgdrf.cuteframework.utils.ClassUtils;
 import java.util.Comparator;
 
 /**
- * @description 分析所有 Bean 类的 {@link Order} 注解并进行排序以开始创建 Bean，
+ * 分析所有 Bean 类的 {@link Order} 注解并进行排序以开始创建 Bean，
  * 当 Bean 类没有 {@link Order} 注解时，将按照原本的顺序安排进入
  * @author gdrfgdrf
- * @since 2024/5/6
+ * @since v1_0_0_20240525_RELEASE
  */
 public class OrderComparator implements Comparator<Class<?>> {
     private static OrderComparator INSTANCE;
@@ -33,11 +33,11 @@ public class OrderComparator implements Comparator<Class<?>> {
     private OrderComparator() {}
 
     /**
-     * @description 单例模式，获取 {@link OrderComparator} 实例
+     * 单例模式，获取 {@link OrderComparator} 实例
      * @return io.github.gdrfgdrf.cuteframework.bean.compare.OrderComparator
      *         {@link OrderComparator} 实例
      * @author gdrfgdrf
-     * @since 2024/5/6
+     * @since v1_0_0_20240525_RELEASE
      */
     public static OrderComparator getInstance() {
         if (INSTANCE == null) {

@@ -22,10 +22,10 @@ import io.github.gdrfgdrf.cuteframework.bean.BeanManager;
 import lombok.Getter;
 
 /**
- * @description Bean 名称冲突移除，
+ * Bean 名称冲突移除，
  * 当 {@link BeanManager} 创建 Bean 类时发现已经有了一个同名的 Bean 实例存在时抛出
  * @author gdrfgdrf
- * @since 2024/5/2
+ * @since v1_0_0_20240525_RELEASE
  */
 @Getter
 public class BeanNameConflictException extends CustomException {

@@ -17,9 +17,9 @@
 package io.github.gdrfgdrf.cuteframework.locale.base;
 
 /**
- * @description 语言汇总，仅作标记作用
+ * 语言汇总，仅作标记作用
  * @author gdrfgdrf
- * @since 2024/4/11
+ * @since v1_0_0_20240525_RELEASE
  */
 public interface LanguageCollect {
 }

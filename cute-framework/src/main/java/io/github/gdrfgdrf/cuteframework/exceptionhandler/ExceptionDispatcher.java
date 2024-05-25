@@ -33,9 +33,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
- * @description 异常分发器
+ * 异常分发器
  * @author gdrfgdrf
- * @since 2024/4/7
+ * @since v1_0_0_20240525_RELEASE
  */
 @Slf4j
 public class ExceptionDispatcher {
@@ -50,11 +50,11 @@ public class ExceptionDispatcher {
     private ExceptionDispatcher() {}
 
     /**
-     * @description 单例模式，获取 {@link ExceptionDispatcher} 实例
+     * 单例模式，获取 {@link ExceptionDispatcher} 实例
      * @return io.github.gdrfgdrf.cuteframework.exceptionhandler.ExceptionDispatcher
      *         {@link ExceptionDispatcher} 实例
      * @author gdrfgdrf
-     * @since 2024/4/7
+     * @since v1_0_0_20240525_RELEASE
      */
     public static ExceptionDispatcher getInstance() {
         if (INSTANCE == null) {
@@ -64,7 +64,7 @@ public class ExceptionDispatcher {
     }
 
     /**
-     * @description 注册异常处理方法，会根据异常类型添加到对应的 {@link ExceptionDispatcher#EXCEPTION_HANDLER_MAP}
+     * 注册异常处理方法，会根据异常类型添加到对应的 {@link ExceptionDispatcher#EXCEPTION_HANDLER_MAP}
      * @param throwableType
 	 *        异常类型
 	 * @param exceptionHandleMethod
@@ -72,7 +72,7 @@ public class ExceptionDispatcher {
      * @throws AssertNotNullException
      *         当 throwableType 或 exceptionHandleMethod 为 null 时抛出
      * @author gdrfgdrf
-     * @since 2024/4/8
+     * @since v1_0_0_20240525_RELEASE
      */
     public void registerExceptionHandler(Class<? extends Throwable> throwableType, Method exceptionHandleMethod)
             throws AssertNotNullException
@@ -88,7 +88,7 @@ public class ExceptionDispatcher {
     }
 
     /**
-     * @description 移除移除处理器，会根据异常类型从 {@link ExceptionDispatcher#EXCEPTION_HANDLER_MAP} 中异常对应的异常处理方法
+     * 移除移除处理器，会根据异常类型从 {@link ExceptionDispatcher#EXCEPTION_HANDLER_MAP} 中异常对应的异常处理方法
      * @param throwableType
      *        异常类型
      * @param exceptionHandleMethod
@@ -96,7 +96,7 @@ public class ExceptionDispatcher {
      * @throws AssertNotNullException
      *         当 throwableType 或 exceptionHandler 为 null 时抛出
      * @author gdrfgdrf
-     * @since 2024/4/17
+     * @since v1_0_0_20240525_RELEASE
      */
     public void unregisterExceptionHandler(Class<? extends Throwable> throwableType, Method exceptionHandleMethod)
             throws AssertNotNullException
@@ -116,7 +116,7 @@ public class ExceptionDispatcher {
     }
 
     /**
-     * @description 根据索引移除移除处理器，
+     * 根据索引移除移除处理器，
      * 会根据异常类型从 {@link ExceptionDispatcher#EXCEPTION_HANDLER_MAP} 中移除对应的异常处理方法
      * @param throwableType
      *        异常类型
@@ -125,7 +125,7 @@ public class ExceptionDispatcher {
      * @throws AssertNotNullException
      *         当 throwableType 或 exceptionHandler 为 null 时抛出
      * @author gdrfgdrf
-     * @since 2024/4/17
+     * @since v1_0_0_20240525_RELEASE
      */
     public void unregisterExceptionHandler(Class<? extends Throwable> throwableType, int index)
             throws AssertNotNullException
@@ -145,7 +145,7 @@ public class ExceptionDispatcher {
     }
 
     /**
-     * @description 分发异常，
+     * 分发异常，
      * 将根据异常类型从 {@link ExceptionDispatcher#EXCEPTION_HANDLER_MAP} 中获取并调用异常处理方法，
      * 若无法获取到定制异常处理方法，
      * 将会使用 {@link DefaultExceptionHandler} 的 handle 方法，
@@ -162,7 +162,7 @@ public class ExceptionDispatcher {
      * @throws NotFoundExceptionHandlerException
      *         无法获取定制异常处理方法以及默认异常处理方法时抛出
      * @author gdrfgdrf
-     * @since 2024/4/8
+     * @since v1_0_0_20240525_RELEASE
      */
     public void dispatch(Thread thread, Throwable throwable) throws
             AssertNotNullException,
@@ -190,7 +190,7 @@ public class ExceptionDispatcher {
     }
 
     /**
-     * @description 安全的分发异常到异常处理方法，该方法不会抛出错误，
+     * 安全的分发异常到异常处理方法，该方法不会抛出错误，
      * 当 {@link ExceptionDispatcher#dispatch(Thread, Throwable)} 抛出一般错误时将会输出一段日志，
      * 当 {@link ExceptionDispatcher#dispatch(Thread, Throwable)} 抛出了 {@link NotFoundExceptionHandlerException} 时
      * 将会在此对其进行一次分发，但由于该异常类被 {@link Undispatchable} 所注解，
@@ -201,7 +201,7 @@ public class ExceptionDispatcher {
 	 * @param throwable
 	 *        异常实例
      * @author gdrfgdrf
-     * @since 2024/5/6
+     * @since v1_0_0_20240525_RELEASE
      */
     public void dispatchSafety(Thread thread, Throwable throwable) {
         try {
@@ -214,11 +214,11 @@ public class ExceptionDispatcher {
     }
 
     /**
-     * @description 获取异常类型到异常处理方法的映射
+     * 获取异常类型到异常处理方法的映射
      * @return java.util.Map<java.lang.Class<? extends java.lang.Throwable>,java.util.List<java.lang.reflect.Method>>
      *         异常类型到异常处理方法的映射
      * @author gdrfgdrf
-     * @since 2024/5/4
+     * @since v1_0_0_20240525_RELEASE
      */
     public Map<Class<? extends Throwable>, List<Method>> getExceptionHandlerMap() {
          return EXCEPTION_HANDLER_MAP;

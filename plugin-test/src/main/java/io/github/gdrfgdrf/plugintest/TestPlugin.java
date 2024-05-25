@@ -21,7 +21,7 @@ import io.github.gdrfgdrf.cuteframework.api.base.Plugin;
 /**
  * @description
  * @author gdrfgdrf
- * @since 2024/5/5
+ * @since v1_0_0_20240525_RELEASE
  */
 public class TestPlugin extends Plugin {
     public TestPlugin() {

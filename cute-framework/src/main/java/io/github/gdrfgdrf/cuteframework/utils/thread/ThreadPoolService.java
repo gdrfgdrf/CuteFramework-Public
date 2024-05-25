@@ -19,9 +19,9 @@ package io.github.gdrfgdrf.cuteframework.utils.thread;
 import java.util.concurrent.*;
 
 /**
- * @description 线程池支持
+ * 线程池支持
  * @author gdrfgdrf
- * @since 2024/4/8
+ * @since v1_0_0_20240525_RELEASE
  */
 public class ThreadPoolService {
     private ThreadPoolService() {}
@@ -53,22 +53,22 @@ public class ThreadPoolService {
     );
 
     /**
-     * @description 往公共线程池添加任务
+     * 往公共线程池添加任务
      * @param runnable
 	 *        任务
      * @author gdrfgdrf
-     * @since 2024/5/25
+     * @since v1_0_0_20240525_RELEASE
      */
     public static void newTask(Runnable runnable) {
         EXECUTOR_SERVICE.execute(runnable);
     }
 
     /**
-     * @description 获取异步执行事件订阅者的线程池
+     * 获取异步执行事件订阅者的线程池
      * @return java.util.concurrent.ExecutorService
      *         异步执行事件订阅者的线程池
      * @author gdrfgdrf
-     * @since 2024/5/25
+     * @since v1_0_0_20240525_RELEASE
      */
     public static ExecutorService getEventExecutorService() {
         return EVENT_EXECUTOR_SERVICE;

@@ -22,9 +22,9 @@ import lombok.Getter;
 import java.util.Iterator;
 
 /**
- * @description 定制 json 节点
+ * 定制 json 节点
  * @author gdrfgdrf
- * @since 2024/4/12
+ * @since v1_0_0_20240525_RELEASE
  */
 @Getter
 public class SuperJsonNode {
@@ -38,39 +38,39 @@ public class SuperJsonNode {
     }
 
     /**
-     * @description 获取根节点下对应索引的内容，若找不到则抛出错误
+     * 获取根节点下对应索引的内容，若找不到则抛出错误
      * @param i
 	 *        索引
      * @return java.lang.String
      *         内容
      * @author gdrfgdrf
-     * @since 2024/5/25
+     * @since v1_0_0_20240525_RELEASE
      */
     public String getString(int i) {
         return jsonNode.get(i).asText();
     }
 
     /**
-     * @description 获取根节点下对应键的值，若找不到则抛出错误
+     * 获取根节点下对应键的值，若找不到则抛出错误
      * @param key
 	 *        键
      * @return java.lang.String
      *         值
      * @author gdrfgdrf
-     * @since 2024/5/25
+     * @since v1_0_0_20240525_RELEASE
      */
     public String getString(String key) {
         return jsonNode.get(key).asText();
     }
 
     /**
-     * @description 获取根节点下对应索引的内容，若找不到则返回 null
+     * 获取根节点下对应索引的内容，若找不到则返回 null
      * @param i
 	 *        索引
      * @return java.lang.String
      *         内容
      * @author gdrfgdrf
-     * @since 2024/5/25
+     * @since v1_0_0_20240525_RELEASE
      */
     public String getStringOrNull(int i) {
         if (jsonNode.has(i)) {
@@ -80,13 +80,13 @@ public class SuperJsonNode {
     }
 
     /**
-     * @description 获取根节点下对应键的值，若找不到则返回 null
+     * 获取根节点下对应键的值，若找不到则返回 null
      * @param key
      *        键
      * @return java.lang.String
      *         值
      * @author gdrfgdrf
-     * @since 2024/5/25
+     * @since v1_0_0_20240525_RELEASE
      */
     public String getStringOrNull(String key) {
         if (jsonNode.has(key)) {
@@ -96,35 +96,35 @@ public class SuperJsonNode {
     }
 
     /**
-     * @description 检查根节点是否存在某个键
+     * 检查根节点是否存在某个键
      * @param key
 	 *        键
      * @return boolean
      *         true 存在，false 不存在
      * @author gdrfgdrf
-     * @since 2024/5/25
+     * @since v1_0_0_20240525_RELEASE
      */
     public boolean contains(String key) {
         return jsonNode.has(key);
     }
 
     /**
-     * @description 获取根节点的大小
+     * 获取根节点的大小
      * @return int
      *         大小
      * @author gdrfgdrf
-     * @since 2024/5/25
+     * @since v1_0_0_20240525_RELEASE
      */
     public int size() {
         return jsonNode.size();
     }
 
     /**
-     * @description 获取根节点的所有键的迭代器
+     * 获取根节点的所有键的迭代器
      * @return java.util.Iterator<java.lang.String>
      *         所有键的迭代器
      * @author gdrfgdrf
-     * @since 2024/5/25
+     * @since v1_0_0_20240525_RELEASE
      */
     public Iterator<String> keySet() {
         return jsonNode.fieldNames();

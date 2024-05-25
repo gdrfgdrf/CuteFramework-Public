@@ -22,7 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @description 核心版本列表，枚举名必须遵守以下规则
+ * 核心版本列表，枚举名必须遵守以下规则
  * 版本排列为升序，越底下的版本越大，
  * 版本命名遵守以下规则
  * v 为 固定符号，所有版本前都必须带有该符号，该符号必须小写
@@ -45,7 +45,7 @@ import java.util.Map;
  * 版本在该类中作为枚举时，除开头的 v 符号外，其他全部字符都应该大写
  *
  * @author gdrfgdrf
- * @since 2024/5/2
+ * @since v1_0_0_20240525_RELEASE
  */
 @Getter
 public enum VersionEnum {
@@ -135,7 +135,7 @@ public enum VersionEnum {
     }
 
     /**
-     * @description 对比两个版本之间的大小，
+     * 对比两个版本之间的大小，
      * 返回 -1 说明 version1 < version2，
      * 返回 0 说明 version1 = version2，
      * 返回 1 说明 version1 > version2，
@@ -148,7 +148,7 @@ public enum VersionEnum {
      * @return int
      *         对比结果
      * @author gdrfgdrf
-     * @since 2024/5/2
+     * @since v1_0_0_20240525_RELEASE
      */
     public static int compare(VersionEnum version1, VersionEnum version2) {
         if (version1 == VersionEnum.UNAVAILABLE || version2 == VersionEnum.UNAVAILABLE) {
@@ -170,9 +170,9 @@ public enum VersionEnum {
     }
 
     /**
-     * @description 发布渠道
+     * 发布渠道
      * @author gdrfgdrf
-     * @since 2024/5/8
+     * @since v1_0_0_20240525_RELEASE
      */
     @Getter
     public enum PublishChannel {

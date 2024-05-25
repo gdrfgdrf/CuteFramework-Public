@@ -24,11 +24,11 @@ import lombok.Data;
 import java.io.File;
 
 /**
- * @description 插件描述，plugin.json 在代码中的表示，运行时将会把 plugin.json 反序列化为该类，
+ * 插件描述，plugin.json 在代码中的表示，运行时将会把 plugin.json 反序列化为该类，
  * 同时该类也会存储一些 plugin.json 文件之中没有的信息，比如插件文件
  *
  * @author gdrfgdrf
- * @since 2024/5/5
+ * @since v1_0_0_20240525_RELEASE
  */
 @Data
 public class PluginDescription {
@@ -87,11 +87,11 @@ public class PluginDescription {
     }
 
     /**
-     * @description 复制一份 {@link PluginDescription}
+     * 复制一份 {@link PluginDescription}
      * @return io.github.gdrfgdrf.cuteframework.api.common.PluginDescription
      *         复制的 {@link PluginDescription}
      * @author gdrfgdrf
-     * @since 2024/5/5
+     * @since v1_0_0_20240525_RELEASE
      */
     public PluginDescription copy() {
         return new PluginDescription(name, mainClass, apiVersion, author);

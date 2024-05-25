@@ -26,11 +26,11 @@ import lombok.Getter;
 import java.io.File;
 
 /**
- * @description 插件加载错误，当 {@link PluginLoader} 加载插件错误时将抛出此类，
+ * 插件加载错误，当 {@link PluginLoader} 加载插件错误时将抛出此类，
  * 错误实例将会包含在该类中并以 {@link PluginEvent.LoadError} 的形式发布
  *
  * @author gdrfgdrf
- * @since 2024/5/5
+ * @since v1_0_0_20240525_RELEASE
  */
 @Getter
 @AllArgsConstructor

@@ -22,7 +22,7 @@ import io.github.gdrfgdrf.cuteframework.locale.base.LanguageBlock;
 /**
  * @description
  * @author gdrfgdrf
- * @since 2024/5/22
+ * @since v1_0_0_20240525_RELEASE
  */
 class TestLanguage implements LanguageBlock {
     public static final LanguageString TEST_LANGUAGE = new LanguageString("你好世界，这是一条测试语言信息");

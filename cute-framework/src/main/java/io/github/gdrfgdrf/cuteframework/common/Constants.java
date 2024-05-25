@@ -17,9 +17,9 @@
 package io.github.gdrfgdrf.cuteframework.common;
 
 /**
- * @description 常量类
+ * 常量类
  * @author gdrfgdrf
- * @since 2024/4/8
+ * @since v1_0_0_20240525_RELEASE
  */
 public class Constants {
     public static final String LOCALE_COLLECT_PACKAGE = "io.github.gdrfgdrf.cuteframework.locale.collect";

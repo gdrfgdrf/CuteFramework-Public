@@ -24,11 +24,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * @description 无法获取到异常处理器时抛出，
+ * 无法获取到异常处理器时抛出，
  * 该异常不会被 {@link ExceptionDispatcher} 分发
  *
  * @author gdrfgdrf
- * @since 2024/4/8
+ * @since v1_0_0_20240525_RELEASE
  */
 @Getter
 @Undispatchable

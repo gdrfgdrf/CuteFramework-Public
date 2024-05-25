@@ -30,9 +30,9 @@ import java.io.IOException;
 import java.io.Writer;
 
 /**
- * @description 配置管理器
+ * 配置管理器
  * @author gdrfgdrf
- * @since 2024/5/4
+ * @since v1_0_0_20240525_RELEASE
  */
 @Setter
 @Getter
@@ -54,13 +54,13 @@ public class ConfigManager {
     }
 
     /**
-     * @description 加载配置文件
+     * 加载配置文件
      * @param configFileName
 	 *        配置文件的文件名
      * @throws IOException
      *         配置文件 IO 流错误
      * @author gdrfgdrf
-     * @since 2024/5/4
+     * @since v1_0_0_20240525_RELEASE
      */
     public void load(String configFileName) throws IOException, AssertNotNullException {
         EventManager.getInstance().post(new ConfigEvent.Load.Pre());
@@ -81,13 +81,13 @@ public class ConfigManager {
     }
 
     /**
-     * @description 保存 {@link ConfigManager#config} 到文件
+     * 保存 {@link ConfigManager#config} 到文件
      * @param targetFileName
 	 *        需要保存到的配置文件的文件名
      * @throws IOException
      *         配置文件 IO 流错误
      * @author gdrfgdrf
-     * @since 2024/5/4
+     * @since v1_0_0_20240525_RELEASE
      */
     public void save(String targetFileName) throws IOException, AssertNotNullException {
         if (this.config == null) {

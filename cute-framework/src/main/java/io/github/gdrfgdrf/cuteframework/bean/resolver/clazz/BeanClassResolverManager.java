@@ -26,9 +26,9 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * @description 管理 Bean 类解析器，对其进行注册等操作
+ * 管理 Bean 类解析器，对其进行注册等操作
  * @author gdrfgdrf
- * @since 2024/5/6
+ * @since v1_0_0_20240525_RELEASE
  */
 public class BeanClassResolverManager {
     private static BeanClassResolverManager INSTANCE;
@@ -42,11 +42,11 @@ public class BeanClassResolverManager {
     private BeanClassResolverManager() {}
 
     /**
-     * @description 单例模式，获取 {@link BeanClassResolverManager} 实例
+     * 单例模式，获取 {@link BeanClassResolverManager} 实例
      * @return io.github.gdrfgdrf.cuteframework.bean.resolver.clazz.BeanClassResolverManager
      *         {@link BeanClassResolverManager} 实例
      * @author gdrfgdrf
-     * @since 2024/5/6
+     * @since v1_0_0_20240525_RELEASE
      */
     public static BeanClassResolverManager getInstance() {
         if (INSTANCE == null) {
@@ -56,7 +56,7 @@ public class BeanClassResolverManager {
     }
 
     /**
-     * @description 注册 Bean 类解析器
+     * 注册 Bean 类解析器
      * @param beanAnnotationType
      *        Bean 类型
      * @param resolver
@@ -64,7 +64,7 @@ public class BeanClassResolverManager {
      * @throws AssertNotNullException
      *         当 beanAnnotationType 或 resolver 为 null 时抛出
      * @author gdrfgdrf
-     * @since 2024/5/6
+     * @since v1_0_0_20240525_RELEASE
      */
     public void registerBeanClassResolver(Class<? extends Annotation> beanAnnotationType, BeanClassResolver resolver)
             throws AssertNotNullException
@@ -75,13 +75,13 @@ public class BeanClassResolverManager {
     }
 
     /**
-     * @description 移除 Bean 类解析器
+     * 移除 Bean 类解析器
      * @param beanAnnotationType
      *        Bean 类型
      * @throws AssertNotNullException
      *         当 beanAnnotationType 为 null 时抛出
      * @author gdrfgdrf
-     * @since 2024/5/6
+     * @since v1_0_0_20240525_RELEASE
      */
     public void removeBeanClassResolver(Class<? extends Annotation> beanAnnotationType) throws AssertNotNullException {
         AssertUtils.notNull("bean class annotation type", beanAnnotationType);
@@ -89,7 +89,7 @@ public class BeanClassResolverManager {
     }
 
     /**
-     * @description 获取并调用对应的 Bean 类解析器
+     * 获取并调用对应的 Bean 类解析器
      * @param bean
      *        Bean 实例
      * @throws AssertNotNullException
@@ -97,7 +97,7 @@ public class BeanClassResolverManager {
      * @throws BeanClassResolverException
      *         当 Bean 类解析器发生错误时抛出
      * @author gdrfgdrf
-     * @since 2024/5/6
+     * @since v1_0_0_20240525_RELEASE
      */
     public void resolve(Object bean) throws AssertNotNullException, BeanClassResolverException {
         AssertUtils.notNull("bean", bean);

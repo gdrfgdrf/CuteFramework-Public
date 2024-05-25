@@ -19,12 +19,12 @@ package io.github.gdrfgdrf.cuteframework.locale;
 import io.github.gdrfgdrf.cuteframework.locale.base.LanguageBlock;
 
 /**
- * @description 语言字符串，
+ * 语言字符串，
  * 所有 {@link LanguageBlock} 中的语言字符串必须使用该类型
  * 才能被 {@link LanguageLoader} 识别到
  *
  * @author gdrfgdrf
- * @since 2024/4/17
+ * @since v1_0_0_20240525_RELEASE
  */
 public class LanguageString {
     private final String text;
@@ -34,11 +34,11 @@ public class LanguageString {
     }
 
     /**
-     * @description 获取到可操作的语言字符串
+     * 获取到可操作的语言字符串
      * @return io.github.gdrfgdrf.smartuploader.locale.AccessibleLanguageString
      *         可操作的语言字符串
      * @author gdrfgdrf
-     * @since 2024/4/18
+     * @since v1_0_0_20240525_RELEASE
      */
     public OperableLanguageString get() {
         return new OperableLanguageString(text);

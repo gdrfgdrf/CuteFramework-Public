@@ -25,9 +25,9 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 
 /**
- * @description 当方法参数和需要参数不相同时抛出
+ * 当方法参数和需要参数不相同时抛出
  * @author gdrfgdrf
- * @since 2024/5/4
+ * @since v1_0_0_20240525_RELEASE
  */
 @Getter
 @AllArgsConstructor

@@ -25,9 +25,9 @@ import lombok.Getter;
 import java.lang.reflect.Method;
 
 /**
- * @description 当异常处理方法不是静态时抛出
+ * 当异常处理方法不是静态时抛出
  * @author gdrfgdrf
- * @since 2024/5/4
+ * @since v1_0_0_20240525_RELEASE
  */
 @Getter
 @Undispatchable

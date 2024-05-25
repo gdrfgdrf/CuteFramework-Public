@@ -17,13 +17,13 @@
 package io.github.gdrfgdrf.cuteframework.event.enums;
 
 /**
- * @description 事件订阅者类型，
+ * 事件订阅者类型，
  * Guava 的 EventBus 支持同步和异步，但是需要两个 EventBus 实例去支持同步和异步
  * 在同步的 EventBus 注册的订阅者不能接收异步的事件，
  * 同理，在异步的 EventBus 注册的订阅者不能接收同步的事件
  *
  * @author gdrfgdrf
- * @since 2024/5/18
+ * @since v1_0_0_20240525_RELEASE
  */
 public enum SubscriberType {
     /**

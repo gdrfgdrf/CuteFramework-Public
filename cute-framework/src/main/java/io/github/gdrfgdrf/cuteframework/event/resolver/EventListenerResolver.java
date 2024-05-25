@@ -24,9 +24,9 @@ import io.github.gdrfgdrf.cuteframework.event.enums.SubscriberType;
 import io.github.gdrfgdrf.cuteframework.exceptionhandler.annotation.ExceptionHandler;
 
 /**
- * @description 接收所有拥有 {@link ExceptionHandler} 的类
+ * 接收所有拥有 {@link ExceptionHandler} 的类
  * @author gdrfgdrf
- * @since 2024/5/6
+ * @since v1_0_0_20240525_RELEASE
  */
 @BeanClassResolverAnnotation(targetClassAnnotation = EventListener.class)
 public class EventListenerResolver implements BeanClassResolver {

@@ -25,7 +25,7 @@ import com.google.common.eventbus.Subscribe;
 /**
  * @description
  * @author gdrfgdrf
- * @since 2024/5/6
+ * @since v1_0_0_20240525_RELEASE
  */
 @EventListener
 public class TestExceptionHandler {

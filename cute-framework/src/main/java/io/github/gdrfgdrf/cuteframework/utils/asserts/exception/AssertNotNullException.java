@@ -22,9 +22,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * @description 当实例为 null 时抛出
+ * 当实例为 null 时抛出
  * @author gdrfgdrf
- * @since 2024/4/8
+ * @since v1_0_0_20240525_RELEASE
  */
 @Getter
 @AllArgsConstructor

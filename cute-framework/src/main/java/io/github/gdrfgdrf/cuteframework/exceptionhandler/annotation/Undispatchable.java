@@ -24,11 +24,11 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * @description 对异常类进行的注解，
+ * 对异常类进行的注解，
  * 若异常类拥有该注解，{@link ExceptionDispatcher} 将不会对指定的异常进行分发
  *
  * @author gdrfgdrf
- * @since 2024/4/8
+ * @since v1_0_0_20240525_RELEASE
  */
 @Target(value = ElementType.TYPE)
 @Retention(value = RetentionPolicy.RUNTIME)

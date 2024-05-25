@@ -20,9 +20,9 @@ import io.github.gdrfgdrf.cuteframework.locale.LanguageString;
 import io.github.gdrfgdrf.cuteframework.locale.base.LanguageCollect;
 
 /**
- * @description 异常信息语言汇总类
+ * 异常信息语言汇总类
  * @author gdrfgdrf
- * @since 2024/4/17
+ * @since v1_0_0_20240525_RELEASE
  */
 public class ExceptionLanguage implements LanguageCollect {
     public static LanguageString BEAN_METHOD_ARGUMENT_TYPE_MISMATCH;

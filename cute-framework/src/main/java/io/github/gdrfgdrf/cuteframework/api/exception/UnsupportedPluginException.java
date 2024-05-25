@@ -25,9 +25,9 @@ import lombok.Getter;
 import java.io.File;
 
 /**
- * @description 不支持的插件，当插件描述文件中的 api-version 加载时被解析为 {@link VersionEnum#UNAVAILABLE} 时抛出
+ * 不支持的插件，当插件描述文件中的 api-version 加载时被解析为 {@link VersionEnum#UNAVAILABLE} 时抛出
  * @author gdrfgdrf
- * @since 2024/5/5
+ * @since v1_0_0_20240525_RELEASE
  */
 @Getter
 @AllArgsConstructor

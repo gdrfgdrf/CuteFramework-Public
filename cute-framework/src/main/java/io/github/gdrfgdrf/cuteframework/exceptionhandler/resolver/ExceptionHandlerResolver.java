@@ -26,9 +26,9 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
 /**
- * @description 解析所有 Bean 中拥有 {@link ExceptionHandler} 的所有方法，并将其注册到 {@link ExceptionDispatcher}
+ * 解析所有 Bean 中拥有 {@link ExceptionHandler} 的所有方法，并将其注册到 {@link ExceptionDispatcher}
  * @author gdrfgdrf
- * @since 2024/5/4
+ * @since v1_0_0_20240525_RELEASE
  */
 @BeanMethodResolverAnnotation(targetMethodAnnotation = ExceptionHandler.class)
 public class ExceptionHandlerResolver extends BeanMethodResolver {

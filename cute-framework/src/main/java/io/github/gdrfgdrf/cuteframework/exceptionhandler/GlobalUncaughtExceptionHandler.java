@@ -19,9 +19,9 @@ package io.github.gdrfgdrf.cuteframework.exceptionhandler;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * @description 全局异常捕获器，当异常没有被 try ... catch 捕获时，将会被该捕获器捕获
+ * 全局异常捕获器，当异常没有被 try ... catch 捕获时，将会被该捕获器捕获
  * @author gdrfgdrf
- * @since 2024/4/7
+ * @since v1_0_0_20240525_RELEASE
  */
 @Slf4j
 public class GlobalUncaughtExceptionHandler implements Thread.UncaughtExceptionHandler {
@@ -30,11 +30,11 @@ public class GlobalUncaughtExceptionHandler implements Thread.UncaughtExceptionH
     private GlobalUncaughtExceptionHandler() {}
 
     /**
-     * @description 单例模式，获取 {@link GlobalUncaughtExceptionHandler} 实例
+     * 单例模式，获取 {@link GlobalUncaughtExceptionHandler} 实例
      * @return io.github.gdrfgdrf.cuteframework.exceptionhandler.GlobalUncaughtExceptionHandler
      *         {@link GlobalUncaughtExceptionHandler} 实例
      * @author gdrfgdrf
-     * @since 2024/5/10
+     * @since v1_0_0_20240525_RELEASE
      */
     public static GlobalUncaughtExceptionHandler getInstance() {
         if (INSTANCE == null) {
@@ -44,22 +44,22 @@ public class GlobalUncaughtExceptionHandler implements Thread.UncaughtExceptionH
     }
 
     /**
-     * @description 初始化该类，将该类注册为全局异常捕获器
+     * 初始化该类，将该类注册为全局异常捕获器
      * @author gdrfgdrf
-     * @since 2024/5/10
+     * @since v1_0_0_20240525_RELEASE
      */
     public void initialize() {
         Thread.setDefaultUncaughtExceptionHandler(this);
     }
 
     /**
-     * @description 发送给 {@link ExceptionDispatcher} 以分发异常到异常处理方法
+     * 发送给 {@link ExceptionDispatcher} 以分发异常到异常处理方法
      * @param t
 	 *        异常所在线程
 	 * @param e
 	 *        异常实例
      * @author gdrfgdrf
-     * @since 2024/5/4
+     * @since v1_0_0_20240525_RELEASE
      */
     @Override
     public void uncaughtException(Thread t, Throwable e) {

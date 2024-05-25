@@ -30,9 +30,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 
 /**
- * @description 插件管理器
+ * 插件管理器
  * @author gdrfgdrf
- * @since 2024/5/2
+ * @since v1_0_0_20240525_RELEASE
  */
 public class PluginManager {
     private static PluginManager INSTANCE;
@@ -49,11 +49,11 @@ public class PluginManager {
     private PluginManager() {}
 
     /**
-     * @description 单例模式，获取 {@link PluginManager} 实例
+     * 单例模式，获取 {@link PluginManager} 实例
      * @return io.github.gdrfgdrf.cuteframework.api.PluginManager
      *         {@link PluginManager} 实例
      * @author gdrfgdrf
-     * @since 2024/5/2
+     * @since v1_0_0_20240525_RELEASE
      */
     public static PluginManager getInstance() {
         if (INSTANCE == null) {
@@ -63,7 +63,7 @@ public class PluginManager {
     }
 
     /**
-     * @description 注册插件，此时插件将会被设置为 {@link PluginState#REGISTERED} 状态
+     * 注册插件，此时插件将会被设置为 {@link PluginState#REGISTERED} 状态
      * @param name
 	 *        插件名
 	 * @param plugin
@@ -73,7 +73,7 @@ public class PluginManager {
      * @throws PluginNameConflictException
      *         先前已经有个一个同名的插件注册过时抛出
      * @author gdrfgdrf
-     * @since 2024/5/5
+     * @since v1_0_0_20240525_RELEASE
      */
     public void registerPlugin(String name, Plugin plugin) throws AssertNotNullException, PluginNameConflictException {
         AssertUtils.notNull("plugin name", name);
@@ -92,13 +92,13 @@ public class PluginManager {
     }
 
     /**
-     * @description 移除插件
+     * 移除插件
      * @param name
 	 *        插件名
      * @throws AssertNotNullException
      *         当 name 为 null 时抛出
      * @author gdrfgdrf
-     * @since 2024/5/5
+     * @since v1_0_0_20240525_RELEASE
      */
     public void unregisterPlugin(String name) throws AssertNotNullException {
         AssertUtils.notNull("plugin name", name);
@@ -117,7 +117,7 @@ public class PluginManager {
     }
 
     /**
-     * @description 查询插件是否注册
+     * 查询插件是否注册
      * @param name
 	 *        插件名
      * @return boolean
@@ -125,7 +125,7 @@ public class PluginManager {
      * @throws AssertNotNullException
      *         当 name 为 null 时抛出
      * @author gdrfgdrf
-     * @since 2024/5/5
+     * @since v1_0_0_20240525_RELEASE
      */
     public boolean isPluginRegistered(String name) throws AssertNotNullException {
         AssertUtils.notNull("plugin name", name);
@@ -133,7 +133,7 @@ public class PluginManager {
     }
 
     /**
-     * @description 获取插件状态
+     * 获取插件状态
      * @param name
 	 *        插件名
      * @return io.github.gdrfgdrf.cuteframework.api.common.PluginState
@@ -141,7 +141,7 @@ public class PluginManager {
      * @throws AssertNotNullException
      *         当 name 为 null 时抛出
      * @author gdrfgdrf
-     * @since 2024/5/5
+     * @since v1_0_0_20240525_RELEASE
      */
     public PluginState getPluginState(String name) throws AssertNotNullException {
         Plugin plugin = getPlugin(name);
@@ -151,7 +151,7 @@ public class PluginManager {
     }
 
     /**
-     * @description 获取插件状态
+     * 获取插件状态
      * @param plugin
 	 *        插件主类实例
      * @return io.github.gdrfgdrf.cuteframework.api.common.PluginState
@@ -159,7 +159,7 @@ public class PluginManager {
      * @throws AssertNotNullException
      *         当 plugin 为 null 时抛出
      * @author gdrfgdrf
-     * @since 2024/5/5
+     * @since v1_0_0_20240525_RELEASE
      */
     public PluginState getPluginState(Plugin plugin) throws AssertNotNullException {
         AssertUtils.notNull("plugin main class instance", plugin);
@@ -167,89 +167,89 @@ public class PluginManager {
     }
 
     /**
-     * @description 启用插件
+     * 启用插件
      * @param name
 	 *        插件名
      * @author gdrfgdrf
-     * @since 2024/5/5
+     * @since v1_0_0_20240525_RELEASE
      */
     public void enablePlugin(String name) throws AssertNotNullException, PluginIllegalStateChangeException {
         updatePluginState(name, PluginState.ENABLED, Plugin::onEnable);
     }
 
     /**
-     * @description 将所有能更新到 {@link PluginState#ENABLED} 的插件更新到 {@link PluginState#ENABLED} 状态
+     * 将所有能更新到 {@link PluginState#ENABLED} 的插件更新到 {@link PluginState#ENABLED} 状态
      * @author gdrfgdrf
-     * @since 2024/5/18
+     * @since v1_0_0_20240525_RELEASE
      */
     public void enableAllPlugin() throws AssertNotNullException {
         updateAllPluginState(PluginState.ENABLED, Plugin::onEnable);
     }
 
     /**
-     * @description 加载插件
+     * 加载插件
      * @param name
 	 *        插件名
      * @author gdrfgdrf
-     * @since 2024/5/5
+     * @since v1_0_0_20240525_RELEASE
      */
     public void loadPlugin(String name) throws AssertNotNullException, PluginIllegalStateChangeException {
         updatePluginState(name, PluginState.LOADED, Plugin::onLoad);
     }
 
     /**
-     * @description 将所有能更新到 {@link PluginState#LOADED} 的插件更新到 {@link PluginState#LOADED} 状态
+     * 将所有能更新到 {@link PluginState#LOADED} 的插件更新到 {@link PluginState#LOADED} 状态
      * @author gdrfgdrf
-     * @since 2024/5/18
+     * @since v1_0_0_20240525_RELEASE
      */
     public void loadAllPlugin() throws AssertNotNullException {
         updateAllPluginState(PluginState.LOADED, Plugin::onLoad);
     }
 
     /**
-     * @description 停止插件
+     * 停止插件
      * @param name
 	 *        插件名
      * @author gdrfgdrf
-     * @since 2024/5/5
+     * @since v1_0_0_20240525_RELEASE
      */
     public void stopPlugin(String name) throws AssertNotNullException, PluginIllegalStateChangeException {
         updatePluginState(name, PluginState.STOPPED, Plugin::onStop);
     }
 
     /**
-     * @description 将所有能更新到 {@link PluginState#STOPPED} 的插件更新到 {@link PluginState#STOPPED} 状态
+     * 将所有能更新到 {@link PluginState#STOPPED} 的插件更新到 {@link PluginState#STOPPED} 状态
      * @author gdrfgdrf
-     * @since 2024/5/18
+     * @since v1_0_0_20240525_RELEASE
      */
     public void stopAllPlugin() throws AssertNotNullException {
         updateAllPluginState(PluginState.STOPPED, Plugin::onStop);
     }
 
     /**
-     * @description 禁用插件
+     * 禁用插件
      * @param name
 	 *        插件名
      * @throws AssertNotNullException
      *         当 name 为 null 时抛出
      * @author gdrfgdrf
-     * @since 2024/5/5
+     * @since v1_0_0_20240525_RELEASE
      */
     public void disablePlugin(String name) throws AssertNotNullException, PluginIllegalStateChangeException {
         updatePluginState(name, PluginState.DISABLED, Plugin::onDisable);
     }
 
     /**
-     * @description 将所有能更新到 {@link PluginState#DISABLED} 的插件更新到 {@link PluginState#DISABLED} 状态
+     * 将所有能更新到 {@link PluginState#DISABLED} 的插件更新到 {@link PluginState#DISABLED} 状态
      * @author gdrfgdrf
-     * @since 2024/5/18
+     * @since v1_0_0_20240525_RELEASE
      */
     public void disableAllPlugin() throws AssertNotNullException {
         updateAllPluginState(PluginState.DISABLED, Plugin::onDisable);
     }
 
     /**
-     * @description 调用插件主类的方法并更新到对应的插件状态
+     * 调用插件主类的方法并更新到对应的插件状态
      * @param name
 	 *        插件名
 	 * @param targetState
@@ -261,7 +261,7 @@ public class PluginManager {
      * @throws PluginIllegalStateChangeException
      *         异常的状态变化顺序
      * @author gdrfgdrf
-     * @since 2024/5/5
+     * @since v1_0_0_20240525_RELEASE
      */
     private void updatePluginState(
             String name,
@@ -297,7 +297,7 @@ public class PluginManager {
     }
 
     /**
-     * @description 更新全部能够更新状态的插件到指定状态，将会过滤出能过滤到指定状态的插件，并改变其状态
+     * 更新全部能够更新状态的插件到指定状态，将会过滤出能过滤到指定状态的插件，并改变其状态
      * @param targetState
 	 *        需要更新到的插件状态
 	 * @param consumer
@@ -305,7 +305,7 @@ public class PluginManager {
      * @throws AssertNotNullException
      *         当 targetState 或 consumer 为 null 时抛出
      * @author gdrfgdrf
-     * @since 2024/5/18
+     * @since v1_0_0_20240525_RELEASE
      */
     private void updateAllPluginState(
             PluginState targetState,
@@ -324,7 +324,7 @@ public class PluginManager {
     }
 
     /**
-     * @description 获取插件
+     * 获取插件
      * @param name
 	 *        插件名
      * @return io.github.gdrfgdrf.cuteframework.api.base.Plugin
@@ -332,7 +332,7 @@ public class PluginManager {
      * @throws AssertNotNullException
      *         当 name 为 null 时抛出
      * @author gdrfgdrf
-     * @since 2024/5/5
+     * @since v1_0_0_20240525_RELEASE
      */
     public Plugin getPlugin(String name) throws AssertNotNullException {
         AssertUtils.notNull("plugin name", name);
@@ -340,22 +340,22 @@ public class PluginManager {
     }
 
     /**
-     * @description 获取所有插件
+     * 获取所有插件
      * @return java.util.Map<java.lang.String,io.github.gdrfgdrf.cuteframework.api.base.Plugin>
      *         插件映射表
      * @author gdrfgdrf
-     * @since 2024/5/5
+     * @since v1_0_0_20240525_RELEASE
      */
     public Map<String, Plugin> getPlugins() {
         return PLUGIN_MAP;
     }
 
     /**
-     * @description 获取所有插件状态
+     * 获取所有插件状态
      * @return java.util.Map<io.github.gdrfgdrf.cuteframework.api.base.Plugin,io.github.gdrfgdrf.cuteframework.api.common.PluginState>
      *         插件状态映射表
      * @author gdrfgdrf
-     * @since 2024/5/5
+     * @since v1_0_0_20240525_RELEASE
      */
     public Map<Plugin, PluginState> getPluginStates() {
         return PLUGIN_STATE_MAP;

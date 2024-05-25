@@ -25,9 +25,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * @description 插件事件
+ * 插件事件
  * @author gdrfgdrf
- * @since 2024/5/5
+ * @since v1_0_0_20240525_RELEASE
  */
 @Getter
 @AllArgsConstructor
@@ -38,7 +38,7 @@ public abstract class PluginEvent {
     private final Plugin plugin;
 
     /**
-     * @description 插件主类加载错误事件，此时 {@link PluginEvent#plugin} 为 null，
+     * 插件主类加载错误事件，此时 {@link PluginEvent#plugin} 为 null，
      * 若已经成功加载的插件想要接收该事件
      * 则需要手动的去调用 {@link EventManager#registerAsynchronous(Object)}，
      * 不建议对已经拥有 {@link EventListener} 注解的类
@@ -48,7 +48,7 @@ public abstract class PluginEvent {
      * 去调用 {@link EventManager#registerAsynchronous(Object)}
      *
      * @author gdrfgdrf
-     * @since 2024/5/18
+     * @since v1_0_0_20240525_RELEASE
      */
     @Getter
     public static class LoadError extends PluginEvent {
@@ -64,9 +64,9 @@ public abstract class PluginEvent {
     }
 
     /**
-     * @description 插件被注册事件
+     * 插件被注册事件
      * @author gdrfgdrf
-     * @since 2024/5/5
+     * @since v1_0_0_20240525_RELEASE
      */
     public static abstract class Registered extends PluginEvent {
         public Registered(Plugin plugin) {
@@ -74,9 +74,9 @@ public abstract class PluginEvent {
         }
 
         /**
-         * @description 插件被注册前事件
+         * 插件被注册前事件
          * @author gdrfgdrf
-         * @since 2024/5/5
+         * @since v1_0_0_20240525_RELEASE
          */
         public static class Pre extends Registered {
             public Pre(Plugin plugin) {
@@ -85,9 +85,9 @@ public abstract class PluginEvent {
         }
 
         /**
-         * @description 插件被注册后事件
+         * 插件被注册后事件
          * @author gdrfgdrf
-         * @since 2024/5/5
+         * @since v1_0_0_20240525_RELEASE
          */
         public static class Post extends Registered {
             public Post(Plugin plugin) {
@@ -97,9 +97,9 @@ public abstract class PluginEvent {
     }
 
     /**
-     * @description 插件被移除事件
+     * 插件被移除事件
      * @author gdrfgdrf
-     * @since 2024/5/5
+     * @since v1_0_0_20240525_RELEASE
      */
     public static abstract class Unregistered extends PluginEvent {
         public Unregistered(Plugin plugin) {
@@ -107,9 +107,9 @@ public abstract class PluginEvent {
         }
 
         /**
-         * @description 插件被移除前事件
+         * 插件被移除前事件
          * @author gdrfgdrf
-         * @since 2024/5/5
+         * @since v1_0_0_20240525_RELEASE
          */
         public static class Pre extends Unregistered {
             public Pre(Plugin plugin) {
@@ -118,9 +118,9 @@ public abstract class PluginEvent {
         }
 
         /**
-         * @description 插件被移除后事件
+         * 插件被移除后事件
          * @author gdrfgdrf
-         * @since 2024/5/5
+         * @since v1_0_0_20240525_RELEASE
          */
         public static class Post extends Unregistered {
             public Post(Plugin plugin) {
@@ -130,9 +130,9 @@ public abstract class PluginEvent {
     }
 
     /**
-     * @description 插件状态变化事件
+     * 插件状态变化事件
      * @author gdrfgdrf
-     * @since 2024/5/5
+     * @since v1_0_0_20240525_RELEASE
      */
     @Getter
     public static abstract class StateChange extends PluginEvent {
@@ -152,9 +152,9 @@ public abstract class PluginEvent {
         }
 
         /**
-         * @description 插件状态变化前事件
+         * 插件状态变化前事件
          * @author gdrfgdrf
-         * @since 2024/5/5
+         * @since v1_0_0_20240525_RELEASE
          */
         public static class Pre extends StateChange {
             public Pre(Plugin plugin, PluginState targetPluginState, PluginState previousState) {
@@ -163,9 +163,9 @@ public abstract class PluginEvent {
         }
 
         /**
-         * @description 插件状态变化后事件
+         * 插件状态变化后事件
          * @author gdrfgdrf
-         * @since 2024/5/5
+         * @since v1_0_0_20240525_RELEASE
          */
         public static class Post extends StateChange {
             public Post(Plugin plugin, PluginState targetPluginState, PluginState previousState) {

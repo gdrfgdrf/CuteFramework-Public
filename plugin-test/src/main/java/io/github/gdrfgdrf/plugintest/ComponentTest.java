@@ -22,7 +22,7 @@ import io.github.gdrfgdrf.cuteframework.exceptionhandler.annotation.ExceptionHan
 /**
  * @description
  * @author gdrfgdrf
- * @since 2024/5/6
+ * @since v1_0_0_20240525_RELEASE
  */
 @Component
 public class ComponentTest {

@@ -22,15 +22,15 @@ import io.github.gdrfgdrf.cuteframework.exceptionhandler.annotation.ExceptionHan
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * @description 事件异常处理器
+ * 事件异常处理器
  * @author gdrfgdrf
- * @since 2024/4/24
+ * @since v1_0_0_20240525_RELEASE
  */
 @Slf4j
 @Component
 public class DefaultEventExceptionHandler {
     /**
-     * @description 异常处理方法，当事件处理出现异常时，
+     * 异常处理方法，当事件处理出现异常时，
      * 会被 {@link EventExceptionHandler} 捕获并分发到该方法
      *
      * @param thread
@@ -38,7 +38,7 @@ public class DefaultEventExceptionHandler {
 	 * @param eventException
 	 *        异常实例
      * @author gdrfgdrf
-     * @since 2024/5/4
+     * @since v1_0_0_20240525_RELEASE
      */
     @ExceptionHandler(support = EventException.class)
     public static void handle(Thread thread, EventException eventException) {

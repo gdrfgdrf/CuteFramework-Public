@@ -23,15 +23,15 @@ import io.github.gdrfgdrf.cuteframework.utils.asserts.exception.AssertNotNullExc
 import java.lang.reflect.Array;
 
 /**
- * @description 断言工具类，断言失败时抛出 {@link AssertErrorException}
+ * 断言工具类，断言失败时抛出 {@link AssertErrorException}
  * @author gdrfgdrf
- * @since 2024/4/8
+ * @since v1_0_0_20240525_RELEASE
  */
 public class AssertUtils {
     private AssertUtils() {}
 
     /**
-     * @description 表达式是否满足，若不满足则抛出指定的错误
+     * 表达式是否满足，若不满足则抛出指定的错误
      * @param expression
 	 *        表达式
 	 * @param throwable
@@ -39,7 +39,7 @@ public class AssertUtils {
      * @throws T
      *         不满足抛出的错误
      * @author gdrfgdrf
-     * @since 2024/5/25
+     * @since v1_0_0_20240525_RELEASE
      */
     public static <T extends Throwable> void expression(boolean expression, T throwable) throws T {
         if (!expression) {
@@ -48,7 +48,7 @@ public class AssertUtils {
     }
 
     /**
-     * @description 某个实例是否为 null，为 null 则抛出 {@link AssertNotNullException}
+     * 某个实例是否为 null，为 null 则抛出 {@link AssertNotNullException}
      * @param parameterName
 	 *        实例名
 	 * @param o
@@ -56,7 +56,7 @@ public class AssertUtils {
      * @throws AssertNotNullException
      *         实例为 null 时抛出
      * @author gdrfgdrf
-     * @since 2024/5/25
+     * @since v1_0_0_20240525_RELEASE
      */
     public static void notNull(String parameterName, Object o) throws AssertNotNullException {
         if (o == null) {
@@ -65,7 +65,7 @@ public class AssertUtils {
     }
 
     /**
-     * @description 检查数组的长度是否大于等于某个数，若小于某个数则抛出 {@link AssertArrayLengthMismatchException}
+     * 检查数组的长度是否大于等于某个数，若小于某个数则抛出 {@link AssertArrayLengthMismatchException}
      * @param parameterName
 	 *        数组名
 	 * @param array
@@ -75,7 +75,7 @@ public class AssertUtils {
      * @throws AssertArrayLengthMismatchException
      *         数组小于指定的长度时抛出
      * @author gdrfgdrf
-     * @since 2024/5/25
+     * @since v1_0_0_20240525_RELEASE
      */
     public static void arrayMin(String parameterName, Object array, int length) throws AssertArrayLengthMismatchException {
         if (Array.getLength(array) < length) {

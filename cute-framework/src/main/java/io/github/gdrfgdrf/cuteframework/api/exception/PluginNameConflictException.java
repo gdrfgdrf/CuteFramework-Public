@@ -24,11 +24,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * @description 当拥有相同名称的插件尝试注册到 {@link PluginManager} 时抛出，
+ * 当拥有相同名称的插件尝试注册到 {@link PluginManager} 时抛出，
  * 此时将会放弃注册后来的插件，保留前来的插件
  *
  * @author gdrfgdrf
- * @since 2024/5/5
+ * @since v1_0_0_20240525_RELEASE
  */
 @Getter
 @AllArgsConstructor

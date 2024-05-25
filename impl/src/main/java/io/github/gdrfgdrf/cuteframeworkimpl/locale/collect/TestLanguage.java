@@ -22,7 +22,7 @@ import io.github.gdrfgdrf.cuteframework.locale.base.LanguageCollect;
 /**
  * @description
  * @author gdrfgdrf
- * @since 2024/5/22
+ * @since v1_0_0_20240525_RELEASE
  */
 public class TestLanguage implements LanguageCollect {
     public static LanguageString TEST_LANGUAGE;

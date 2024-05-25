@@ -21,9 +21,9 @@ import io.github.gdrfgdrf.cuteframework.exceptionhandler.annotation.Undispatchab
 import lombok.Getter;
 
 /**
- * @description 异常事件
+ * 异常事件
  * @author gdrfgdrf
- * @since 2024/5/6
+ * @since v1_0_0_20240525_RELEASE
  */
 @Getter
 public abstract class ExceptionEvent {
@@ -42,13 +42,13 @@ public abstract class ExceptionEvent {
     }
 
     /**
-     * @description 无法被分发的异常被抛出，
+     * 无法被分发的异常被抛出，
      * 所有拥有的 {@link Undispatchable} 注解的异常类
      * 都不会被 {@link ExceptionDispatcher} 分发，
      * 但是会发布该事件说明有无法被分发的异常被抛出，
      *
      * @author gdrfgdrf
-     * @since 2024/5/6
+     * @since v1_0_0_20240525_RELEASE
      */
     public static class UndispatchableExceptionThrownEvent extends ExceptionEvent {
         public UndispatchableExceptionThrownEvent(Thread thread, Throwable throwable) {

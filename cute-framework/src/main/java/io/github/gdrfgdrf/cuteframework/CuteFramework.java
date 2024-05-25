@@ -32,19 +32,19 @@ import io.github.gdrfgdrf.cuteframework.utils.stack.common.MethodInformation;
 import java.io.IOException;
 
 /**
- * @description 核心主程序，该程序可以直接初始化类，同时部分方法也只允许该类调用
+ * 核心主程序，该程序可以直接初始化类，同时部分方法也只允许该类调用
  * @author gdrfgdrf
- * @since 2024/5/18
+ * @since v1_0_0_20240525_RELEASE
  */
 public class CuteFramework {
     /**
-     * @description 开始初始化，该方法将会分析堆栈调用以寻找调用该方法的类，
+     * 开始初始化，该方法将会分析堆栈调用以寻找调用该方法的类，
      * 当 Bean 创建流程开始时，将会在核心 Bean 加载完成后加载那个类所在的包名下的所有 Bean 类
      *
      * @throws Exception
      *         初始化错误
      * @author gdrfgdrf
-     * @since 2024/5/18
+ * @since v1_0_0_20240525_RELEASE
      */
     public static void run() throws Exception {
         GlobalUncaughtExceptionHandler.getInstance().initialize();
@@ -68,11 +68,11 @@ public class CuteFramework {
     }
 
     /**
-     * @description 加载框架语言
+     * 加载框架语言
      * @param language
 	 *        语言
      * @author gdrfgdrf
-     * @since 2024/5/22
+     * @since v1_0_0_20240525_RELEASE
      */
     private static void loadCuteframeworkLanguage(String language) throws
             AssertNotNullException,
@@ -90,13 +90,13 @@ public class CuteFramework {
     }
 
     /**
-     * @description 分析堆栈以获取调用 {@link CuteFramework#run()} 方法的类
+     * 分析堆栈以获取调用 {@link CuteFramework#run()} 方法的类
      * @throws ClassNotFoundException
      *         找不到调用 {@link CuteFramework#run()} 的类
      * @return java.lang.Class<?>
      *         调用 {@link CuteFramework#run()} 方法的类
      * @author gdrfgdrf
-     * @since 2024/5/18
+     * @since v1_0_0_20240525_RELEASE
      */
     private static Class<?> getMainApplicationClass() throws ClassNotFoundException {
         MethodInformation caller = StackUtils.getCaller(2);

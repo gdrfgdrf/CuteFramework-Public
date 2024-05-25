@@ -27,9 +27,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @description jackson 的 json 序列化工具类
+ * jackson 的 json 序列化工具类
  * @author gdrfgdrf
- * @since 2024/4/12
+ * @since v1_0_0_20240525_RELEASE
  */
 @SuppressWarnings("unchecked")
 public class JacksonUtils {
@@ -38,7 +38,7 @@ public class JacksonUtils {
     private JacksonUtils() {}
 
     /**
-     * @description 将 Json 字符串反序列化为对象
+     * 将 Json 字符串反序列化为对象
      * @param jsonString
 	 *        Json 字符串
 	 * @param type
@@ -48,14 +48,14 @@ public class JacksonUtils {
      * @throws JsonProcessingException
      *         反序列化错误
      * @author gdrfgdrf
-     * @since 2024/5/25
+     * @since v1_0_0_20240525_RELEASE
      */
     public static <T> T readString(String jsonString, Class<?> type) throws JsonProcessingException {
         return (T) MAPPER_INSTANCE.readValue(jsonString, type);
     }
 
     /**
-     * @description 将 Json 文件反序列化为对象
+     * 将 Json 文件反序列化为对象
      * @param file
      *        Json 文件
      * @param type
@@ -65,14 +65,14 @@ public class JacksonUtils {
      * @throws JsonProcessingException
      *         反序列化错误
      * @author gdrfgdrf
-     * @since 2024/5/25
+     * @since v1_0_0_20240525_RELEASE
      */
     public static <T> T readFile(File file, Class<?> type) throws IOException {
         return (T) MAPPER_INSTANCE.readValue(file, type);
     }
 
     /**
-     * @description 将输入流反序列化为对象
+     * 将输入流反序列化为对象
      * @param inputStream
      *        输入流
      * @param type
@@ -82,14 +82,14 @@ public class JacksonUtils {
      * @throws JsonProcessingException
      *         反序列化错误
      * @author gdrfgdrf
-     * @since 2024/5/25
+     * @since v1_0_0_20240525_RELEASE
      */
     public static <T> T readInputStream(InputStream inputStream, Class<?> type) throws IOException {
         return (T) MAPPER_INSTANCE.readValue(inputStream, type);
     }
 
     /**
-     * @description 将字节反序列化为对象
+     * 将字节反序列化为对象
      * @param bytes
      *        字节
      * @param type
@@ -99,27 +99,27 @@ public class JacksonUtils {
      * @throws JsonProcessingException
      *         反序列化错误
      * @author gdrfgdrf
-     * @since 2024/5/25
+     * @since v1_0_0_20240525_RELEASE
      */
     public static <T> T readBytes(byte[] bytes, Class<?> type) throws IOException {
         return (T) MAPPER_INSTANCE.readValue(bytes, type);
     }
 
     /**
-     * @description 新建一个可操作的 Json 对象实例
+     * 新建一个可操作的 Json 对象实例
      * @return com.fasterxml.jackson.databind.node.ObjectNode
      *         可操作的 Json 对象实例
      * @throws JsonProcessingException
      *         反序列化错误
      * @author gdrfgdrf
-     * @since 2024/5/25
+     * @since v1_0_0_20240525_RELEASE
      */
     public static ObjectNode newTree() throws JsonProcessingException {
         return (ObjectNode) MAPPER_INSTANCE.readTree("{}");
     }
 
     /**
-     * @description 反序列化 Json 字符串为 {@link SuperJsonNode}
+     * 反序列化 Json 字符串为 {@link SuperJsonNode}
      * @param jsonString
      *        Json 字符串
      * @return io.github.gdrfgdrf.cuteframework.utils.jackson.SuperJsonNode
@@ -127,14 +127,14 @@ public class JacksonUtils {
      * @throws JsonProcessingException
      *         反序列化错误
      * @author gdrfgdrf
-     * @since 2024/5/25
+     * @since v1_0_0_20240525_RELEASE
      */
     public static SuperJsonNode readStringTree(String jsonString) throws JsonProcessingException {
         return new SuperJsonNode(MAPPER_INSTANCE.readTree(jsonString));
     }
 
     /**
-     * @description 反序列化 Json 文件为 {@link SuperJsonNode}
+     * 反序列化 Json 文件为 {@link SuperJsonNode}
      * @param file
      *        Json 文件
      * @return io.github.gdrfgdrf.cuteframework.utils.jackson.SuperJsonNode
@@ -142,14 +142,14 @@ public class JacksonUtils {
      * @throws JsonProcessingException
      *         反序列化错误
      * @author gdrfgdrf
-     * @since 2024/5/25
+     * @since v1_0_0_20240525_RELEASE
      */
     public static SuperJsonNode readFileTree(File file) throws IOException {
         return new SuperJsonNode(MAPPER_INSTANCE.readTree(file));
     }
 
     /**
-     * @description 反序列化输入流为 {@link SuperJsonNode}
+     * 反序列化输入流为 {@link SuperJsonNode}
      * @param inputStream
      *        输入流
      * @return io.github.gdrfgdrf.cuteframework.utils.jackson.SuperJsonNode
@@ -157,14 +157,14 @@ public class JacksonUtils {
      * @throws JsonProcessingException
      *         反序列化错误
      * @author gdrfgdrf
-     * @since 2024/5/25
+     * @since v1_0_0_20240525_RELEASE
      */
     public static SuperJsonNode readInputStreamTree(InputStream inputStream) throws IOException {
         return new SuperJsonNode(MAPPER_INSTANCE.readTree(inputStream));
     }
 
     /**
-     * @description 反序列化字节为 {@link SuperJsonNode}
+     * 反序列化字节为 {@link SuperJsonNode}
      * @param bytes
      *        字节
      * @return io.github.gdrfgdrf.cuteframework.utils.jackson.SuperJsonNode
@@ -172,14 +172,14 @@ public class JacksonUtils {
      * @throws JsonProcessingException
      *         反序列化错误
      * @author gdrfgdrf
-     * @since 2024/5/25
+     * @since v1_0_0_20240525_RELEASE
      */
     public static SuperJsonNode readBytes(byte[] bytes) throws IOException {
         return new SuperJsonNode(MAPPER_INSTANCE.readTree(bytes));
     }
 
     /**
-     * @description 将数组类型的 Json 字符串转为列表对象
+     * 将数组类型的 Json 字符串转为列表对象
      * @param jsonString
 	 *        数组类型的 Json 字符串
 	 * @param E
@@ -189,7 +189,7 @@ public class JacksonUtils {
      * @throws JsonProcessingException
      *         反序列化错误
      * @author gdrfgdrf
-     * @since 2024/5/25
+     * @since v1_0_0_20240525_RELEASE
      */
     public static <E> List<E> toList(String jsonString, Class<E> E) throws JsonProcessingException {
         List<E> result = new ArrayList<>();
@@ -205,7 +205,7 @@ public class JacksonUtils {
     }
 
     /**
-     * @description 将对象转为 Json 字符串
+     * 将对象转为 Json 字符串
      * @param obj
 	 *        对象
      * @return java.lang.String
@@ -213,7 +213,7 @@ public class JacksonUtils {
      * @throws JsonProcessingException
      *         序列化错误
      * @author gdrfgdrf
-     * @since 2024/5/25
+     * @since v1_0_0_20240525_RELEASE
      */
     public static String writeJsonString(Object obj) throws JsonProcessingException {
         return MAPPER_INSTANCE.writeValueAsString(obj);

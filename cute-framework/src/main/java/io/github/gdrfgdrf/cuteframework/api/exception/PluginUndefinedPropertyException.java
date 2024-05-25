@@ -24,9 +24,9 @@ import lombok.Getter;
 import java.io.File;
 
 /**
- * @description 当插件的 plugin.json 中有必要的属性未定义时抛出
+ * 当插件的 plugin.json 中有必要的属性未定义时抛出
  * @author gdrfgdrf
- * @since 2024/5/5
+ * @since v1_0_0_20240525_RELEASE
  */
 @Getter
 @AllArgsConstructor

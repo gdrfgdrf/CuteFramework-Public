@@ -29,7 +29,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @description 管理器基类，继承该类可实现自动化的获取需要实例化的类
+ * 管理器基类，继承该类可实现自动化的获取需要实例化的类
  * 其他单例模式的管理器例如 {@link BeanManager}，都不继承该类
  *
  * @param <T> 需要实例化的类，需要是一个接口或抽象类
@@ -37,19 +37,19 @@ import java.util.Map;
  *            这些类将会提供给 {@link BaseManager#instantiate(Class)} 进行实例化
  *
  * @author gdrfgdrf
- * @since 2024/4/6
+ * @since v1_0_0_20240525_RELEASE
  */
 @Slf4j
 public abstract class BaseManager<T, A extends Annotation> {
     private final Map<Class<? extends T>, T> T_INSTANCE_MAP = new HashMap<>();
 
     /**
-     * @description 获取 <A> 注解中方法 classes 的返回值，
+     * 获取 <A> 注解中方法 classes 的返回值，
      * 该返回值必须是一个数组形式的 <T> 的实现类或子类，
      * 并进行循环提供给 {@link BaseManager#instantiate(Class)} 进行实例化
      *
      * @author gdrfgdrf
-     * @since 2024/4/6
+     * @since v1_0_0_20240525_RELEASE
      */
     @SuppressWarnings("unchecked")
     protected void instantiate() {
@@ -72,22 +72,22 @@ public abstract class BaseManager<T, A extends Annotation> {
     }
 
     /**
-     * @description 实例化某个类
+     * 实例化某个类
      * @param clazz
 	 *        类对象
      * @author gdrfgdrf
-     * @since 2024/4/6
+     * @since v1_0_0_20240525_RELEASE
      */
     public abstract void instantiate(Class<? extends T> clazz);
 
     /**
-     * @description 对 <T> 进行的单例模式，保证一个 <T> 的实现类只能有一个实例
+     * 对 <T> 进行的单例模式，保证一个 <T> 的实现类只能有一个实例
      * @param clazz
 	 *        <T> 类
      * @return T
      *         <T> 对象
      * @author gdrfgdrf
-     * @since 2024/4/17
+     * @since v1_0_0_20240525_RELEASE
      */
     @SuppressWarnings("unchecked")
     protected T createInstance(Class<? extends T> clazz) throws

@@ -20,15 +20,15 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 
 /**
- * @description 文件工具类
+ * 文件工具类
  * @author gdrfgdrf
- * @since 2024/4/6
+ * @since v1_0_0_20240525_RELEASE
  */
 public class FileUtils {
     private FileUtils() {}
 
     /**
-     * @description 获取文件夹内所有的文件，若提供的文件不是一个文件夹则返回 null
+     * 获取文件夹内所有的文件，若提供的文件不是一个文件夹则返回 null
      * @param folder
 	 *        文件夹
 	 * @param fileFilter
@@ -36,7 +36,7 @@ public class FileUtils {
      * @return java.io.File[]
      *        文件夹内的文件，若提供的文件不是一个文件夹则返回 null
      * @author gdrfgdrf
-     * @since 2024/5/4
+     * @since v1_0_0_20240525_RELEASE
      */
     public static File[] getFiles(File folder, FileFilter fileFilter) {
         if (!folder.isDirectory()) {
@@ -49,13 +49,13 @@ public class FileUtils {
     }
 
     /**
-     * @description 获取文件后缀名
+     * 获取文件后缀名
      * @param file
 	 *        文件
      * @return java.lang.String
      *         文件后缀名，若提供的文件是一个文件夹则返回 null
      * @author gdrfgdrf
-     * @since 2024/5/4
+     * @since v1_0_0_20240525_RELEASE
      */
     public static String getExtension(File file) {
         if (!file.isFile()) {
@@ -67,7 +67,7 @@ public class FileUtils {
     }
 
     /**
-     * @description 以 UTF-8 编码获取文件读取器
+     * 以 UTF-8 编码获取文件读取器
      * @param file
 	 *        文件
      * @return java.io.Reader
@@ -75,14 +75,14 @@ public class FileUtils {
      * @throws FileNotFoundException
      *         没有找到文件
      * @author gdrfgdrf
-     * @since 2024/4/6
+     * @since v1_0_0_20240525_RELEASE
      */
     public static Reader getReader(File file) throws FileNotFoundException {
         return new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8));
     }
 
     /**
-     * @description 以 UTF-8 编码获取文件写入器
+     * 以 UTF-8 编码获取文件写入器
      * @param file
 	 *        文件
      * @return java.io.Writer
@@ -90,18 +90,18 @@ public class FileUtils {
      * @throws FileNotFoundException
      *         没有找到文件
      * @author gdrfgdrf
-     * @since 2024/4/6
+     * @since v1_0_0_20240525_RELEASE
      */
     public static Writer getWriter(File file) throws FileNotFoundException {
         return new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8));
     }
 
     /**
-     * @description 填充路径，保证一个路径的结尾一定是斜杠
+     * 填充路径，保证一个路径的结尾一定是斜杠
      * @param path
 	 *        路径
      * @author gdrfgdrf
-     * @since 2024/5/22
+     * @since v1_0_0_20240525_RELEASE
      */
     public static String formatPath(String path) {
         if (path.endsWith("/") || path.endsWith("\\")) {

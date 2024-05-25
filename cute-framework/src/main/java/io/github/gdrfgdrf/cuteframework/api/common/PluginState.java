@@ -23,11 +23,11 @@ import java.util.Objects;
 import java.util.function.Function;
 
 /**
- * @description 插件状态，
+ * 插件状态，
  * 若插件的状态变化顺序异常则抛出 {@link PluginIllegalStateChangeException}
  *
  * @author gdrfgdrf
- * @since 2024/5/5
+ * @since v1_0_0_20240525_RELEASE
  */
 public enum PluginState {
     /**
@@ -74,24 +74,24 @@ public enum PluginState {
     }
 
     /**
-     * @description 校验状态变化顺序是否异常
+     * 校验状态变化顺序是否异常
      * @param targetPluginState
 	 *        期望变化到的状态
      * @return boolean
      *         正常返回 true，异常返回 false
      * @author gdrfgdrf
-     * @since 2024/5/6
+     * @since v1_0_0_20240525_RELEASE
      */
     public boolean validate(PluginState targetPluginState) {
         return validator.apply(targetPluginState);
     }
 
     /**
-     * @description 插件状态变化合法性校验器，由于直接在枚举中写会报 Illegal forward reference 错误，故另写一个类存储
+     * 插件状态变化合法性校验器，由于直接在枚举中写会报 Illegal forward reference 错误，故另写一个类存储
      * 该类中存储的值的具体使用在 {@link PluginState}
      *
      * @author gdrfgdrf
-     * @since 2024/5/6
+     * @since v1_0_0_20240525_RELEASE
      */
     private static final class ValidatorCollection {
         public static final Function<PluginState, Boolean> REGISTERED_VALIDATOR =

@@ -22,7 +22,7 @@ import ch.qos.logback.core.pattern.color.ANSIConstants;
 import ch.qos.logback.core.pattern.color.ForegroundCompositeConverterBase;
 
 /**
- * @description 日志颜色
+ * 日志颜色
  * ERROR -> 粗体红色
  * WARN -> 黄色
  * INFO -> 绿色
@@ -31,7 +31,7 @@ import ch.qos.logback.core.pattern.color.ForegroundCompositeConverterBase;
  * DEFAULT -> {@link ANSIConstants#DEFAULT_FG}
  *
  * @author gdrfgdrf
- * @since 2024/4/6
+ * @since v1_0_0_20240525_RELEASE
  */
 public class LogColor extends ForegroundCompositeConverterBase<ILoggingEvent> {
     @Override

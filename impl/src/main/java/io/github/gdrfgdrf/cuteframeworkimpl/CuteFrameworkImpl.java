@@ -25,9 +25,9 @@ import com.google.common.eventbus.Subscribe;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * @description 程序主类
+ * 程序主类
  * @author gdrfgdrf
- * @since 2024/5/1
+ * @since v1_0_0_20240525_RELEASE
  */
 @Slf4j
 public class CuteFrameworkImpl {
@@ -36,11 +36,11 @@ public class CuteFrameworkImpl {
     private CuteFrameworkImpl() {}
 
     /**
-     * @description 单例模式，获取 {@link CuteFrameworkImpl} 实例
+     * 单例模式，获取 {@link CuteFrameworkImpl} 实例
      * @return io.github.gdrfgdrf.smartuploader.SmartUploader
      *         {@link CuteFrameworkImpl} 实例
      * @author gdrfgdrf
-     * @since 2024/5/1
+     * @since v1_0_0_20240525_RELEASE
      */
     public static CuteFrameworkImpl getInstance() {
         if (INSTANCE == null) {
@@ -54,11 +54,11 @@ public class CuteFrameworkImpl {
     }
 
     /**
-     * @description 程序开始运行
+     * 程序开始运行
      * @throws Exception
      *         程序出现未被捕获的错误，此时程序将会直接崩溃
      * @author gdrfgdrf
-     * @since 2024/5/4
+     * @since v1_0_0_20240525_RELEASE
      */
     public void run() throws Exception {
         EventManager.getInstance().registerAsynchronous(this);
