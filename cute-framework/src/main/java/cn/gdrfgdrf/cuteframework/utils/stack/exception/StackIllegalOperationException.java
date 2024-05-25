@@ -44,7 +44,12 @@ public class StackIllegalOperationException extends CustomException {
      */
     private final String protect;
 
-    public StackIllegalOperationException(String callerClassName, String caller, String protectClassName, String protect) {
+    public StackIllegalOperationException(
+            String callerClassName,
+            String caller,
+            String protectClassName,
+            String protect
+    ) {
         this.callerClassName = callerClassName;
         this.caller = caller;
         this.protectClassName = protectClassName;
@@ -61,6 +66,14 @@ public class StackIllegalOperationException extends CustomException {
 
     @Override
     public String getDefaultMessage() {
-        return "Method " + caller + " of " + callerClassName + " calls method " + protect + " of " + protectClassName + " illegally, and has terminated its caller's operation";
+        return "Method " +
+                caller +
+                " of " +
+                callerClassName +
+                " calls method " +
+                protect +
+                " of " +
+                protectClassName +
+                " illegally, and has terminated its caller's operation";
     }
 }

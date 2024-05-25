@@ -53,6 +53,10 @@ public class StackIllegalArgumentException extends CustomException {
 
     @Override
     public String getDefaultMessage() {
-        return "The " + protectMethodName + " method of class " + protectClassName + " needs to be protected, but provided the wrong argument and has terminated its caller's operation";
+        return "The " +
+                protectMethodName +
+                " method of class " +
+                protectClassName +
+                " needs to be protected, but provided the wrong argument and has terminated its caller's operation";
     }
 }
