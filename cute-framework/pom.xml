@@ -24,16 +24,7 @@
         <artifactId>cute-framework-root</artifactId>
         <version>1.0.0</version>
     </parent>
-
     <artifactId>cute-framework</artifactId>
-
-    <licenses>
-        <license>
-            <name>The Apache Software License, Version 2.0</name>
-            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
-            <distribution>repo</distribution>
-        </license>
-    </licenses>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -132,19 +123,6 @@
                 <configuration>
                     <jvmTarget>17</jvmTarget>
                 </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>license-maven-plugin</artifactId>
-                <version>2.4.0</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>aggregate-third-party-report</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>
