@@ -16,7 +16,7 @@
   -->
 
 <configuration scan="true" scanPeriod="60 seconds" debug="false">
-    <conversionRule conversionWord="color" converterClass="cn.gdrfgdrf.cuteframework.log.LogColor"/>
+    <conversionRule conversionWord="color" converterClass="io.github.gdrfgdrf.cuteframework.log.LogColor"/>
 
     <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">

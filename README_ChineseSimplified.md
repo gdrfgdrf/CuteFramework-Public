@@ -106,7 +106,7 @@ Bean 在实例化完成之后将会发送到该模块进行初始化。
 
 ### 复制的代码
 modified:
-- cn.gdrfgdrf.cuteframework.utils.TypeParameterMatcher
+- utils.io.github.gdrfgdrf.cuteframework.TypeParameterMatcher
     - io.netty.util.internal.TypeParameterMatcher of Netty
 
 开源协议
