@@ -32,7 +32,7 @@ public class Config {
     @JsonProperty(defaultValue = "chinese_simplified")
     private String language;
 
-    public void reset() {
-        this.language = "chinese_simplified";
+    public static void reset(Config config) {
+        config.language = "chinese_simplified";
     }
 }

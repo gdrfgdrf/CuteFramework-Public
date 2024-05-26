@@ -29,6 +29,7 @@ public class Constants {
     public static final String PLUGIN_FOLDER = "plugin/";
     public static final String PLUGIN_DESCRIPTION_FILE_NAME = "plugin.json";
 
+    public static final String CONFIG_FOLDER = "config/";
     public static final String CONFIG_FILE_NAME = "config.json";
 
 }

@@ -44,13 +44,17 @@ public class CuteFramework {
      * @throws Exception
      *         初始化错误
      * @author gdrfgdrf
- * @since v1_0_0_20240525_RELEASE
+     * @since v1_0_0_20240525_RELEASE
      */
     public static void run() throws Exception {
         GlobalUncaughtExceptionHandler.getInstance().initialize();
 
-        ConfigManager.getInstance().load(Constants.CONFIG_FILE_NAME);
-        Config config = ConfigManager.getInstance().getConfig();
+        Config config = ConfigManager.getInstance().load(
+                "cute-framework",
+                Constants.CONFIG_FILE_NAME,
+                Config.class
+        );
+        ConfigManager.getInstance().setConfig(config);
 
         loadCuteframeworkLanguage(config.getLanguage());
 

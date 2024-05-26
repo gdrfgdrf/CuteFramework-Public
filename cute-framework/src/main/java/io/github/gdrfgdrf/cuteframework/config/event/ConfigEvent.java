@@ -16,7 +16,6 @@
 
 package io.github.gdrfgdrf.cuteframework.config.event;
 
-import io.github.gdrfgdrf.cuteframework.config.common.Config;
 import lombok.Getter;
 
 import java.io.File;
@@ -28,10 +27,10 @@ import java.io.File;
  */
 @Getter
 public abstract class ConfigEvent {
-    public final Config config;
+    public final Object config;
     public final File configFile;
 
-    public ConfigEvent(Config config, File configFile) {
+    public ConfigEvent(Object config, File configFile) {
         this.config = config;
         this.configFile = configFile;
     }
@@ -42,7 +41,7 @@ public abstract class ConfigEvent {
      * @since v1_0_0_20240525_RELEASE
      */
     public static abstract class Load extends ConfigEvent {
-        public Load(Config config, File configFile) {
+        public Load(Object config, File configFile) {
             super(config, configFile);
         }
 
@@ -63,7 +62,7 @@ public abstract class ConfigEvent {
          * @since v1_0_0_20240525_RELEASE
          */
         public static class Post extends Load {
-            public Post(Config config, File configFile) {
+            public Post(Object config, File configFile) {
                 super(config, configFile);
             }
         }
@@ -75,18 +74,18 @@ public abstract class ConfigEvent {
      * @since v1_0_0_20240525_RELEASE
      */
     public static abstract class Save extends ConfigEvent {
-        public Save(Config config, File configFile) {
+        public Save(Object config, File configFile) {
             super(config, configFile);
         }
 
         public static class Pre extends Save {
-            public Pre(Config config, File configFile) {
+            public Pre(Object config, File configFile) {
                 super(config, configFile);
             }
         }
 
         public static class Post extends Save {
-            public Post(Config config, File configFile) {
+            public Post(Object config, File configFile) {
                 super(config, configFile);
             }
         }
