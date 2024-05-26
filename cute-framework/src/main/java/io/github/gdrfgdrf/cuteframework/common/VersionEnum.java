@@ -57,6 +57,13 @@ public enum VersionEnum {
             "20240525",
             PublishChannel.RELEASE
     ),
+    v1_1_0_20240526_RELEASE(
+            "1",
+            "1",
+            "0",
+            "20240526",
+            PublishChannel.RELEASE
+    ),
     /**
      * 不可用的版本，当插件所定义的核心版本在该枚举类中找不到时将返回该类
      */
@@ -75,7 +82,7 @@ public enum VersionEnum {
     /**
      * 当前的核心版本
      */
-    public static final VersionEnum CURRENT = VersionEnum.v1_0_0_20240525_RELEASE;
+    public static final VersionEnum CURRENT = VersionEnum.v1_1_0_20240526_RELEASE;
     /**
      * 完整的版本字符串
      */

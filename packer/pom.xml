@@ -22,7 +22,7 @@
     <parent>
         <groupId>io.github.gdrfgdrf</groupId>
         <artifactId>cute-framework-root</artifactId>
-        <version>v1.0.0.20240525_Release</version>
+        <version>v1.1.0.20240526_Release</version>
     </parent>
     <artifactId>cute-framework-packer</artifactId>
     <description>Packaging only</description>
@@ -62,7 +62,7 @@
         <dependency>
             <groupId>io.github.gdrfgdrf</groupId>
             <artifactId>cute-framework</artifactId>
-            <version>v1.0.0.20240525_Release</version>
+            <version>v1.1.0.20240526_Release</version>
         </dependency>
     </dependencies>
 

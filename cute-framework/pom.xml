@@ -22,7 +22,7 @@
     <parent>
         <groupId>io.github.gdrfgdrf</groupId>
         <artifactId>cute-framework-root</artifactId>
-        <version>v1.0.0.20240525_Release</version>
+        <version>v1.1.0.20240526_Release</version>
     </parent>
     <artifactId>cute-framework</artifactId>
     <description>CuteFramework</description>
