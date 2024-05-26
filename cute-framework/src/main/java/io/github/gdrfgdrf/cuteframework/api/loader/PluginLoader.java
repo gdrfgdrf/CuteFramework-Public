@@ -239,7 +239,7 @@ public class PluginLoader {
     private void checkPluginCoreVersion(PluginDescription pluginDescription) throws UnsupportedPluginException {
         int compareResult = VersionEnum.CURRENT.compare(pluginDescription.getApiVersion());
         AssertUtils.expression(
-                compareResult <= 0 && compareResult != -2,
+                compareResult >= 0,
                 new UnsupportedPluginException(pluginDescription.getPluginFile(), pluginDescription.getRawApiVersion())
         );
     }
