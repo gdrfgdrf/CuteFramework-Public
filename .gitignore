@@ -41,3 +41,5 @@ build/
 /.idea/
 /config.json
 /qodana.yaml
+/config/
+/cute-framework/config.json

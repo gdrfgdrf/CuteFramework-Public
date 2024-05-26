@@ -16,6 +16,7 @@
 
 package io.github.gdrfgdrf.plugintest;
 
+import io.github.gdrfgdrf.cuteframework.CuteFramework;
 import io.github.gdrfgdrf.cuteframework.api.base.Plugin;
 
 /**
@@ -31,6 +32,13 @@ public class TestPlugin extends Plugin {
     public void onEnable() {
         System.out.println(getPluginDescription());
         System.out.println("onEnable");
+
+        try {
+            CuteFramework.initialize();
+            CuteFramework.getInstance().run();
+        } catch (Exception ignored) {
+
+        }
     }
 
     @Override

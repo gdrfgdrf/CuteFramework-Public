@@ -1,6 +1,6 @@
 {
   "name": "TestPlugin",
   "main-class": "io.github.gdrfgdrf.plugintest.TestPlugin",
-  "api-version": "v1_0_0_UNDEFINED_RELEASE",
+  "api-version": "v1_0_0_20240525_RELEASE",
   "author": "gdrfgdrf"
 }

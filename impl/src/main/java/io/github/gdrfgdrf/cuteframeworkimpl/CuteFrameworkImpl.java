@@ -63,7 +63,8 @@ public class CuteFrameworkImpl {
     public void run() throws Exception {
         EventManager.getInstance().registerAsynchronous(this);
         try {
-            CuteFramework.run();
+            CuteFramework.initialize();
+            CuteFramework.getInstance().run();
         } catch (Exception e) {
             log.error("Error when initialize cute framework core", e);
         }
