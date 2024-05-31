@@ -50,4 +50,6 @@
         <appender-ref ref="stdout"/>
 <!--        <appender-ref ref="asyncFileAppender"/>-->
     </root>
+
+    <logger name="org.reflections" level="off" />
 </configuration>
