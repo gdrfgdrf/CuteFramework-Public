@@ -22,6 +22,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * !!!
+ * 从 {@link VersionEnum#v1_2_1_20240531_RELEASE} 的下个版本开始，为了能让 maven 正确地识别最新版本，
+ * 在 pom 文件中，固定符号 v 被取消，在这之后的所有版本开头都不再带有任何字母，而是 major_version 直接作开头，
+ * 该类的规则保持不变
+ * !!!
+ * <p>
  * 核心版本列表，枚举名必须遵守以下规则
  * 版本排列为升序，越底下的版本越大，
  * 版本命名遵守以下规则
@@ -78,6 +84,7 @@ public enum VersionEnum {
             "20240531",
             PublishChannel.RELEASE
     ),
+
     /**
      * 不可用的版本，当插件所定义的核心版本在该枚举类中找不到时将返回该类
      */
