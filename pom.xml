@@ -6,7 +6,7 @@
 
     <groupId>io.github.gdrfgdrf</groupId>
     <artifactId>cute-framework-root</artifactId>
-    <version>1.2.3.20240622_Release</version>
+    <version>1.2.4.20240622_Release</version>
     <packaging>pom</packaging>
     <organization>
         <name>CuteFramework</name>

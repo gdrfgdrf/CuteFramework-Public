@@ -22,7 +22,7 @@
     <parent>
         <groupId>io.github.gdrfgdrf</groupId>
         <artifactId>cute-framework-root</artifactId>
-        <version>1.2.3.20240622_Release</version>
+        <version>1.2.4.20240622_Release</version>
     </parent>
     <artifactId>cute-framework-plugin-test</artifactId>
     <description>Test plugin for CuteFramework, the version v1.2.0.20240526_Release_Patched will be deleted in the next version, it is used for publishing, because there is already an identical version of the module</description>
@@ -63,7 +63,7 @@
         <dependency>
             <groupId>io.github.gdrfgdrf</groupId>
             <artifactId>cute-framework</artifactId>
-            <version>1.2.3.20240622_Release</version>
+            <version>1.2.4.20240622_Release</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
