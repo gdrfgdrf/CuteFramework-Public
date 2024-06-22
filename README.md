@@ -93,6 +93,17 @@ There are a number of reserved apis in the framework.
 Also, the framework has an almost complete wiki.  
 There are also security measures to prevent the illegal operation of certain plugins.  
 
+For plugins to be recognized,   
+the resource folder must contain a plugin.json file with the following contents
+```json
+{
+  "name": "plugin name",
+  "main-class": "A class that implements io.github.gdrfgdrf.cuteframework.api.base.Plugin",
+  "api-version": "cuteframework's version",
+  "author": "author"
+}
+```
+
 ### Utils
 #### Asserts
 It can check some arguments, if the check result is false,   

@@ -95,6 +95,16 @@ Bean 在实例化完成之后将会发送到该模块进行初始化。
 同时，框架还有几乎完整的 wiki信息。  
 还有着安全错误以防止某些插件的违规操作。
 
+若插件想要被识别到，插件的资源文件夹必须包含一个 plugin.json 文件，其内容如下
+```json
+{
+  "name": "插件名",
+  "main-class": "实现了 io.github.gdrfgdrf.cuteframework.api.base.Plugin 的那个类",
+  "api-version": "开发时使用的 cuteframework 的版本",
+  "author": "作者"
+}
+```
+
 ### Utils
 #### Asserts
 检查变量， 如果检查结果错误，   
