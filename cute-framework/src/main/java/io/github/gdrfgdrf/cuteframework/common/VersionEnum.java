@@ -91,6 +91,13 @@ public enum VersionEnum {
             "20240622",
             PublishChannel.RELEASE
     ),
+    v1_2_3_20240622_RELEASE(
+            "1",
+            "2",
+            "3",
+            "20240622",
+            PublishChannel.RELEASE
+    ),
 
     /**
      * 不可用的版本，当插件所定义的核心版本在该枚举类中找不到时将返回该类
