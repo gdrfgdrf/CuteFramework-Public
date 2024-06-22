@@ -117,7 +117,7 @@ public enum VersionEnum {
     /**
      * 当前的核心版本
      */
-    public static final VersionEnum CURRENT = VersionEnum.v1_1_0_20240526_RELEASE;
+    public static final VersionEnum CURRENT = VersionEnum.v1_2_3_20240622_RELEASE;
     /**
      * 完整的版本字符串
      */
