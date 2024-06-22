@@ -16,6 +16,7 @@
 
 package io.github.gdrfgdrf.cuteframework.api.common;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.github.gdrfgdrf.cuteframework.common.VersionEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -31,6 +32,7 @@ import java.io.File;
  * @since v1_0_0_20240525_RELEASE
  */
 @Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class PluginDescription {
     /**
      * 插件名
